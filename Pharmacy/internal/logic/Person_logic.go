@@ -176,6 +176,6 @@ func (T *Template) Render(w io.Writer, name string, data interface{}, c echo.Con
 
 func InitTemplate() {
 	T = &Template{
-		templates: template.Must(template.ParseGlob("html/*.html")),
+		templates: template.Must(template.ParseGlob("Frontend/*.html")),
 	}
 }
