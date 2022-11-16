@@ -41,19 +41,13 @@
                 <li class="has-children">
                   <a href="#">По категориям</a>
                   <ul class="dropdown">
-                    <li><a href="#">Supplements</a></li>
-                    <li class="has-children">
-                      <a href="#">Vitamins</a>
-                      <ul class="dropdown">
-                        <li><a href="#">Supplements</a></li>
-                        <li><a href="#">Vitamins</a></li>
-                        <li><a href="#">Diet &amp; Nutrition</a></li>
-                        <li><a href="#">Tea &amp; Coffee</a></li>
-                      </ul>
-                    </li>
-                    <li><a href="#">Diet &amp; Nutrition</a></li>
-                    <li><a href="#">Tea &amp; Coffee</a></li>
-                    
+                    <li><a href="#">Обезболивабщие</a></li>
+                    <li><a href="#">Иммуностимулирующие</a></li>
+                    <li><a href="#">Жаропонижающие</a></li>
+                    <li><a href="#">От гриппа и простуды</a></li>
+                    <li><a href="#">От грибковых заболеваний</a></li>
+                    <li><a href="#">От аллергии</a></li>
+                    <li><a href="#">Антибиотики</a></li>
                   </ul>
                 </li>
                 <li><a href="about.html">О нас</a></li>
@@ -68,61 +62,44 @@
             </a>
             <a href="shop.html" class="site-menu-toggle js-menu-toggle ml-3 d-inline-block d-lg-none"><span class="icon-menu"></span></a>
           </div>
-         <a href="#" class="btn"><span class="text-dark">Войти</span></a>
         </div>
       </div>
     </div>
-
-
-
-
-
-
+  </div>
 
     <div class="bg-light py-3">
       <div class="container">
         <div class="row">
-          <div class="col-md-12 mb-0"><a href="index.html">Главная страница</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">Все товары</strong></div>
+          <div class="col-md-12 mb-0"><a href="index.html">Главная страница</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">Список товаров</strong></div>
         </div>
       </div>
     </div>
 
+    <form action="shop.html" method="get">
+      <div class="py-4">
+        <div class="container py-2">
+          <div class="input-group">
+            <input type="text" class="form-control" id="c_code" aria-describedby="button-addon2" placeholder="Введите название препарата">
+            <div class="input-group-append">
+              <button class="btn btn-primary btn-sm px-4" type="button" id="button-addon2">Поиск</button>
+            </div>
+          </div>
+         </div>
+       </div>
+    </form>
+    
+      <div class="container py-4">
 
-
-    <div class="search-wrap">
-      <div class="container">
-        <a href="#" class="search-close js-search-close"><span class="icon-close2"></span></a>
-        <form action="#" method="post">
-          <input type="text" class="form-control" placeholder="Search keyword and hit enter...">
-        </form>
-      </div>
-    </div>
-
-
-    <div class="icons">
-      <a href="#" class="icons-btn d-inline-block js-search-open"><span class="icon-search">Поиск</span></a>
-    </div>
-
-
-
-
-
-
-    <div class="site-section">
-      <div class="container">
-        
         <div class="row">
           <div class="col-lg-6">
             <h3 class="mb-3 h6 text-uppercase text-black d-block">ФИЛЬТР ПО ЦЕНЕ</h3>
             <div id="slider-range" class="border-primary"></div>
             <input type="text" name="text" id="amount" class="form-control border-0 pl-0 bg-white" disabled="" />
           </div>
-          <div class="col-lg-6">
-            <h3 class="mb-3 h6 text-uppercase text-black d-block">Выбрать по:</h3>
+          <div class="col-lg-6 py-4">
             <button type="button" class="btn btn-secondary btn-md dropdown-toggle px-4" id="dropdownMenuReference"
               data-toggle="dropdown">Фильтр</button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuReference">
-              <a class="dropdown-item" href="#">Актуальность</a>
               <a class="dropdown-item" href="#">Наименование, от А до Я</a>
               <a class="dropdown-item" href="#">Наименование, от Я до А</a>
               <div class="dropdown-divider"></div>
@@ -130,97 +107,74 @@
               <a class="dropdown-item" href="#">Цена, по убыванию</a>
             </div>
           </div>
-        </div>
-    
-        <div class="row">
+       
+        <div class="py-4">
+         <div class="row py-4">
           <div class="col-sm-6 col-lg-4 text-center item mb-4">
-            <span class="tag">Скидка</span>
             <a href="shop-single.html"> <img src="images/product_01.png" alt="Image"></a>
             <h3 class="text-dark"><a href="shop-single.html">Bioderma</a></h3>
-            <p class="price"><del>95.00</del> &mdash; $55.00</p>
+            <p class="price">55.00 ₽</p>
           </div>
           <div class="col-sm-6 col-lg-4 text-center item mb-4">
             <a href="shop-single.html"> <img src="images/product_02.png" alt="Image"></a>
             <h3 class="text-dark"><a href="shop-single.html">Chanca Piedra</a></h3>
-            <p class="price">$70.00</p>
+            <p class="price">70.00 ₽</p>
           </div>
           <div class="col-sm-6 col-lg-4 text-center item mb-4">
             <a href="shop-single.html"> <img src="images/product_03.png" alt="Image"></a>
             <h3 class="text-dark"><a href="shop-single.html">Umcka Cold Care</a></h3>
-            <p class="price">$120.00</p>
+            <p class="price">120.00 ₽</p>
           </div>
-    
           <div class="col-sm-6 col-lg-4 text-center item mb-4">
-    
             <a href="shop-single.html"> <img src="images/product_04.png" alt="Image"></a>
             <h3 class="text-dark"><a href="shop-single.html">Cetyl Pure</a></h3>
-            <p class="price"><del>45.00</del> &mdash; $20.00</p>
+            <p class="price">20.00 ₽</p>
           </div>
           <div class="col-sm-6 col-lg-4 text-center item mb-4">
             <a href="shop-single.html"> <img src="images/product_05.png" alt="Image"></a>
             <h3 class="text-dark"><a href="shop-single.html">CLA Core</a></h3>
-            <p class="price">$38.00</p>
+            <p class="price">38.00 ₽</p>
           </div>
           <div class="col-sm-6 col-lg-4 text-center item mb-4">
-            <span class="tag">Скидка</span>
             <a href="shop-single.html"> <img src="images/product_06.png" alt="Image"></a>
             <h3 class="text-dark"><a href="shop-single.html">Poo Pourri</a></h3>
-            <p class="price"><del>$89</del> &mdash; $38.00</p>
+            <p class="price">38.00 ₽</p>
           </div>
-
           <div class="col-sm-6 col-lg-4 text-center item mb-4">
-            <span class="tag">Скидка</span>
             <a href="shop-single.html"> <img src="images/product_01.png" alt="Image"></a>
             <h3 class="text-dark"><a href="shop-single.html">Bioderma</a></h3>
-            <p class="price"><del>95.00</del> &mdash; $55.00</p>
+            <p class="price">55.00 ₽</p>
           </div>
           <div class="col-sm-6 col-lg-4 text-center item mb-4">
             <a href="shop-single.html"> <img src="images/product_02.png" alt="Image"></a>
             <h3 class="text-dark"><a href="shop-single.html">Chanca Piedra</a></h3>
-            <p class="price">$70.00</p>
+            <p class="price">70.00 ₽</p>
           </div>
           <div class="col-sm-6 col-lg-4 text-center item mb-4">
-            <a href="shop-single.html"> <img ˀsrc="images/product_03.png" alt="Image"></a>
-            <h3 class="text-dark"><a href="shop-single.html">Umcka Cold Care</a></h3>
-            <p class="price">$120.00</p>
-          </div>
-          
-          <div class="col-sm-6 col-lg-4 text-center item mb-4">
-          
             <a href="shop-single.html"> <img src="images/product_04.png" alt="Image"></a>
             <h3 class="text-dark"><a href="shop-single.html">Cetyl Pure</a></h3>
-            <p class="price"><del>45.00</del> &mdash; $20.00</p>
+            <p class="price">20.00 ₽</p>
           </div>
           <div class="col-sm-6 col-lg-4 text-center item mb-4">
             <a href="shop-single.html"> <img src="images/product_05.png" alt="Image"></a>
             <h3 class="text-dark"><a href="shop-single.html">CLA Core</a></h3>
-            <p class="price">$38.00</p>
+            <p class="price">38.00 ₽</p>
           </div>
           <div class="col-sm-6 col-lg-4 text-center item mb-4">
-            <span class="tag">Скидка</span>
             <a href="shop-single.html"> <img src="images/product_06.png" alt="Image"></a>
             <h3 class="text-dark"><a href="shop-single.html">Poo Pourri</a></h3>
-            <p class="price"><del>$89</del> &mdash; $38.00</p>
+            <p class="price">38.00 ₽</p>
           </div>
-        </div>
-        <div class="row mt-5">
-          <div class="col-md-12 text-center">
-            <div class="site-block-27">
-              <ul>
-                <li><a href="#">&lt;</a></li>
-                <li class="active"><span>1</span></li>
-                <li><a href="#">2</a></li>
-                <li><a href="#">3</a></li>
-                <li><a href="#">4</a></li>
-                <li><a href="#">5</a></li>
-                <li><a href="#">&gt;</a></li>
-              </ul>
-            </div>
+          <div class="col-sm-6 col-lg-4 text-center item mb-4">
+            <a href="shop-single.html"> <img src="images/product_01.png" alt="Image"></a>
+            <h3 class="text-dark"><a href="shop-single.html">Bioderma</a></h3>
+            <p class="price">55.00 ₽</p>
+          </div>
           </div>
         </div>
       </div>
     </div>
-
+  </div>
     
     <div class="site-section bg-secondary bg-image" style="background-image: url('images/expert.jpg');">
       <div class="container">
@@ -255,7 +209,7 @@
                  Здесь вы сможете получить профессиональную консультацию специалиста и приобрести аппараты для измерения давления.</p>
             </div>
           </div>
-
+          
           <div class="col-lg-3 mx-auto mb-5 mb-lg-0"></div>
 
           <div class="col-md-6 col-lg-3">
@@ -268,19 +222,6 @@
               </ul>
             </div>
 
-
-          </div>
-        </div>
-        <div class="row pt-5 mt-5 text-center">
-          <div class="col-md-12 pt-5">
-            <p>
-              <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-              Copyright &copy;
-              <script>document.write(new Date().getFullYear());</script> Все права защищены | This template is made
-              with <i class="icon-heart" aria-hidden="true"></i> by <a href="https://colorlib.com" target="_blank"
-                class="text-primary">Colorlib</a>
-              <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
-            </p>
           </div>
         </div>
       </div>
