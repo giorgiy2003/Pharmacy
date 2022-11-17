@@ -3,81 +3,75 @@ package Logic
 import (
 	"errors"
 	"fmt"
-	Model "myapp/internal/model"
-	Repository "myapp/internal/repository"
-	"strconv"
-	"strings"
-
 	"html/template"
 	"io"
+	Model "myapp/internal/model"
+	Repository "myapp/internal/repository"
+	"strings"
 
 	"github.com/labstack/echo"
 )
 
-func Create(p Model.Person) error {
-	p.Email = strings.TrimSpace(p.Email)
-	p.Phone = strings.TrimSpace(p.Phone)
-	p.FirstName = strings.TrimSpace(p.FirstName)
-	p.LastName = strings.TrimSpace(p.LastName)
-	if p.Email == "" || p.Phone == "" || p.FirstName == "" || p.LastName == "" {
+func ReadAll() ([]Model.Product, error) {
+	row, err := Repository.Connection.Query(`SELECT * FROM "Product" ORDER BY "product_id"`)
+	if err != nil {
+		return nil, err
+	}
+	var productInfo = []Model.Product{}
+	for row.Next() {
+		var p Model.Product
+		err := row.Scan(&p.Id, &p.Product_name, &p.Manufacturer, &p.Category, &p.Description)
+		if err != nil {
+			return nil, err
+		}
+		productInfo = append(productInfo, p)
+	}
+	return productInfo, nil
+}
+
+func Create(p Model.Product) error {
+	p.Product_name = strings.TrimSpace(p.Product_name)
+	p.Manufacturer = strings.TrimSpace(p.Manufacturer)
+	p.Category = strings.TrimSpace(p.Category)
+	p.Description = strings.TrimSpace(p.Description)
+	if p.Product_name == "" || p.Manufacturer == "" || p.Category == "" || p.Description == "" {
 		return errors.New("невозможно добавить запись, не все поля заполнены!")
 	}
-	if _, err := Repository.Connection.Exec(`INSERT INTO "person" ("person_email", "person_phone", "person_firstName", "person_lastName") VALUES ($1, $2,$3,$4)`, p.Email, p.Phone, p.FirstName, p.LastName); err != nil {
+	if _, err := Repository.Connection.Exec(`INSERT INTO "Product" ("product_name", "product_manufacturer", "product_category", "product_description") VALUES ($1, $2,$3,$4)`, p.Product_name, p.Manufacturer, p.Category, p.Description); err != nil {
 		return err
 	}
 	return nil
 }
 
-func ReadOne(id string) ([]Model.Person, error) {
-	person_id, err := strconv.Atoi(id)
-	if err != nil {
-		return nil, errors.New("неверно введён параметр id!")
-	}
-	row, err := Repository.Connection.Query(`SELECT * FROM "person" WHERE "person_id" = $1`, person_id)
+func ReadOne(product_name string) ([]Model.Product, error) {
+	row, err := Repository.Connection.Query(`SELECT * FROM "Product" WHERE "product_name" = $1`, product_name)
 	if err != nil {
 		return nil, err
 	}
-	var personInfo = []Model.Person{}
+	var productInfo = []Model.Product{}
 	for row.Next() {
-		var p Model.Person
-		err := row.Scan(&p.Id, &p.Email, &p.Phone, &p.FirstName, &p.LastName)
+		var p Model.Product
+		err := row.Scan(&p.Id, &p.Product_name, &p.Manufacturer, &p.Category, &p.Description)
 		if err != nil {
 			return nil, err
 		}
-		personInfo = append(personInfo, p)
+		productInfo = append(productInfo, p)
 	}
-	return personInfo, nil
+	return productInfo, nil
 }
 
-func ReadAll() ([]Model.Person, error) {
-	row, err := Repository.Connection.Query(`SELECT * FROM "person" ORDER BY "person_id"`)
-	if err != nil {
-		return nil, err
-	}
-	var personInfo = []Model.Person{}
-	for row.Next() {
-		var p Model.Person
-		err := row.Scan(&p.Id, &p.Email, &p.Phone, &p.FirstName, &p.LastName)
-		if err != nil {
-			return nil, err
-		}
-		personInfo = append(personInfo, p)
-	}
-	return personInfo, nil
-}
-
-func Update(p Model.Person, id string) error {
+func Update(p Model.Product, id string) error {
 	if err := dataExist(id); err != nil {
 		return err
 	}
-	p.Email = strings.TrimSpace(p.Email)
-	p.Phone = strings.TrimSpace(p.Phone)
-	p.FirstName = strings.TrimSpace(p.FirstName)
-	p.LastName = strings.TrimSpace(p.LastName)
-	if p.Email == "" || p.Phone == "" || p.FirstName == "" || p.LastName == "" {
+	p.Product_name = strings.TrimSpace(p.Product_name)
+	p.Manufacturer = strings.TrimSpace(p.Manufacturer)
+	p.Category = strings.TrimSpace(p.Category)
+	p.Description = strings.TrimSpace(p.Description)
+	if p.Product_name == "" || p.Manufacturer == "" || p.Category == "" || p.Description == "" {
 		return errors.New("невозможно редактировать запись, не все поля заполнены!")
 	}
-	if _, err := Repository.Connection.Exec(`UPDATE "person" SET "person_email" = $1,"person_phone" = $2,"person_firstName" = $3,"person_lastName" = $4  WHERE "person_id" = $5`, p.Email, p.Phone, p.FirstName, p.LastName, id); err != nil {
+	if _, err := Repository.Connection.Exec(`UPDATE "Product" SET "product_name" = $1,"product_manufacturer" = $2,"product_category" = $3,"product_description" = $4  WHERE "product_id" = $5`, p.Product_name, p.Manufacturer, p.Category, p.Description, id); err != nil {
 		return err
 	}
 	return nil
@@ -87,7 +81,7 @@ func Delete(id string) error {
 	if err := dataExist(id); err != nil {
 		return err
 	}
-	if _, err := Repository.Connection.Exec(`DELETE FROM "person" WHERE "person_id" = $1`, id); err != nil {
+	if _, err := Repository.Connection.Exec(`DELETE FROM "Product" WHERE "product_id" = $1`, id); err != nil {
 		return err
 	}
 	return nil

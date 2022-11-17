@@ -1,9 +1,9 @@
 package Model
 
-type Person struct {
-	Id        int    `json:"id"`
-	Email     string `json:"email"`
-	Phone     string `json:"phone"`
-	FirstName string `json:"firstName"`
-	LastName  string `json:"lastName"`
+type Product struct {
+	Id           int    `json:"id"`
+	Product_name string `json:"product_name"`
+	Manufacturer string `json:"manufacturer"`
+	Category     string `json:"category"`
+	Description  string `json:"description"`
 }
