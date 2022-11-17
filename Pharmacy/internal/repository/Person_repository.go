@@ -13,7 +13,7 @@ const (
 	port     = 5432
 	user     = "postgres"
 	password = "4650"
-	dbname   = "postgres"
+	dbname   = "apteca"
 	sslmode  = "disable"
 )
 
@@ -27,17 +27,5 @@ func OpenTable() error {
 	if err != nil {
 		return err
 	}
-	table, err := Connection.Query(`CREATE TABLE IF NOT EXISTS person
-	(
-		"person_id" serial PRIMARY KEY,
-		"person_email" character varying(32) NOT NULL,
-		"person_phone" character varying(32) NOT NULL,
-		"person_firstName" character varying(32) NOT NULL,
-		"person_lastName" character varying(32) NOT NULL
-	)`)
-	if err != nil {
-		return err
-	}
-	defer table.Close()
 	return nil
 }

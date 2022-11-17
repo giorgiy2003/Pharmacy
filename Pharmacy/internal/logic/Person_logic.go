@@ -1,14 +1,10 @@
 package Logic
 
 import (
-	"crypto/md5"
-	"encoding/hex"
 	"errors"
 	"fmt"
-	"log"
 	Model "myapp/internal/model"
 	Repository "myapp/internal/repository"
-	"os"
 	"strconv"
 	"strings"
 
@@ -17,8 +13,6 @@ import (
 
 	"github.com/labstack/echo"
 )
-
-var Auth = false
 
 func Create(p Model.Person) error {
 	p.Email = strings.TrimSpace(p.Email)
@@ -55,7 +49,7 @@ func ReadOne(id string) ([]Model.Person, error) {
 	return personInfo, nil
 }
 
-func Read() ([]Model.Person, error) {
+func ReadAll() ([]Model.Person, error) {
 	row, err := Repository.Connection.Query(`SELECT * FROM "person" ORDER BY "person_id"`)
 	if err != nil {
 		return nil, err
@@ -106,60 +100,6 @@ func dataExist(id string) error {
 	}
 	if len(persons) == 0 {
 		return fmt.Errorf("записи с id = %s не существует", id)
-	}
-	return nil
-}
-
-//Авторизация
-func Autorization(login, password string) error {
-	login = strings.TrimSpace(login)
-	Password_file, err := os.Open("./internal/userPassword.txt")
-	if err != nil {
-		log.Printf("Невозможно открыть файл userPassword: %v \n", err)
-		return errors.New("Сайт временно недоступен")
-	}
-	defer Password_file.Close()
-
-	Login_file, err := os.Open("./internal/userLogin.txt")
-	if err != nil {
-		log.Printf("Невозможно открыть файл userLogin: %v \n", err)
-		return errors.New("Сайт временно недоступен")
-	}
-	defer Login_file.Close()
-
-	Pass, err := io.ReadAll(Password_file)
-	if err != nil {
-		return err
-	}
-	Log, err := io.ReadAll(Login_file)
-	if err != nil {
-		return err
-	}
-
-	//Hashed value of password
-	password = MD5_Encode(password) //Кодируем данные полученные от пользователя
-
-	//Hashed value of login
-	login = MD5_Encode(login)
-
-	//Сравниваем с данными полученными из файлов .txt
-	if login != string(Log) || password != string(Pass) {
-		return errors.New("Введён неверный логин или пароль!")
-	}
-	Auth = true
-	return nil
-}
-
-//Кодирование данных
-func MD5_Encode(text string) string {
-	algorithm := md5.New()
-	algorithm.Write([]byte(text))
-	return hex.EncodeToString(algorithm.Sum(nil))
-}
-
-func Proverka() error {
-	if !Auth {
-		return errors.New("Для начала работы необходимо авторизоваться!")
 	}
 	return nil
 }
