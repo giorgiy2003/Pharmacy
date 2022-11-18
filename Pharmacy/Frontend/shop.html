@@ -1,3 +1,5 @@
+{{define "shop" }}
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -28,14 +30,14 @@
         <div class="d-flex align-items-center justify-content-between">
           <div class="logo">
             <div class="site-logo">
-              <a href="index.html" class="js-logo-clone">Фармацевт.ru</a>
+              <a href="/" class="js-logo-clone">Фармацевт.ru</a>
             </div>
           </div>
           <div class="main-nav d-none d-lg-block">
             <nav class="site-navigation text-right text-md-center" role="navigation">
               <ul class="site-menu js-clone-nav d-none d-lg-block">
-                <li><a href="index.html">Главная страница</a></li>
-                <li class="active"><a href="shop.html">Товары</a></li>
+                <li><a href="/">Главная страница</a></li>
+                <li class="active"><a href="/shop">Товары</a></li>
                 <li class="has-children">
                   <a href="#">По категориям</a>
                   <ul class="dropdown">
@@ -48,8 +50,8 @@
                     <li><a href="#">Антибиотики</a></li>
                   </ul>
                 </li>
-                <li><a href="about.html">О нас</a></li>
-                <li><a href="contact.html">Контакты</a></li>
+                <li><a href="/about">О нас</a></li>
+                <li><a href="/contact">Контакты</a></li>
               </ul>
             </nav>
           </div>
@@ -194,8 +196,6 @@
       </div>
     </div>
 
-
-    
     <footer class="site-footer">
       <div class="container">
         <div class="row">
@@ -232,9 +232,9 @@
   <script src="js/owl.carousel.min.js"></script>
   <script src="js/jquery.magnific-popup.min.js"></script>
   <script src="js/aos.js"></script>
-
   <script src="js/main.js"></script>
 
 </body>
-
 </html>
+
+{{ end }}

@@ -6,4 +6,5 @@ type Product struct {
 	Manufacturer string `json:"manufacturer"`
 	Category     string `json:"category"`
 	Description  string `json:"description"`
+	Price        string `json:"price"`
 }

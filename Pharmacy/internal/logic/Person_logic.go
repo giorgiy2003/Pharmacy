@@ -3,13 +3,9 @@ package Logic
 import (
 	"errors"
 	"fmt"
-	"html/template"
-	"io"
 	Model "myapp/internal/model"
 	Repository "myapp/internal/repository"
 	"strings"
-
-	"github.com/labstack/echo"
 )
 
 func ReadAll() ([]Model.Product, error) {
@@ -20,7 +16,7 @@ func ReadAll() ([]Model.Product, error) {
 	var productInfo = []Model.Product{}
 	for row.Next() {
 		var p Model.Product
-		err := row.Scan(&p.Id, &p.Product_name, &p.Manufacturer, &p.Category, &p.Description)
+		err := row.Scan(&p.Id, &p.Product_name, &p.Manufacturer, &p.Category, &p.Description, &p.Price)
 		if err != nil {
 			return nil, err
 		}
@@ -34,10 +30,11 @@ func Create(p Model.Product) error {
 	p.Manufacturer = strings.TrimSpace(p.Manufacturer)
 	p.Category = strings.TrimSpace(p.Category)
 	p.Description = strings.TrimSpace(p.Description)
-	if p.Product_name == "" || p.Manufacturer == "" || p.Category == "" || p.Description == "" {
+	p.Price = strings.TrimSpace(p.Price)
+	if p.Product_name == "" || p.Manufacturer == "" || p.Category == "" || p.Description == "" || p.Price == "" {
 		return errors.New("невозможно добавить запись, не все поля заполнены!")
 	}
-	if _, err := Repository.Connection.Exec(`INSERT INTO "Product" ("product_name", "product_manufacturer", "product_category", "product_description") VALUES ($1, $2,$3,$4)`, p.Product_name, p.Manufacturer, p.Category, p.Description); err != nil {
+	if _, err := Repository.Connection.Exec(`INSERT INTO "Product" ("product_name", "product_manufacturer", "product_category", "product_description","product_price" ) VALUES ($1, $2,$3,$4)`, p.Product_name, p.Manufacturer, p.Category, p.Description, p.Price); err != nil {
 		return err
 	}
 	return nil
@@ -51,7 +48,7 @@ func ReadOne(product_name string) ([]Model.Product, error) {
 	var productInfo = []Model.Product{}
 	for row.Next() {
 		var p Model.Product
-		err := row.Scan(&p.Id, &p.Product_name, &p.Manufacturer, &p.Category, &p.Description)
+		err := row.Scan(&p.Id, &p.Product_name, &p.Manufacturer, &p.Category, &p.Description, &p.Price)
 		if err != nil {
 			return nil, err
 		}
@@ -68,10 +65,11 @@ func Update(p Model.Product, id string) error {
 	p.Manufacturer = strings.TrimSpace(p.Manufacturer)
 	p.Category = strings.TrimSpace(p.Category)
 	p.Description = strings.TrimSpace(p.Description)
-	if p.Product_name == "" || p.Manufacturer == "" || p.Category == "" || p.Description == "" {
+	p.Price = strings.TrimSpace(p.Price)
+	if p.Product_name == "" || p.Manufacturer == "" || p.Category == "" || p.Description == "" || p.Price == "" {
 		return errors.New("невозможно редактировать запись, не все поля заполнены!")
 	}
-	if _, err := Repository.Connection.Exec(`UPDATE "Product" SET "product_name" = $1,"product_manufacturer" = $2,"product_category" = $3,"product_description" = $4  WHERE "product_id" = $5`, p.Product_name, p.Manufacturer, p.Category, p.Description, id); err != nil {
+	if _, err := Repository.Connection.Exec(`UPDATE "Product" SET "product_name" = $1,"product_manufacturer" = $2,"product_category" = $3,"product_description" = $4  "product_price" = $5  WHERE "product_id" = $6`, p.Product_name, p.Manufacturer, p.Category, p.Description, p.Price, id); err != nil {
 		return err
 	}
 	return nil
@@ -96,20 +94,4 @@ func dataExist(id string) error {
 		return fmt.Errorf("записи с id = %s не существует", id)
 	}
 	return nil
-}
-
-var T *Template
-
-type Template struct {
-	templates *template.Template
-}
-
-func (T *Template) Render(w io.Writer, name string, data interface{}, c echo.Context) error {
-	return T.templates.ExecuteTemplate(w, name, data)
-}
-
-func InitTemplate() {
-	T = &Template{
-		templates: template.Must(template.ParseGlob("Frontend/*.html")),
-	}
 }

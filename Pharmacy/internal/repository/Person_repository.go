@@ -13,7 +13,7 @@ const (
 	port     = 5432
 	user     = "postgres"
 	password = "4650"
-	dbname   = "apteca"
+	dbname   = "postgres"
 	sslmode  = "disable"
 )
 

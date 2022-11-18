@@ -2,24 +2,23 @@ package main
 
 import (
 	Handler "myapp/internal/handlers"
-	Logic "myapp/internal/logic"
 
-	"github.com/labstack/echo"
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
-	Logic.InitTemplate()
-	router := echo.New()
-	router.Renderer = Logic.T
-	router.Use(Handler.ConnectDB)
-	router.GET("/", Handler.GetProducts)
-	/*router.GET("/Add", Handler.Add)
-	router.GET("/Remove", Handler.Remove)
-	router.GET("/Edit", Handler.Edit)
+	router := gin.Default()
+	router.Static("/css", "Frontend/css")
+	//router.Static("/scss", "Frontend/scss")
+	//router.Static("/fonts", "Frontend/fonts")
+	router.Static("/images", "Frontend/images")
+	router.Static("/js", "Frontend/js")
+	router.LoadHTMLGlob("Frontend/*.html")
+	router.Use(Handler.ConnectDB())
+	router.GET("/", Handler.MainForm)
+	router.GET("/shop", Handler.Shop)
+	
 
-	router.GET("/Form_handler_GetById", Handler.Form_handler_GetById)
-	router.POST("/Form_handler_PostPerson", Handler.Form_handler_PostPerson)
-	router.GET("/Form_handler_DeleteById", Handler.Form_handler_DeleteById)
-	router.GET("/Form_handler_UpdatePersonById", Handler.Form_handler_UpdatePersonById)*/
-	router.Logger.Fatal(router.Start(":8080"))
+	//router.GET("/Form_handler_GetById", Handler.Form_handler_GetById)
+	router.Run("localhost:8080")
 }
