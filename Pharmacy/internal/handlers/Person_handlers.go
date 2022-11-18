@@ -41,3 +41,27 @@ func ConnectDB() gin.HandlerFunc {
 func MainForm(c *gin.Context) {
 	c.HTML(200, "index", nil)
 }
+
+func Shop_single(c *gin.Context) {
+	c.HTML(200, "shop-single", nil)
+}
+
+func Cart(c *gin.Context) {
+	c.HTML(200, "cart", nil)
+}
+
+func About(c *gin.Context) {
+	c.HTML(200, "about", nil)
+}
+
+func Checkout(c *gin.Context) {
+	c.HTML(200, "checkout", nil)
+}
+
+func Contact(c *gin.Context) {
+	c.HTML(200, "contact", nil)
+}
+
+func Thanks(c *gin.Context) {
+	c.HTML(200, "thankyou", nil)
+}
