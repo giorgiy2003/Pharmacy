@@ -58,7 +58,6 @@ func About(c *gin.Context) {
 	c.HTML(200, "about", nil)
 }
 
-
 //Контакты
 func Contact(c *gin.Context) {
 	c.HTML(200, "contact", nil)
@@ -76,6 +75,18 @@ func Make_Order(c *gin.Context) {
 
 //Добавить в корзину
 func AddToCart(c *gin.Context) {
+
+	c.HTML(200, "index", nil)
+}
+
+//Убрать из корзины
+func DeleteFromCart(c *gin.Context) {
+
+	c.HTML(200, "cart", nil)
+}
+
+//Оставить отзыв
+func SendMessage(c *gin.Context) {
 
 	c.HTML(200, "index", nil)
 }

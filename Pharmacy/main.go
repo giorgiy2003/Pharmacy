@@ -24,6 +24,8 @@ func main() {
 	router.GET("/contact", Handler.Contact)
 	router.GET("/Order", Handler.Make_Order)
 	router.GET("/AddToCart", Handler.AddToCart)
+	router.GET("/DeleteFromCart", Handler.DeleteFromCart)
+	router.GET("/SendMessage", Handler.SendMessage)
 
   /*router.GET("/Painkillers_medicines", Handler.Painkillers_medicines)
 	router.GET("/Immunostimulating_medicines", Handler.Immunostimulating_medicines)
