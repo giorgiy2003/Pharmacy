@@ -43,7 +43,7 @@ func MainForm(c *gin.Context) {
 }
 
 func Shop_single(c *gin.Context) {
-	c.HTML(200, "shop-single", nil)
+	c.HTML(200, "shop_single", nil)
 }
 
 func Cart(c *gin.Context) {
@@ -62,6 +62,6 @@ func Contact(c *gin.Context) {
 	c.HTML(200, "contact", nil)
 }
 
-func Thanks(c *gin.Context) {
+func Order(c *gin.Context) {
 	c.HTML(200, "thankyou", nil)
 }

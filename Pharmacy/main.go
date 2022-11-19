@@ -17,13 +17,14 @@ func main() {
 	router.Use(Handler.ConnectDB())
 	router.GET("/", Handler.MainForm)
 	router.GET("/shop", Handler.Shop)
-	router.GET("/shop-single", Handler.Shop_single)
+	router.GET("/shop_single", Handler.Shop_single)
 	router.GET("/cart", Handler.Cart)
 	router.GET("/about", Handler.About)
 	router.GET("/checkout", Handler.Checkout)
 	router.GET("/contact", Handler.Contact)
-	router.GET("/thankyou", Handler.Thanks)
+	router.GET("/Order", Handler.Order)
 
+	
   /*router.GET("/Form_handler_Painkillers", Handler.Form_handler_Painkillers)
 	router.GET("/Form_handler_Immunostimulating", Handler.Form_handler_Immunostimulating)
 	router.GET("/Form_handler_Antipyretic", Handler.Form_handler_Antipyretic)

@@ -24,7 +24,7 @@ https://freehtmlthemes.ru/categories/medicine/template-526
 ![Оформить заказ](/Pharmacy/photo/checkout.jpg)
 
 ## *Возвращаемая страница:*
-![Оформить заказ](/Pharmacy/photo/thankyou.jpg)
+![Заказ принят](/Pharmacy/photo/thankyou.jpg)
 
 ## *О нас:*
 ![О нас](/Pharmacy/photo/about.jpg)
