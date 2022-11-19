@@ -22,15 +22,15 @@ func main() {
 	router.GET("/about", Handler.About)
 	router.GET("/checkout", Handler.Checkout)
 	router.GET("/contact", Handler.Contact)
-	router.GET("/Order", Handler.Order)
+	router.GET("/Order", Handler.Make_Order)
+	router.GET("/AddToCart", Handler.AddToCart)
 
-	
-  /*router.GET("/Form_handler_Painkillers", Handler.Form_handler_Painkillers)
-	router.GET("/Form_handler_Immunostimulating", Handler.Form_handler_Immunostimulating)
-	router.GET("/Form_handler_Antipyretic", Handler.Form_handler_Antipyretic)
-	router.GET("/Form_handler_Flu", Handler.Form_handler_Flu)
-	router.GET("/Form_handler_Fungal", Handler.Form_handler_Fungal)
-	router.GET("/Form_handler_Allergies", Handler.Form_handler_Allergies)
-	router.GET("/Form_handler_Antibiotics", Handler.Form_handler_Antibiotics)*/
+  /*router.GET("/Painkillers_medicines", Handler.Painkillers_medicines)
+	router.GET("/Immunostimulating_medicines", Handler.Immunostimulating_medicines)
+	router.GET("/Antipyretic_medicines", Handler.Antipyretic_medicines)
+	router.GET("/Flu_medicines", Handler.Flu_medicines)
+	router.GET("/Fungal_medicines", Handler.Fungal_medicines)
+	router.GET("/Allergies_medicines", Handler.Allergies_medicines)
+	router.GET("/Antibiotics_medicines", Handler.Antibiotics_medicines)*/
 	router.Run("localhost:8080")
 }
