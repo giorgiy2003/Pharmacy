@@ -26,13 +26,12 @@ func main() {
 	router.GET("/AddToCart", Handler.AddToCart)
 	router.GET("/DeleteFromCart", Handler.DeleteFromCart)
 	router.GET("/SendMessage", Handler.SendMessage)
-
-  /*router.GET("/Painkillers_medicines", Handler.Painkillers_medicines)
+	router.GET("/Painkillers_medicines", Handler.Painkillers_medicines)
 	router.GET("/Immunostimulating_medicines", Handler.Immunostimulating_medicines)
 	router.GET("/Antipyretic_medicines", Handler.Antipyretic_medicines)
 	router.GET("/Flu_medicines", Handler.Flu_medicines)
 	router.GET("/Fungal_medicines", Handler.Fungal_medicines)
 	router.GET("/Allergies_medicines", Handler.Allergies_medicines)
-	router.GET("/Antibiotics_medicines", Handler.Antibiotics_medicines)*/
+	router.GET("/Antibiotics_medicines", Handler.Antibiotics_medicines)
 	router.Run("localhost:8080")
 }

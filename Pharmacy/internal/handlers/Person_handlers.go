@@ -6,6 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+//Товары
 func Shop(c *gin.Context) {
 	/*Products, err := Logic.ReadAll()
 	if err != nil {
@@ -27,25 +28,14 @@ func Shop(c *gin.Context) {
 	return
 }
 
-func ConnectDB() gin.HandlerFunc {
-	return func(c *gin.Context) {
-		if err := Repository.OpenTable(); err != nil {
-			c.HTML(500, "Connection_failed", gin.H{
-				"Error": err,
-			})
-			return
-		}
-	}
+//Просмотреть товар
+func Shop_single(c *gin.Context) {
+	c.HTML(200, "shop_single", nil)
 }
 
 //Главная форма
 func MainForm(c *gin.Context) {
 	c.HTML(200, "index", nil)
-}
-
-//Просмотреть товар
-func Shop_single(c *gin.Context) {
-	c.HTML(200, "shop_single", nil)
 }
 
 //Корзина
@@ -89,4 +79,57 @@ func DeleteFromCart(c *gin.Context) {
 func SendMessage(c *gin.Context) {
 
 	c.HTML(200, "index", nil)
+}
+
+//Обезболивабщие лекарства
+func Painkillers_medicines(c *gin.Context) {
+
+	c.HTML(200, "shop", nil)
+}
+
+//Иммуностимулирующие лекарства
+func Immunostimulating_medicines(c *gin.Context) {
+
+	c.HTML(200, "shop", nil)
+}
+
+//Жаропонижающие лекарства
+func Antipyretic_medicines(c *gin.Context) {
+
+	c.HTML(200, "shop", nil)
+}
+
+//Лекарства от гриппа и простуды
+func Flu_medicines(c *gin.Context) {
+
+	c.HTML(200, "shop", nil)
+}
+
+//Лекарства от грибковых заболеваний
+func Fungal_medicines(c *gin.Context) {
+
+	c.HTML(200, "shop", nil)
+}
+
+//Лекарства от аллергии
+func Allergies_medicines(c *gin.Context) {
+
+	c.HTML(200, "shop", nil)
+}
+
+//Антибиотики
+func Antibiotics_medicines(c *gin.Context) {
+
+	c.HTML(200, "shop", nil)
+}
+
+func ConnectDB() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		if err := Repository.OpenTable(); err != nil {
+			c.HTML(500, "Connection_failed", gin.H{
+				"Error": err,
+			})
+			return
+		}
+	}
 }
