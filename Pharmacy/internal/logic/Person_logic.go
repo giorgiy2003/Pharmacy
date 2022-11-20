@@ -9,7 +9,7 @@ import (
 )
 
 func ReadAllProducts() ([]Model.Product, error) {
-	row, err := Repository.Connection.Query(`SELECT * FROM "Product" ORDER BY "product_id"`)
+	row, err := Repository.Connection.Query(`SELECT * FROM "products" ORDER BY "product_id"`)
 	if err != nil {
 		return nil, err
 	}
@@ -26,7 +26,7 @@ func ReadAllProducts() ([]Model.Product, error) {
 }
 
 func ReadOneProduct(product_name string) ([]Model.Product, error) {
-	row, err := Repository.Connection.Query(`SELECT * FROM "Product" WHERE "product_name" = $1`, product_name)
+	row, err := Repository.Connection.Query(`SELECT * FROM "products" WHERE "product_name" = $1`, product_name)
 	if err != nil {
 		return nil, err
 	}
@@ -52,7 +52,7 @@ func CreateProduct(p Model.Product) error {
 	if p.Name == "" || p.Image == "" || p.Manufacturer == "" || p.Category == "" || p.Description == "" || p.Price == "" {
 		return errors.New("невозможно добавить запись, не все поля заполнены!")
 	}
-	if _, err := Repository.Connection.Exec(`INSERT INTO "Product" ("product_name","product_image", "product_manufacturer", "product_category", "product_description","product_price" ) VALUES ($1,$2,$3,$4,$5,$6)`, p.Name, p.Image, p.Manufacturer, p.Category, p.Description, p.Price); err != nil {
+	if _, err := Repository.Connection.Exec(`INSERT INTO "products" ("product_name","product_image", "product_manufacturer", "product_category", "product_description","product_price" ) VALUES ($1,$2,$3,$4,$5,$6)`, p.Name, p.Image, p.Manufacturer, p.Category, p.Description, p.Price); err != nil {
 		return err
 	}
 	return nil
@@ -71,7 +71,7 @@ func UpdateProduct(p Model.Product, id string) error {
 	if p.Name == "" || p.Image == "" || p.Manufacturer == "" || p.Category == "" || p.Description == "" || p.Price == "" {
 		return errors.New("невозможно редактировать запись, не все поля заполнены!")
 	}
-	if _, err := Repository.Connection.Exec(`UPDATE "Product" SET "product_name" = $1,"product_image" = $2,,"product_manufacturer" = $3,"product_category" = $4,"product_description" = $5  "product_price" = $6  WHERE "product_id" = $7`, p.Name, p.Image, p.Manufacturer, p.Category, p.Description, p.Price, id); err != nil {
+	if _, err := Repository.Connection.Exec(`UPDATE "products" SET "product_name" = $1,"product_image" = $2,,"product_manufacturer" = $3,"product_category" = $4,"product_description" = $5  "product_price" = $6  WHERE "product_id" = $7`, p.Name, p.Image, p.Manufacturer, p.Category, p.Description, p.Price, id); err != nil {
 		return err
 	}
 	return nil
@@ -81,7 +81,7 @@ func DeleteProduct(id string) error {
 	if err := dataExist(id); err != nil {
 		return err
 	}
-	if _, err := Repository.Connection.Exec(`DELETE FROM "Product" WHERE "product_id" = $1`, id); err != nil {
+	if _, err := Repository.Connection.Exec(`DELETE FROM "products" WHERE "product_id" = $1`, id); err != nil {
 		return err
 	}
 	return nil
