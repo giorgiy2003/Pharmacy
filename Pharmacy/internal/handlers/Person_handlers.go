@@ -1,6 +1,8 @@
 package Handler
 
 import (
+	"log"
+	Logic "myapp/internal/logic"
 	Repository "myapp/internal/repository"
 
 	"github.com/gin-gonic/gin"
@@ -8,28 +10,27 @@ import (
 
 //Товары
 func Shop(c *gin.Context) {
-	/*Products, err := Logic.ReadAll()
+	Products, err := Logic.ReadAllProducts()
 	if err != nil {
 		log.Println(err)
-		c.HTML(400, "InfoPage", nil)
-		return
-	}*/
-	c.HTML(200, "shop", gin.H{})
-	/*for _, Product := range Products {
-		c.HTML(200, "shop", gin.H {
-			"Id":           Product.Id,
-			"Product_name": Product.Product_name,
-			"Manufacturer": Product.Manufacturer,
-			"Category":     Product.Category,
-			"Description":  Product.Description,
-			"Price":  Product.Price,
+		c.HTML(400, "400", gin.H{
+			"Error": err.Error(),
 		})
-	}*/
-	return
+		return
+	}
+	c.HTML(200, "shop", nil)
+	for _, Product := range Products {
+		c.HTML(200, "shop", gin.H{
+			"Image": Product.Id,
+			"Name":  Product.Name,
+			"Price": Product.Price,
+		})
+	}
 }
 
 //Просмотреть товар
 func Shop_single(c *gin.Context) {
+
 	c.HTML(200, "shop_single", nil)
 }
 
@@ -126,7 +127,7 @@ func Antibiotics_medicines(c *gin.Context) {
 func ConnectDB() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		if err := Repository.OpenTable(); err != nil {
-			c.HTML(500, "Connection_failed", gin.H{
+			c.HTML(500, "400", gin.H{
 				"Error": err,
 			})
 			return

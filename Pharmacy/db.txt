@@ -1,0 +1,130 @@
+CREATE TABLE Categories (
+	category_id serial PRIMARY KEY,
+	category_name character varying NOT NULL
+);
+
+CREATE TABLE Products (
+	product_id serial PRIMARY KEY,
+	product_image character varying NOT NULL,
+	product_name character varying NOT NULL,
+	product_manufacturer character varying NOT NULL,
+	product_category integer NOT NULL,
+	product_description character varying NOT NULL,
+	product_price integer NOT NULL,
+	CONSTRAINT fk_category_products FOREIGN KEY (product_category) REFERENCES Categories (category_id)
+);
+
+INSERT INTO categories (
+	category_name
+)
+VALUES (
+	'Обезболивающие'
+);
+
+INSERT INTO categories (
+	category_name
+)
+VALUES (
+	'Иммуностимулирующие'
+);
+
+INSERT INTO categories (
+	category_name
+)
+VALUES (
+	'Жаропонижающие'
+);
+
+INSERT INTO categories (
+	category_name
+)
+VALUES (
+	'От гриппа и простуды'
+);
+
+INSERT INTO categories (
+	category_name
+)
+VALUES (
+	'От грибковых заболеваний'
+);
+
+INSERT INTO categories (
+	category_name
+)
+VALUES (
+	'От аллергии'
+);
+
+INSERT INTO categories (
+	category_name
+)
+VALUES (
+	'Антибиотики'
+);
+
+
+INSERT INTO products (
+	product_image, product_name, product_manufacturer, product_category, product_description, product_price)
+VALUES (
+	'images/product_01.png', 'Биодерма', 'Bioderma Laboratories', 2,'объем 500 мл
+активный ингредиент
+витамин C
+потребности кожи
+чувствительная
+особенности
+для водостойкого макияжа, гипоаллергенное
+эффект
+очищение
+страна бренда
+Франция', 1300
+);
+
+INSERT INTO products (
+	product_image, product_name, product_manufacturer, product_category, product_description, product_price)
+VALUES (
+	'images/product_02.png', 'Чанка Пьедра', '«АО Лаборатория Индукимика», Перу', 2,'Поддерживает здоровье мочевыводящих путей
+Премиальное качество
+Веганский продукт
+Без ГМО
+Без глютена
+Пищевая добавка
+Производится в соответствии со стандартом качества GMP
+Соответствует стандарту качества
+Продукт прошел независимое тестирование', 2325
+);
+
+
+INSERT INTO products (
+	product_image, product_name, product_manufacturer, product_category, product_description, product_price)
+VALUES (
+	'images/product_03.png', 'Umcka Cold Care', 'Nature Way Umcka', 4,'Горячий напиток со вкусом лимона
+Гомеопатическое средство
+Сокращает длительность и уменьшает интенсивность
+кашля, заложенности носа, боли в горле, раздражения носа и бронхов
+Клинически доказанная эффективность
+Pelargonium Sidoides 1X
+Можно давать холодным детям
+Успокаивающий горячий напиток
+Не вызывает сонливость
+Сократите продолжительность и время восстановления с UMCKA
+UMCKA уменьшает тяжесть простуды, боли в носу и горле и бронхиальное раздражение
+Нос- Горло - Грудь', 559
+);
+
+
+INSERT INTO products (
+	product_image, product_name, product_manufacturer, product_category, product_description, product_price)
+VALUES (
+	'images/product_04.png', 'Cetyl Pure', 'Natrol', 1,'Natrol CetylPure содержит цетилмиристолеат — природную жирную кислоту. Это революционное соединение работает как смазка для суставов и помогает улучшить их подвижность. CetylPure — это ультрасовременное средство, которое способствует облегчению дискомфорта в суставах после физических упражнений.', 3159
+);
+
+
+INSERT INTO products (
+	product_image, product_name, product_manufacturer, product_category, product_description, product_price)
+VALUES (
+	'images/product_05.png', 'CLA Core', 'MusclePharm ', 2,'CLA (конъюгированная линолевая кислота) Core является природными жирными кислотами, содержащиеся в мясе, молочных продуктах и подсолнечном масло. Исследования показывают, что CLA может помочь уменьшить жировые отложения и снижают способность накапливать жир.
+Отличием MusclePharm CLA Core является высокое качество, чистота и сила, конъюгированной линолевой кислоты (CLA) . Формула сформулирована в соответствии для сокращения процента жира, при неснижении процента мышц, с учетом потребностей человека. ', 900
+);
+
+
