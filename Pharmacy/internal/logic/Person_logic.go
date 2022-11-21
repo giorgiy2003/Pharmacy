@@ -5,11 +5,12 @@ import (
 	"fmt"
 	Model "myapp/internal/model"
 	Repository "myapp/internal/repository"
+	"strconv"
 	"strings"
 )
 
-func ReadProductsWithLimit() ([]Model.Product, error) {
-	row, err := Repository.Connection.Query(`SELECT * FROM "products" ORDER BY "product_id" LIMIT 6`)
+func ReadAllProducts() ([]Model.Product, error) {
+	row, err := Repository.Connection.Query(`SELECT * FROM "products" ORDER BY "product_id"`)
 	if err != nil {
 		return nil, err
 	}
@@ -25,9 +26,8 @@ func ReadProductsWithLimit() ([]Model.Product, error) {
 	return productInfo, nil
 }
 
-
-func ReadAllProducts() ([]Model.Product, error) {
-	row, err := Repository.Connection.Query(`SELECT * FROM "products" ORDER BY "product_id"`)
+func ReadProductsWithLimit() ([]Model.Product, error) {
+	row, err := Repository.Connection.Query(`SELECT * FROM "products" ORDER BY "product_id" LIMIT 6`)
 	if err != nil {
 		return nil, err
 	}
@@ -59,6 +59,29 @@ func ReadOneProduct(product_name string) ([]Model.Product, error) {
 	}
 	return productInfo, nil
 }
+
+//Выборка по категориям
+func Medicines_by_category(category string) ([]Model.Product, error) {
+	Category, err := strconv.Atoi(category)
+	if err != nil {
+		return nil, errors.New("Error: неверно введён параметр id")
+	}
+	row, err := Repository.Connection.Query(`SELECT * FROM "products" WHERE "product_category" = $1`, Category)
+	if err != nil {
+		return nil, err
+	}
+	var productInfo = []Model.Product{}
+	for row.Next() {
+		var p Model.Product
+		err := row.Scan(&p.Id, &p.Image, &p.Name, &p.Manufacturer, &p.Category, &p.Description, &p.Price)
+		if err != nil {
+			return nil, err
+		}
+		productInfo = append(productInfo, p)
+	}
+	return productInfo, nil
+}
+
 
 func CreateProduct(p Model.Product) error {
 	p.Name = strings.TrimSpace(p.Name)

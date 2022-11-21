@@ -15,23 +15,18 @@ func main() {
 	router.Static("/js", "Frontend/js")
 	router.LoadHTMLGlob("Frontend/*.html")
 	router.Use(Handler.ConnectDB())
-	router.GET("/", Handler.MainForm)
-	router.GET("/shop", Handler.Shop)
-	router.GET("/shop_single", Handler.Shop_single)
-	router.GET("/cart", Handler.Cart)
-	router.GET("/about", Handler.About)
-	router.GET("/checkout", Handler.Checkout)
-	router.GET("/contact", Handler.Contact)
-	router.GET("/Order", Handler.Make_Order)
-	router.GET("/AddToCart", Handler.AddToCart)
-	router.GET("/DeleteFromCart", Handler.DeleteFromCart)
-	router.GET("/SendMessage", Handler.SendMessage)
-	router.GET("/Painkillers_medicines", Handler.Painkillers_medicines)
-	router.GET("/Immunostimulating_medicines", Handler.Immunostimulating_medicines)
-	router.GET("/Antipyretic_medicines", Handler.Antipyretic_medicines)
-	router.GET("/Flu_medicines", Handler.Flu_medicines)
-	router.GET("/Fungal_medicines", Handler.Fungal_medicines)
-	router.GET("/Allergies_medicines", Handler.Allergies_medicines)
-	router.GET("/Antibiotics_medicines", Handler.Antibiotics_medicines)
+	router.GET("/", Handler.MainForm) //Главная страница
+	router.GET("/shop", Handler.Shop) //Магазин
+	router.GET("/shop_single", Handler.Shop_single) //Просмотр карточки товара
+	router.GET("/cart", Handler.Cart) //Корзина
+	router.GET("/about", Handler.About) //О нас
+	router.GET("/checkout", Handler.Checkout) //Страница оформления
+	router.GET("/contact", Handler.Contact) //Контакты
+	router.GET("/Order", Handler.Make_Order) //Оформить заказ
+	router.GET("/AddToCart", Handler.AddToCart) //Добавить в корзину
+	router.GET("/DeleteFromCart", Handler.DeleteFromCart) //Убрать из корзины
+	router.GET("/SendMessage", Handler.SendMessage)	//Оставить отзыв
+
+	router.GET("/Medicines_by_category/:id", Handler.Medicines_by_category) // Поиск по категориям
 	router.Run("localhost:8080")
 }

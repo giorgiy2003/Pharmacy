@@ -1,7 +1,6 @@
 package Handler
 
 import (
-	"log"
 	Logic "myapp/internal/logic"
 	Repository "myapp/internal/repository"
 
@@ -12,7 +11,6 @@ import (
 //Главная форма
 func MainForm(c *gin.Context) {
 	Products, err := Logic.ReadProductsWithLimit()
-	log.Println(Products)
 	if err != nil {
 		c.HTML(400, "400", gin.H{
 			"Error": err.Error(),
@@ -28,7 +26,6 @@ func MainForm(c *gin.Context) {
 //Товары
 func Shop(c *gin.Context) {
 	Products, err := Logic.ReadAllProducts()
-	log.Println(Products)
 	if err != nil {
 		c.HTML(400, "400", gin.H{
 			"Error": err.Error(),
@@ -89,46 +86,20 @@ func SendMessage(c *gin.Context) {
 	c.HTML(200, "index", nil)
 }
 
-//Обезболивабщие лекарства
-func Painkillers_medicines(c *gin.Context) {
 
-	c.HTML(200, "shop", nil)
-}
-
-//Иммуностимулирующие лекарства
-func Immunostimulating_medicines(c *gin.Context) {
-
-	c.HTML(200, "shop", nil)
-}
-
-//Жаропонижающие лекарства
-func Antipyretic_medicines(c *gin.Context) {
-
-	c.HTML(200, "shop", nil)
-}
-
-//Лекарства от гриппа и простуды
-func Flu_medicines(c *gin.Context) {
-
-	c.HTML(200, "shop", nil)
-}
-
-//Лекарства от грибковых заболеваний
-func Fungal_medicines(c *gin.Context) {
-
-	c.HTML(200, "shop", nil)
-}
-
-//Лекарства от аллергии
-func Allergies_medicines(c *gin.Context) {
-
-	c.HTML(200, "shop", nil)
-}
-
-//Антибиотики
-func Antibiotics_medicines(c *gin.Context) {
-
-	c.HTML(200, "shop", nil)
+//Лекарства по категориям
+func Medicines_by_category(c *gin.Context) {
+	id := c.Param("id")
+	Products, err := Logic.Medicines_by_category(id)
+	if err != nil {
+		c.HTML(400, "400", gin.H{
+			"Error": err.Error(),
+		})
+		return
+	}
+	c.HTML(200, "shop", gin.H{
+		"Products": Products,
+	})
 }
 
 func ConnectDB() gin.HandlerFunc {
