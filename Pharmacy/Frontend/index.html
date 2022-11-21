@@ -9,16 +9,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Rubik:400,700|Crimson+Text:400,400i" >
-  <link rel="stylesheet" href="fonts/icomoon/style.css" type="text/css">
+  <link rel="stylesheet" href="/fonts/icomoon/style.css" type="text/css">
 
-  <link rel="stylesheet" href="css/bootstrap.min.css"  type="text/css" >
-  <link rel="stylesheet" href="css/magnific-popup.css"  type="text/css" >
-  <link rel="stylesheet" href="css/jquery-ui.css"  type="text/css" >
-  <link rel="stylesheet" href="css/owl.carousel.min.css"  type="text/css" >
-  <link rel="stylesheet" href="css/owl.theme.default.min.css"  type="text/css" >
+  <link rel="stylesheet" href="/css/bootstrap.min.css"  type="text/css" >
+  <link rel="stylesheet" href="/css/magnific-popup.css"  type="text/css" >
+  <link rel="stylesheet" href="/css/jquery-ui.css"  type="text/css" >
+  <link rel="stylesheet" href="/css/owl.carousel.min.css"  type="text/css" >
+  <link rel="stylesheet" href="/css/owl.theme.default.min.css"  type="text/css" >
 
-  <link rel="stylesheet" href="css/aos.css"  type="text/css" >
-  <link rel="stylesheet" href="css/style.css"  type="text/css" >
+  <link rel="stylesheet" href="/css/aos.css"  type="text/css" >
+  <link rel="stylesheet" href="/css/style.css"  type="text/css" >
 
 </head>
 
@@ -68,7 +68,7 @@
     </div>
     
     
-    <div class="site-blocks-cover inner-page" style="background-image: url('images/hero_2.jpg');"></div>
+    <div class="site-blocks-cover inner-page" style="background-image: url('/images/hero_2.jpg');"></div>
 
     <div class="site-section">
       <div class="container">
@@ -82,7 +82,7 @@
          
           {{range .Products }}
             <div class="col-sm-6 col-lg-4 text-center item mb-4">
-            <a href="/shop_single"> <img src= "{{.Image}}" alt="Image"></a>
+            <a href="/shop_single"> <img src= "/{{.Image}}" alt="Image"></a>
             <h3 class="text-dark"><a href="/shop_single">{{.Name}}</a></h3>
             <p class="price">{{.Price}} ₽</p>
             </div>
@@ -111,7 +111,7 @@
 
               {{range .Products }}
               <div class="text-center item mb-4">
-                <a href="/shop_single"> <img src="{{.Image}}" alt="Image"></a>
+                <a href="/shop_single"> <img src="/{{.Image}}" alt="Image"></a>
                 <h3 class="text-dark"><a href="/shop_single">{{.Name}}</a></h3>
                 <p class="price">{{.Price}} ₽</p>
               </div>
@@ -136,7 +136,7 @@
         
               <div class="testimony">
                 <blockquote>
-                  <img src="images/person_1.jpg" alt="Image" class="img-fluid w-25 mb-4 rounded-circle">
+                  <img src="/images/person_1.jpg" alt="Image" class="img-fluid w-25 mb-4 rounded-circle">
                   <p>&ldquo;Была вчера в аптеке на псковской. Огромное спасибо фармацевту Наталье за за заботливое отношение к покупателям. 
                     Помогла, проконсультировала в выборе лекарства. Ну очень отзывчивая женщина!
                      Если возникнут какие то вопросы в выборе лекарств Наталья обязательно вам поможет!
@@ -149,7 +149,7 @@
         
               <div class="testimony">
                 <blockquote>
-                  <img src="images/person_2.jpg" alt="Image" class="img-fluid w-25 mb-4 rounded-circle">
+                  <img src="/images/person_2.jpg" alt="Image" class="img-fluid w-25 mb-4 rounded-circle">
                   <p>&ldquo;Раньше никогда не заказывал через инет лекарства, но тут у меня была вынужденная ситуация. 
                     Ребенок заболел, не мог вообще из дома выйти. Заказал больше, чем на 2000, доставили уже на следующее утро и бесплатно.&rdquo;</p>
                 </blockquote>
@@ -159,7 +159,7 @@
         
               <div class="testimony">
                 <blockquote>
-                  <img src="images/person_3.jpg" alt="Image" class="img-fluid w-25 mb-4 rounded-circle">
+                  <img src="/images/person_3.jpg" alt="Image" class="img-fluid w-25 mb-4 rounded-circle">
                   <p>&ldquo;Всегда приятно иметь дело с профессионалами. Услугами этой аптеки пользуюсь с весны. Ни разу не подвели.
                      Мои лекарства относятся к редким, не везде в аптеках присутствуют. 
                      Здесь оформляю заказ и мне привозят домой. С удовольствием беседую с фармацевтами аптеки по телефонной связи, которые посоветуют что лучше выбрать.
@@ -171,7 +171,7 @@
         
               <div class="testimony">
                 <blockquote>
-                  <img src="images/person_4.jpg" alt="Image" class="img-fluid w-25 mb-4 rounded-circle">
+                  <img src="/images/person_4.jpg" alt="Image" class="img-fluid w-25 mb-4 rounded-circle">
                   <p>&ldquo;Цены приятные, не то, что во всех этих московских аптечных сетях. Очередей никогда не бывает. 
                     Сама аптека чистенькая, всегда убрано, нравится, что недавно сделали ремонт.&rdquo;</p>
                 </blockquote>
@@ -185,11 +185,11 @@
       </div>
     </div>
 
-    <div class="site-section bg-secondary bg-image" style="background-image: url('images/expert.jpg');">
+    <div class="site-section bg-secondary bg-image" style="background-image: url('/images/expert.jpg');">
       <div class="container">
         <div class="row align-items-stretch">
           <div class="col-lg-6 mb-5 mb-lg-0">
-            <a class="banner-1 h-100 d-flex" style="background-image: url('images/bg_1.jpg');">
+            <a class="banner-1 h-100 d-flex" style="background-image: url('/images/bg_1.jpg');">
               <div class="banner-1-inner align-self-center">
                 <h3><strong>Проверенные медикаменты</strong></h3>
                 <p>
@@ -198,7 +198,7 @@
             </a>
           </div>
           <div class="col-lg-6 mb-5 mb-lg-0">
-            <a class="banner-1 h-100 d-flex" style="background-image: url('images/expert.jpg');">
+            <a class="banner-1 h-100 d-flex" style="background-image: url('/images/expert.jpg');">
               <div class="banner-1-inner ml-auto"></div>
             </a>
           </div>
@@ -237,15 +237,15 @@
     </footer>
   </div>
 
-  <script src="js/jquery-3.3.1.min.js"></script>
-  <script src="js/jquery-ui.js"></script>
-  <script src="js/popper.min.js"></script>
-  <script src="js/bootstrap.min.js"></script>
-  <script src="js/owl.carousel.min.js"></script>
-  <script src="js/jquery.magnific-popup.min.js"></script>
-  <script src="js/aos.js"></script>
+  <script src="/js/jquery-3.3.1.min.js"></script>
+  <script src="/js/jquery-ui.js"></script>
+  <script src="/js/popper.min.js"></script>
+  <script src="/js/bootstrap.min.js"></script>
+  <script src="/js/owl.carousel.min.js"></script>
+  <script src="/js/jquery.magnific-popup.min.js"></script>
+  <script src="/js/aos.js"></script>
 
-  <script src="js/main.js"></script>
+  <script src="/js/main.js"></script>
 
 </body>
 
