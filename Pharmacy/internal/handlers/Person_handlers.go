@@ -8,6 +8,23 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+
+//Главная форма
+func MainForm(c *gin.Context) {
+	Products, err := Logic.ReadProductsWithLimit()
+	log.Println(Products)
+	if err != nil {
+		c.HTML(400, "400", gin.H{
+			"Error": err.Error(),
+		})
+		return
+	}
+	c.HTML(200, "index", gin.H{
+		"Products": Products,
+	})
+}
+
+
 //Товары
 func Shop(c *gin.Context) {
 	Products, err := Logic.ReadAllProducts()
@@ -27,11 +44,6 @@ func Shop(c *gin.Context) {
 func Shop_single(c *gin.Context) {
 
 	c.HTML(200, "shop_single", nil)
-}
-
-//Главная форма
-func MainForm(c *gin.Context) {
-	c.HTML(200, "index", nil)
 }
 
 //Корзина

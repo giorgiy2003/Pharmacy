@@ -8,6 +8,24 @@ import (
 	"strings"
 )
 
+func ReadProductsWithLimit() ([]Model.Product, error) {
+	row, err := Repository.Connection.Query(`SELECT * FROM "products" ORDER BY "product_id" LIMIT 6`)
+	if err != nil {
+		return nil, err
+	}
+	var productInfo = []Model.Product{}
+	for row.Next() {
+		var p Model.Product
+		err := row.Scan(&p.Id, &p.Image, &p.Name, &p.Manufacturer, &p.Category, &p.Description, &p.Price)
+		if err != nil {
+			return nil, err
+		}
+		productInfo = append(productInfo, p)
+	}
+	return productInfo, nil
+}
+
+
 func ReadAllProducts() ([]Model.Product, error) {
 	row, err := Repository.Connection.Query(`SELECT * FROM "products" ORDER BY "product_id"`)
 	if err != nil {
