@@ -11,21 +11,16 @@ import (
 //Товары
 func Shop(c *gin.Context) {
 	Products, err := Logic.ReadAllProducts()
+	log.Println(Products)
 	if err != nil {
-		log.Println(err)
 		c.HTML(400, "400", gin.H{
 			"Error": err.Error(),
 		})
 		return
 	}
-	c.HTML(200, "shop", nil)
-	for _, Product := range Products {
-		c.HTML(200, "shop", gin.H{
-			"Image": Product.Id,
-			"Name":  Product.Name,
-			"Price": Product.Price,
-		})
-	}
+	c.HTML(200, "shop", gin.H{
+		"Products": Products,
+	})
 }
 
 //Просмотреть товар

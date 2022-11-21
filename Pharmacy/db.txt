@@ -1,9 +1,9 @@
-CREATE TABLE Categories (
+CREATE TABLE categories (
 	category_id serial PRIMARY KEY,
 	category_name character varying NOT NULL
 );
 
-CREATE TABLE Products (
+CREATE TABLE products (
 	product_id serial PRIMARY KEY,
 	product_image character varying NOT NULL,
 	product_name character varying NOT NULL,
@@ -11,7 +11,7 @@ CREATE TABLE Products (
 	product_category integer NOT NULL,
 	product_description character varying NOT NULL,
 	product_price integer NOT NULL,
-	CONSTRAINT fk_category_products FOREIGN KEY (product_category) REFERENCES Categories (category_id)
+	CONSTRAINT fk_category_products FOREIGN KEY (product_category) REFERENCES categories (category_id)
 );
 
 INSERT INTO categories (
