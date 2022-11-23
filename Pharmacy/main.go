@@ -17,6 +17,10 @@ func main() {
 	router.Use(Handler.ConnectDB())
 	router.GET("/", Handler.MainForm) //Главная страница ✅
 	router.GET("/shop", Handler.Shop) //Магазин ✅
+	router.GET("/NameASC", Handler.NameASC) //Фильтр товаров по наименованию
+	router.GET("/NameDESC", Handler.NameDESC) //Фильтр товаров по наименованию в обратном порядке
+	router.GET("/PriceASC", Handler.PriceASC) //Фильтр товаров по цене
+	router.GET("/PriceDESC", Handler.PriceDESC) //Фильтр товаров по цене в обратном порядке
 	router.GET("/shop_single", Handler.Shop_single) //Просмотр карточки товара
 	router.GET("/SearhProduct", Handler.SearhProduct) //Поиск товара по ID или названию ✅
 	router.GET("/cart", Handler.Cart) //Корзина

@@ -90,7 +90,7 @@ func SearhProduct(product_name string) ([]Model.Product, error) {
 	product_name = strings.TrimSpace(product_name)
 	product_name = strings.ToLower(product_name)
 	product_name = strings.Title(product_name)
-	
+
 	Products, _ := ReadOneProductById(product_name)
 	if len(Products) == 0 {
 		Products, err := ReadOneProductByName(product_name)
@@ -109,6 +109,78 @@ func Medicines_by_category(category string) ([]Model.Product, error) {
 		return nil, errors.New("Error: неверно введён параметр category_id")
 	}
 	row, err := Repository.Connection.Query(`SELECT * FROM "products" WHERE "product_category" = $1`, Category)
+	if err != nil {
+		return nil, err
+	}
+	var productInfo = []Model.Product{}
+	for row.Next() {
+		var p Model.Product
+		err := row.Scan(&p.Id, &p.Image, &p.Name, &p.Manufacturer, &p.Category, &p.Description, &p.Price)
+		if err != nil {
+			return nil, err
+		}
+		productInfo = append(productInfo, p)
+	}
+	return productInfo, nil
+}
+
+//Сортировать товары по названию
+func NameASC() ([]Model.Product, error) {
+	row, err := Repository.Connection.Query(`SELECT * FROM "products" ORDER BY "product_name"`)
+	if err != nil {
+		return nil, err
+	}
+	var productInfo = []Model.Product{}
+	for row.Next() {
+		var p Model.Product
+		err := row.Scan(&p.Id, &p.Image, &p.Name, &p.Manufacturer, &p.Category, &p.Description, &p.Price)
+		if err != nil {
+			return nil, err
+		}
+		productInfo = append(productInfo, p)
+	}
+	return productInfo, nil
+}
+
+//Сортировать товары по названию в обратном порядке
+func NameDESC() ([]Model.Product, error) {
+	row, err := Repository.Connection.Query(`SELECT * FROM "products" ORDER BY "product_name" DESC`)
+	if err != nil {
+		return nil, err
+	}
+	var productInfo = []Model.Product{}
+	for row.Next() {
+		var p Model.Product
+		err := row.Scan(&p.Id, &p.Image, &p.Name, &p.Manufacturer, &p.Category, &p.Description, &p.Price)
+		if err != nil {
+			return nil, err
+		}
+		productInfo = append(productInfo, p)
+	}
+	return productInfo, nil
+}
+
+//Сортировать товары по цене
+func PriceASC() ([]Model.Product, error) {
+	row, err := Repository.Connection.Query(`SELECT * FROM "products" ORDER BY "product_price"`)
+	if err != nil {
+		return nil, err
+	}
+	var productInfo = []Model.Product{}
+	for row.Next() {
+		var p Model.Product
+		err := row.Scan(&p.Id, &p.Image, &p.Name, &p.Manufacturer, &p.Category, &p.Description, &p.Price)
+		if err != nil {
+			return nil, err
+		}
+		productInfo = append(productInfo, p)
+	}
+	return productInfo, nil
+}
+
+//Сортировать товары по цене в обратном порядке
+func PriceDESC() ([]Model.Product, error) {
+	row, err := Repository.Connection.Query(`SELECT * FROM "products" ORDER BY "product_price" DESC `)
 	if err != nil {
 		return nil, err
 	}

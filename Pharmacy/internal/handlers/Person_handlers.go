@@ -126,6 +126,63 @@ func Medicines_by_category(c *gin.Context) {
 	})
 }
 
+//Фильтр товаров по наименованию
+func NameASC(c *gin.Context) {
+	Products, err := Logic.NameASC()
+	if err != nil {
+		c.HTML(400, "400", gin.H{
+			"Error": err.Error(),
+		})
+		return
+	}
+	c.HTML(200, "shop", gin.H{
+		"Products": Products,
+	})
+}
+
+//Фильтр товаров по наименованию
+func NameDESC(c *gin.Context) {
+	Products, err := Logic.NameDESC()
+	if err != nil {
+		c.HTML(400, "400", gin.H{
+			"Error": err.Error(),
+		})
+		return
+	}
+	c.HTML(200, "shop", gin.H{
+		"Products": Products,
+	})
+}
+
+//Фильтр товаров по цене
+func PriceASC(c *gin.Context) {
+	Products, err := Logic.PriceASC()
+	if err != nil {
+		c.HTML(400, "400", gin.H{
+			"Error": err.Error(),
+		})
+		return
+	}
+	c.HTML(200, "shop", gin.H{
+		"Products": Products,
+	})
+}
+
+//Фильтр товаров по цене
+func PriceDESC(c *gin.Context) {
+	Products, err := Logic.PriceDESC()
+	if err != nil {
+		c.HTML(400, "400", gin.H{
+			"Error": err.Error(),
+		})
+		return
+	}
+	c.HTML(200, "shop", gin.H{
+		"Products": Products,
+	})
+}
+
+
 func ConnectDB() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		if err := Repository.OpenTable(); err != nil {
