@@ -37,8 +37,17 @@ func Shop(c *gin.Context) {
 
 //Просмотреть товар
 func Shop_single(c *gin.Context) {
-
-	c.HTML(200, "shop_single", nil)
+	id := c.Query("id")
+	Products, err := Logic.ReadOneProductById(id)
+	if err != nil {
+		c.HTML(400, "400", gin.H{
+			"Error": err.Error(),
+		})
+		return
+	}
+	c.HTML(200, "shop_single", gin.H{
+		"Products": Products,
+	})
 }
 
 //Поиск товара
