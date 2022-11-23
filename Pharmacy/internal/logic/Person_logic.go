@@ -88,15 +88,17 @@ func ReadOneProductById(product_id string) ([]Model.Product, error) {
 //Поиск товара по ID или наименованию
 func SearhProduct(product_name string) ([]Model.Product, error) {
 	product_name = strings.TrimSpace(product_name)
-	//Products, _ := ReadOneProductByName(product_name)
+	product_name = strings.ToLower(product_name)
+	product_name = strings.Title(product_name)
+	
 	Products, _ := ReadOneProductById(product_name)
-	/*if len(Products) == 0 {
+	if len(Products) == 0 {
 		Products, err := ReadOneProductByName(product_name)
 		if err != nil {
 			return nil, err
 		}
 		return Products, nil
-	}*/
+	}
 	return Products, nil
 }
 
