@@ -82,7 +82,7 @@
          
           {{range .Products }}
             <div class="col-sm-6 col-lg-4 text-center item mb-4">
-            <a href="/shop_single?id={{ .Id }}"> <img src= "/{{.Image}}" alt="Image"></a>
+            <a href="/shop_single?id={{ .Id }}"> <img src= "/images/products/{{.Image}}" alt="Image"></a>
             <h3 class="text-dark"><a href="/shop_single?id={{ .Id }}">{{.Name}}</a></h3>
             <p class="price">{{.Price}} ₽</p>
             </div>
@@ -111,8 +111,8 @@
 
               {{range .Products }}
               <div class="text-center item mb-4">
-                <a href="/shop_single/{{ .Id }}"> <img src="/{{.Image}}" alt="Image"></a>
-                <h3 class="text-dark"><a href="/shop_single/{{ .Id }}">{{.Name}}</a></h3>
+                <a href="/shop_single?id={{ .Id }}"> <img src="/images/products/{{.Image}}" alt="Image"></a>
+                <h3 class="text-dark"><a href="/shop_single?id={{ .Id }}">{{.Name}}</a></h3>
                 <p class="price">{{.Price}} ₽</p>
               </div>
               {{ end }}
