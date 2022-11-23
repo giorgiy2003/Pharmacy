@@ -43,13 +43,13 @@
                 <li class="has-children">
                   <a href="#">По категориям</a>
                   <ul class="dropdown">
-                    <li><a href="/Medicines_by_category/1">Обезболивающие</a></li>
-                    <li><a href="/Medicines_by_category/2">Иммуностимулирующие</a></li>
-                    <li><a href="/Medicines_by_category/3">Жаропонижающие</a></li>
-                    <li><a href="/Medicines_by_category/4">От гриппа и простуды</a></li>
-                    <li><a href="/Medicines_by_category/5">От грибковых заболеваний</a></li>
-                    <li><a href="/Medicines_by_category/6">От аллергии</a></li>
-                    <li><a href="/Medicines_by_category/7">Антибиотики</a></li>
+                    <li><a href="/Product_category/1">Обезболивающие</a></li>
+                    <li><a href="/Product_category/2">Иммуностимулирующие</a></li>
+                    <li><a href="/Product_category/3">Жаропонижающие</a></li>
+                    <li><a href="/Product_category/4">От гриппа и простуды</a></li>
+                    <li><a href="/Product_category/5">От грибковых заболеваний</a></li>
+                    <li><a href="/Product_category/6">От аллергии</a></li>
+                    <li><a href="/Product_category/7">Антибиотики</a></li>
                   </ul>
                 </li>
                 <li><a href="/about">О нас</a></li>
@@ -72,7 +72,7 @@
       <div class="container">
         <div class="row">
           <div class="col-md-12 mb-0"><a href="/">Главная страница</a> <span class="mx-2 mb-0">/</span> <a
-              href="/shop">Товары</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">Наименование товара</strong></div>
+              href="/shop">Товары</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">{{ .Name }}</strong></div>
         </div>
       </div>
     </div>
@@ -82,13 +82,13 @@
         <div class="row">
           <div class="col-md-5 mr-auto">
             <div class="border text-center">
-              <img src="/images/product_07_large.png" alt="Image" class="img-fluid p-5">
+              <img src="/{{ .Image }}" alt="Image" class="img-fluid p-5">
             </div>
           </div>
           <div class="col-md-6 align-self-center">
-            <h2 class="text-black">Ибупрофен, 200 мг</h2>
+            <h2 class="text-black">{{ .Name }}</h2>
             <p> </p>
-            <p><strong class="text-primary h4">55.00 ₽</strong></p>
+            <p><strong class="text-primary h4">{{ .Price }} ₽</strong></p>
 
             <div class="mb-5">
               <div class="input-group mb-3" style="max-width: 220px;">
@@ -127,7 +127,7 @@
                     <tbody>
                       <tr>
                         <th scope="row">OTC022401</th>
-                        <td>Обезболивание: сверхсильные капсулы с ацетаминофеном PM, 500 мг, 100 шт./бутылка</td>
+                        <td>{{ .Description }}</td>
                         <td>1 BT</td>
                       </tr>
                     </tbody>

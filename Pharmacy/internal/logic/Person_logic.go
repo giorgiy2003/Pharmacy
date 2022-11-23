@@ -9,6 +9,7 @@ import (
 	"strings"
 )
 
+//Вывести все товары
 func ReadAllProducts() ([]Model.Product, error) {
 	row, err := Repository.Connection.Query(`SELECT * FROM "products" ORDER BY "product_id"`)
 	if err != nil {
@@ -26,6 +27,7 @@ func ReadAllProducts() ([]Model.Product, error) {
 	return productInfo, nil
 }
 
+//Вывести первые 6 записей
 func ReadProductsWithLimit() ([]Model.Product, error) {
 	row, err := Repository.Connection.Query(`SELECT * FROM "products" ORDER BY "product_id" LIMIT 6`)
 	if err != nil {
@@ -43,7 +45,8 @@ func ReadProductsWithLimit() ([]Model.Product, error) {
 	return productInfo, nil
 }
 
-func ReadOneProduct(product_name string) ([]Model.Product, error) {
+//Поиск товара по наименованию
+func ReadOneProductByName(product_name string) ([]Model.Product, error) {
 	row, err := Repository.Connection.Query(`SELECT * FROM "products" WHERE "product_name" = $1`, product_name)
 	if err != nil {
 		return nil, err
@@ -60,11 +63,48 @@ func ReadOneProduct(product_name string) ([]Model.Product, error) {
 	return productInfo, nil
 }
 
+//Поиск товара по id
+func ReadOneProductById(product_id string) ([]Model.Product, error) {
+	id, err := strconv.Atoi(product_id)
+	if err != nil {
+		return nil, err
+	}
+	row, err := Repository.Connection.Query(`SELECT * FROM "products" WHERE "product_id" = $1`, id)
+	if err != nil {
+		return nil, err
+	}
+	var productInfo = []Model.Product{}
+	for row.Next() {
+		var p Model.Product
+		err := row.Scan(&p.Id, &p.Image, &p.Name, &p.Manufacturer, &p.Category, &p.Description, &p.Price)
+		if err != nil {
+			return nil, err
+		}
+		productInfo = append(productInfo, p)
+	}
+	return productInfo, nil
+}
+
+//Поиск товара по ID или наименованию
+func SearhProduct(product_name string) ([]Model.Product, error) {
+	product_name = strings.TrimSpace(product_name)
+	//Products, _ := ReadOneProductByName(product_name)
+	Products, _ := ReadOneProductById(product_name)
+	/*if len(Products) == 0 {
+		Products, err := ReadOneProductByName(product_name)
+		if err != nil {
+			return nil, err
+		}
+		return Products, nil
+	}*/
+	return Products, nil
+}
+
 //Выборка по категориям
 func Medicines_by_category(category string) ([]Model.Product, error) {
 	Category, err := strconv.Atoi(category)
 	if err != nil {
-		return nil, errors.New("Error: неверно введён параметр id")
+		return nil, errors.New("Error: неверно введён параметр category_id")
 	}
 	row, err := Repository.Connection.Query(`SELECT * FROM "products" WHERE "product_category" = $1`, Category)
 	if err != nil {
@@ -81,7 +121,6 @@ func Medicines_by_category(category string) ([]Model.Product, error) {
 	}
 	return productInfo, nil
 }
-
 
 func CreateProduct(p Model.Product) error {
 	p.Name = strings.TrimSpace(p.Name)
@@ -129,7 +168,7 @@ func DeleteProduct(id string) error {
 }
 
 func dataExist(id string) error {
-	persons, err := ReadOneProduct(id)
+	persons, err := ReadOneProductById(id)
 	if err != nil {
 		return err
 	}

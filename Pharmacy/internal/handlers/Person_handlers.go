@@ -7,7 +7,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-
 //Главная форма
 func MainForm(c *gin.Context) {
 	Products, err := Logic.ReadProductsWithLimit()
@@ -21,7 +20,6 @@ func MainForm(c *gin.Context) {
 		"Products": Products,
 	})
 }
-
 
 //Товары
 func Shop(c *gin.Context) {
@@ -41,6 +39,27 @@ func Shop(c *gin.Context) {
 func Shop_single(c *gin.Context) {
 
 	c.HTML(200, "shop_single", nil)
+}
+
+//Поиск товара
+func SearhProduct(c *gin.Context) {
+	productName := c.Request.FormValue("productName")
+	Products, err := Logic.SearhProduct(productName)
+	if err != nil {
+		c.HTML(400, "400", gin.H{
+			"Error": err.Error(),
+		})
+		return
+	}
+	if len(Products) == 0 {
+		c.HTML(200, "InfoPage", gin.H{
+			"Info": "По Вашему запросу ничего не найдено",
+		})
+		return
+	}
+	c.HTML(200, "shop", gin.H{
+		"Products": Products,
+	})
 }
 
 //Корзина
@@ -86,6 +105,11 @@ func SendMessage(c *gin.Context) {
 	c.HTML(200, "index", nil)
 }
 
+//Использовать купон
+func UseCoupon(c *gin.Context) {
+
+	c.HTML(200, "checkout", nil)
+}
 
 //Лекарства по категориям
 func Medicines_by_category(c *gin.Context) {

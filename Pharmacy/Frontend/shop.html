@@ -41,13 +41,13 @@
                 <li class="has-children">
                   <a href="#">По категориям</a>
                   <ul class="dropdown">
-                    <li><a href="/Medicines_by_category/1">Обезболивающие</a></li>
-                    <li><a href="/Medicines_by_category/2">Иммуностимулирующие</a></li>
-                    <li><a href="/Medicines_by_category/3">Жаропонижающие</a></li>
-                    <li><a href="/Medicines_by_category/4">От гриппа и простуды</a></li>
-                    <li><a href="/Medicines_by_category/5">От грибковых заболеваний</a></li>
-                    <li><a href="/Medicines_by_category/6">От аллергии</a></li>
-                    <li><a href="/Medicines_by_category/7">Антибиотики</a></li>
+                    <li><a href="/Product_category/1">Обезболивающие</a></li>
+                    <li><a href="/Product_category/2">Иммуностимулирующие</a></li>
+                    <li><a href="/Product_category/3">Жаропонижающие</a></li>
+                    <li><a href="/Product_category/4">От гриппа и простуды</a></li>
+                    <li><a href="/Product_category/5">От грибковых заболеваний</a></li>
+                    <li><a href="/Product_category/6">От аллергии</a></li>
+                    <li><a href="/Product_category/7">Антибиотики</a></li>
                   </ul>
                 </li>
                 <li><a href="/about">О нас</a></li>
@@ -75,19 +75,21 @@
       </div>
     </div>
 
-    <form action="shop.html" method="get">
       <div class="py-4">
-        <div class="container py-2">
-          <div class="input-group">
-            <input type="text" class="form-control" id="c_code" aria-describedby="button-addon2" placeholder="Введите название препарата">
-            <div class="input-group-append">
-              <button onclick="window.location='/SearhProduct'" class="btn btn-primary btn-sm px-4" type="button" id="button-addon2">Поиск</button>
-            </div>
-          </div>
-         </div>
-       </div>
-    </form>
-    
+       
+
+        <div class="container py-2">  
+          <form class="d-flex" role="search" action="/SearhProduct">
+             <div class="input-group">
+               <input class="form-control me-2" type="search" name="productName" id="productName" placeholder="Введите артикул или название товара" aria-label="Search" >
+                <div class="input-group-append">
+                <button class="btn btn-primary btn-sm px-4" type="submit">Поиск</button>
+                </div>
+             </div>
+           </form>
+        </div>
+
+
       <div class="container py-4">
 
         <div class="row">
