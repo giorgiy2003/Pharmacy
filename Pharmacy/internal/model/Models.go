@@ -9,3 +9,10 @@ type Product struct {
 	Description  string `json:"description"`
 	Price        string `json:"price"`
 }
+
+type User struct {
+	Id           int       `json:"id"`
+	Login        string    `json:"login"`
+	HashPassword string    `json:"password"`
+	UserCard     []int //Корзина товаров
+}

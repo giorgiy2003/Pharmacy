@@ -9,6 +9,8 @@ import (
 	"strings"
 )
 
+var Shopping_cart = []int{} //Здесь храняться id товаров которые добавлены в
+
 //Вывести все товары
 func ReadAllProducts() ([]Model.Product, error) {
 	row, err := Repository.Connection.Query(`SELECT * FROM "products" ORDER BY "product_id"`)
