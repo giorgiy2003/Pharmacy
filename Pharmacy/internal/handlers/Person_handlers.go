@@ -1,11 +1,53 @@
 package Handler
 
 import (
+	"fmt"
 	Logic "myapp/internal/logic"
 	Repository "myapp/internal/repository"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
+
+//Форма авторизации
+func Authorization(c *gin.Context) {
+	c.HTML(200, "Authorization", nil)
+}
+
+//Обработичик авторизации
+func Form_handler_Authorization(c *gin.Context) {
+	login := c.Request.FormValue("Email")
+	password := c.Request.FormValue("Password1")
+	err := Logic.Autorization(login, password)
+	if err != nil {
+		c.HTML(200, "Authorization", gin.H{"err": err.Error()}) //Вывод ошибки
+		return
+	}
+	c.Redirect(http.StatusSeeOther, "/")
+}
+
+//Форма регистрации
+func Registration(c *gin.Context) {
+	c.HTML(200, "Registration", nil)
+}
+
+//Обработичик регистрации
+func Form_handler_Registration(c *gin.Context) {
+	UserName := c.Request.FormValue("UserName")
+	UserEmail := c.Request.FormValue("UserEmail")
+	UserPassword1 := c.Request.FormValue("UserPassword1")
+	UserPassword2 := c.Request.FormValue("UserPassword2")
+	Checkbox := c.Request.FormValue("Checkbox")
+
+	fmt.Println(UserName,UserEmail,UserPassword1,Checkbox)
+
+	err := Logic.Registration(UserName, UserEmail,UserPassword1,UserPassword2, Checkbox)
+	if err != nil {
+		c.HTML(200, "Registration", gin.H{"err": err.Error()}) //Вывод ошибки
+		return
+	}
+	c.Redirect(http.StatusSeeOther, "/Authorization")
+}
 
 //Главная форма
 func MainForm(c *gin.Context) {
@@ -190,7 +232,6 @@ func PriceDESC(c *gin.Context) {
 		"Products": Products,
 	})
 }
-
 
 func ConnectDB() gin.HandlerFunc {
 	return func(c *gin.Context) {

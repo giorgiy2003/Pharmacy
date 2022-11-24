@@ -1,15 +1,16 @@
 package Logic
 
 import (
+	"crypto/sha256"
+	"encoding/hex"
 	"errors"
 	"fmt"
 	Model "myapp/internal/model"
 	Repository "myapp/internal/repository"
 	"strconv"
 	"strings"
+	"unsafe"
 )
-
-var Shopping_cart = []int{} //Здесь храняться id товаров которые добавлены в
 
 //Вывести все товары
 func ReadAllProducts() ([]Model.Product, error) {
@@ -196,6 +197,71 @@ func PriceDESC() ([]Model.Product, error) {
 		productInfo = append(productInfo, p)
 	}
 	return productInfo, nil
+}
+
+var Auth bool
+
+//Авторизация
+func Autorization(login, password string) error {
+	login = strings.TrimSpace(login)
+
+	//Hashed value of password
+	password = SHA_256_Encode(password) //Кодируем значение пароля пользователя
+
+	row, err := Repository.Connection.Query(`SELECT * FROM "users" WHERE user_login = $1 AND user_password = $2`, login, password)
+	if err != nil {
+		return err
+	}
+	var u Model.User
+	row.Scan(&u.Id, &u.Login, &u.HashPassword, &u.UserCard)
+	if err != nil {
+		return err
+	}
+	//Если значения структуры пусты возращаем ошибку
+
+	/*if u.Id == 0 {
+		fmt.Println("is zero value")
+	}*/
+
+	if unsafe.Sizeof(u) == 0 {
+		return errors.New("Введён неверный логин или пароль!")
+	}
+	Auth = true
+	return nil
+}
+
+//Кодирование данных
+func SHA_256_Encode(text string) string {
+	algorithm := sha256.New()
+	algorithm.Write([]byte(text))
+	return hex.EncodeToString(algorithm.Sum(nil))
+}
+
+//Регистрация
+func Registration(UserName, UserEmail, UserPassword1, UserPassword2, Checkbox string) error {
+	UserName = strings.TrimSpace(UserName)
+	UserEmail = strings.TrimSpace(UserEmail)
+
+
+	if UserName == "" || UserEmail == "" || UserPassword1 == "" || UserPassword2 == ""{
+		return errors.New("Ошибка: не все поля заполнены!")
+	}
+
+	if UserPassword1 != UserPassword2 {
+		return errors.New("Ошибка: пароли не совпадают!")
+	}
+
+	if len(UserPassword1) < 4 {
+		return errors.New("Слишком короткий пароль, минимальный размер 4 символа!")
+	}
+
+	//Hashed value of password
+	UserPassword1 = SHA_256_Encode(UserPassword1) //Кодируем значение пароля пользователя
+
+	if _, err := Repository.Connection.Exec(`INSERT INTO "users" ("user_name","user_login", "user_password" ) VALUES ($1,$2,$3)`, UserName, UserEmail, UserPassword1); err != nil {
+		return err
+	}
+	return nil
 }
 
 func CreateProduct(p Model.Product) error {

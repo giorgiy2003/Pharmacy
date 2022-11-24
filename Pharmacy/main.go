@@ -14,6 +14,10 @@ func main() {
 	router.Static("/js", "Frontend/js")
 	router.LoadHTMLGlob("Frontend/*.html")
 	router.Use(Handler.ConnectDB())
+	router.GET("/Authorization", Handler.Authorization) //Авторизация ✅ 
+	router.GET("/Form_handler_Authorization", Handler.Form_handler_Authorization) //Обработчик авторизации ✅
+	router.GET("/Registration", Handler.Registration) //Регистрация пользователя ✅
+	router.GET("/Form_handler_Registration", Handler.Form_handler_Registration) //Обработчик регистрации
 	router.GET("/", Handler.MainForm) //Главная страница ✅
 	router.GET("/shop", Handler.Shop) //Магазин ✅
 	router.GET("/NameASC", Handler.NameASC) //Фильтр товаров по наименованию ✅
