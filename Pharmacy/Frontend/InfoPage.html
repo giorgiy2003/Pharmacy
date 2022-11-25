@@ -58,9 +58,12 @@
               <div class="icons">
                 <a href="/cart" class="icons-btn d-inline-block bag">
                   <span class="icon-shopping-bag"></span>
-                  <span class="number">  2  </span>
                 </a>
-                <a href="/shop" class="site-menu-toggle js-menu-toggle ml-3 d-inline-block d-lg-none"><span class="icon-menu"></span></a>
+                {{ if eq .Auth "true"}}
+                <a href="/Sign_out" class="btn">Выйти</a>
+                {{ else }}
+                <a href="/Authorization" class="btn">Войти</a>
+                {{ end }}
               </div>
             </div>
           </div>

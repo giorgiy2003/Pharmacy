@@ -56,7 +56,7 @@ func MainForm(c *gin.Context) {
 	}
 
 	c.HTML(200, "index", gin.H{
-		"Auth": Logic.Auth,
+		"Auth":     Logic.Auth,
 		"Products": Products,
 	})
 }
@@ -65,7 +65,6 @@ func MainForm(c *gin.Context) {
 func Sign_out(c *gin.Context) {
 	c.Redirect(http.StatusSeeOther, "/Authorization")
 }
-
 
 //Товары
 func Shop(c *gin.Context) {
@@ -77,6 +76,7 @@ func Shop(c *gin.Context) {
 		return
 	}
 	c.HTML(200, "shop", gin.H{
+		"Auth":     Logic.Auth,
 		"Products": Products,
 	})
 }
@@ -92,6 +92,7 @@ func Shop_single(c *gin.Context) {
 		return
 	}
 	c.HTML(200, "shop_single", gin.H{
+		"Auth":     Logic.Auth,
 		"Products": Products,
 	})
 }
@@ -108,38 +109,51 @@ func SearhProduct(c *gin.Context) {
 	}
 	if len(Products) == 0 {
 		c.HTML(200, "InfoPage", gin.H{
+			"Auth": Logic.Auth,
 			"Info": "По Вашему запросу ничего не найдено",
 		})
 		return
 	}
 	c.HTML(200, "shop", gin.H{
+		"Auth":     Logic.Auth,
 		"Products": Products,
 	})
 }
 
 //Корзина
 func Cart(c *gin.Context) {
-	c.HTML(200, "cart", nil)
+
+	c.HTML(200, "cart", gin.H{
+		"Auth": Logic.Auth,
+	})
 }
 
 //О нас
 func About(c *gin.Context) {
-	c.HTML(200, "about", nil)
+	c.HTML(200, "about", gin.H{
+		"Auth": Logic.Auth,
+	})
 }
 
 //Контакты
 func Contact(c *gin.Context) {
-	c.HTML(200, "contact", nil)
+	c.HTML(200, "contact", gin.H{
+		"Auth": Logic.Auth,
+	})
 }
 
 //Страница оформления заказа
 func Checkout(c *gin.Context) {
-	c.HTML(200, "checkout", nil)
+	c.HTML(200, "checkout", gin.H{
+		"Auth": Logic.Auth,
+	})
 }
 
 //Сделать заказ
 func Make_Order(c *gin.Context) {
-	c.HTML(200, "thankyou", nil)
+	c.HTML(200, "thankyou", gin.H{
+		"Auth": Logic.Auth,
+	})
 }
 
 //Добавить в корзину
@@ -157,13 +171,16 @@ func DeleteFromCart(c *gin.Context) {
 //Оставить отзыв
 func SendMessage(c *gin.Context) {
 
-	c.HTML(200, "index", nil)
+	c.HTML(200, "index",gin.H{
+		"Auth": Logic.Auth,
+	})
 }
 
 //Использовать купон
 func UseCoupon(c *gin.Context) {
-
-	c.HTML(200, "checkout", nil)
+	c.HTML(200, "checkout", gin.H{
+		"Auth": Logic.Auth,
+	})
 }
 
 //Лекарства по категориям
@@ -177,6 +194,7 @@ func Medicines_by_category(c *gin.Context) {
 		return
 	}
 	c.HTML(200, "shop", gin.H{
+		"Auth": Logic.Auth,
 		"Category": category,
 		"Products": Products,
 	})
@@ -192,6 +210,7 @@ func NameASC(c *gin.Context) {
 		return
 	}
 	c.HTML(200, "shop", gin.H{
+		"Auth": Logic.Auth,
 		"Products": Products,
 	})
 }
@@ -206,6 +225,7 @@ func NameDESC(c *gin.Context) {
 		return
 	}
 	c.HTML(200, "shop", gin.H{
+		"Auth": Logic.Auth,
 		"Products": Products,
 	})
 }
@@ -220,6 +240,7 @@ func PriceASC(c *gin.Context) {
 		return
 	}
 	c.HTML(200, "shop", gin.H{
+		"Auth": Logic.Auth,
 		"Products": Products,
 	})
 }
@@ -234,6 +255,7 @@ func PriceDESC(c *gin.Context) {
 		return
 	}
 	c.HTML(200, "shop", gin.H{
+		"Auth": Logic.Auth,
 		"Products": Products,
 	})
 }
