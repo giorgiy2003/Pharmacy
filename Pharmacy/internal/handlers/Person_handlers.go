@@ -37,7 +37,7 @@ func Form_handler_Registration(c *gin.Context) {
 	UserPassword1 := c.Request.FormValue("Password1")
 	UserPassword2 := c.Request.FormValue("Password2")
 	Checkbox := c.Request.FormValue("Check")
-	err := Logic.Registration(UserName, UserEmail,UserPassword1,UserPassword2, Checkbox)
+	err := Logic.Registration(UserName, UserEmail, UserPassword1, UserPassword2, Checkbox)
 	if err != nil {
 		c.HTML(200, "Registration", gin.H{"err": err.Error()}) //Вывод ошибки
 		return
@@ -160,8 +160,8 @@ func UseCoupon(c *gin.Context) {
 
 //Лекарства по категориям
 func Medicines_by_category(c *gin.Context) {
-	id := c.Param("category")
-	Products, err := Logic.Medicines_by_category(id)
+	category := c.Param("category")
+	Products, err := Logic.Medicines_by_category(category)
 	if err != nil {
 		c.HTML(400, "400", gin.H{
 			"Error": err.Error(),
@@ -169,6 +169,7 @@ func Medicines_by_category(c *gin.Context) {
 		return
 	}
 	c.HTML(200, "shop", gin.H{
+		"Category": category,
 		"Products": Products,
 	})
 }
