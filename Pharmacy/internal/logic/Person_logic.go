@@ -9,7 +9,6 @@ import (
 	Repository "myapp/internal/repository"
 	"strconv"
 	"strings"
-	"unsafe"
 )
 
 //Вывести все товары
@@ -107,7 +106,7 @@ func SearhProduct(product_name string) ([]Model.Product, error) {
 
 //Выборка по категориям
 func Medicines_by_category(category string) ([]Model.Product, error) {
-	
+
 	row, err := Repository.Connection.Query(`SELECT * FROM "products" WHERE "product_category" = $1`, category)
 	if err != nil {
 		return nil, err
@@ -205,24 +204,23 @@ func Autorization(login, password string) error {
 	//Hashed value of password
 	password = SHA_256_Encode(password) //Кодируем значение пароля пользователя
 
-	row, err := Repository.Connection.Query(`SELECT * FROM "users" WHERE user_login = $1 AND user_password = $2`, login, password)
+	row, err := Repository.Connection.Query(`SELECT user_id FROM "users" WHERE user_login = $1 AND user_password = $2`, login, password)
 	if err != nil {
 		return err
 	}
+
 	var u Model.User
-	row.Scan(&u.Id, &u.Login, &u.HashPassword, &u.UserCard)
-	if err != nil {
-		return err
+	for row.Next() {
+		err := row.Scan(&u.Id)
+		if err != nil {
+			return err
+		}
 	}
 	//Если значения структуры пусты возращаем ошибку
-
-	/*if u.Id == 0 {
-		fmt.Println("is zero value")
-	}*/
-
-	if unsafe.Sizeof(u) == 0 {
+	if u.Id == 0 {
 		return errors.New("Введён неверный логин или пароль!")
 	}
+
 	Auth = true
 	return nil
 }
@@ -251,10 +249,13 @@ func Registration(UserName, UserEmail, UserPassword1, UserPassword2, Checkbox st
 	if err != nil {
 		return err
 	}
+
 	var u Model.User
-	row.Scan(&u.Login)
-	if err != nil {
-		return err
+	for row.Next() {
+		err := row.Scan(&u.Login)
+		if err != nil {
+			return err
+		}
 	}
 
 	//Если значения структуры не пусты возращаем ошибку
@@ -273,7 +274,8 @@ func Registration(UserName, UserEmail, UserPassword1, UserPassword2, Checkbox st
 	//Hashed value of password
 	UserPassword1 = SHA_256_Encode(UserPassword1) //Кодируем значение пароля пользователя
 
-	if _, err := Repository.Connection.Exec(`INSERT INTO "users" ("user_name","user_login", "user_password" ) VALUES ($1,$2,$3)`, UserName, UserEmail, UserPassword1); err != nil {
+	_, err = Repository.Connection.Exec(`INSERT INTO "users" ("user_name","user_login", "user_password", "user_role" ) VALUES ($1,$2,$3,$4)`, UserName, UserEmail, UserPassword1, "Пользователь")
+	if err != nil {
 		return err
 	}
 	return nil

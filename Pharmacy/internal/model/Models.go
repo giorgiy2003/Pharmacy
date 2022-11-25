@@ -11,8 +11,10 @@ type Product struct {
 }
 
 type User struct {
-	Id           int    `json:"id"`
-	Login        string `json:"login"`
-	HashPassword string `json:"password"`
-	UserCard     []int  //Корзина товаров
+	Id           int     `json:"id"`
+	Name         string  `json:"name"`
+	Login        string  `json:"login"`
+	HashPassword string  `json:"password"`
+	Role         string  `json:"role"`
+	UserCard     Product //Корзина товаров
 }

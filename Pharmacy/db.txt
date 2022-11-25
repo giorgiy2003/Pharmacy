@@ -14,6 +14,40 @@ CREATE TABLE products (
 	FOREIGN KEY (product_category) REFERENCES categories (category_name)
 );
 
+CREATE TABLE role (
+	role_id serial PRIMARY KEY,
+	role_name character varying NOT NULL UNIQUE
+);
+
+CREATE TABLE users (
+	user_id serial PRIMARY KEY,
+	user_name character varying NOT NULL,
+	user_login character varying NOT NULL,
+	user_password character varying NOT NULL,
+	user_role character varying NOT NULL,
+	product_id integer,
+	product_image character varying,
+	product_name character varying,
+	product_price integer,
+	product_koll integer,
+	FOREIGN KEY (product_id) REFERENCES products (product_id),
+	FOREIGN KEY (user_role) REFERENCES role (role_name)
+);
+
+INSERT INTO role (
+	role_name
+)
+VALUES (
+	'Администратор'
+);
+
+INSERT INTO role (
+	role_name
+)
+VALUES (
+	'Пользователь'
+);
+
 INSERT INTO categories (
 	category_name
 )
