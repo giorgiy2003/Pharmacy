@@ -8,6 +8,12 @@
 https://freehtmlthemes.ru/categories/medicine/template-526
 
 # Описание сайта
+## *Форма авторизации:*
+![Авторизация](/Pharmacy/photo/Authorization.jpg)
+
+## *Регистрация:*
+![Авторизация](/Pharmacy/photo/Registration.jpg)
+
 ## *Главная страница:*
 ![Главная страница](/Pharmacy/photo/mainForm.jpg)
 
@@ -15,7 +21,7 @@ https://freehtmlthemes.ru/categories/medicine/template-526
 ![Товары](/Pharmacy/photo/shop.jpg)
 
 ## *Просмотреть товар:*
-![Товары](/Pharmacy/photo/shop-single.jpg)
+![Просмотреть товар](/Pharmacy/photo/shop-single.jpg)
 
 ## *Коризна:*
 ![Коризна](/Pharmacy/photo/cart.jpg)

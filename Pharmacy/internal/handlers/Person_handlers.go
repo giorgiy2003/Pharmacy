@@ -1,7 +1,6 @@
 package Handler
 
 import (
-	"fmt"
 	Logic "myapp/internal/logic"
 	Repository "myapp/internal/repository"
 	"net/http"
@@ -38,9 +37,6 @@ func Form_handler_Registration(c *gin.Context) {
 	UserPassword1 := c.Request.FormValue("Password1")
 	UserPassword2 := c.Request.FormValue("Password2")
 	Checkbox := c.Request.FormValue("Check")
-
-	fmt.Println(UserName, UserEmail, UserPassword1,UserPassword2, Checkbox)
-
 	err := Logic.Registration(UserName, UserEmail,UserPassword1,UserPassword2, Checkbox)
 	if err != nil {
 		c.HTML(200, "Registration", gin.H{"err": err.Error()}) //Вывод ошибки

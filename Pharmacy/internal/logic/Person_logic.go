@@ -250,6 +250,21 @@ func Registration(UserName, UserEmail, UserPassword1, UserPassword2, Checkbox st
 		return errors.New("Для регистрации необходимо принять условия пользовательского соглашения!")
 	}
 
+	row, err := Repository.Connection.Query(`SELECT user_login FROM "users" WHERE user_login = $1`, UserEmail)
+	if err != nil {
+		return err
+	}
+	var u Model.User
+	row.Scan(&u.Login)
+	if err != nil {
+		return err
+	}
+
+	//Если значения структуры не пусты возращаем ошибку
+	if u.Login != "" {
+		return errors.New("Пользователь с введённым Email уже зарегистрирован!")
+	}
+
 	if UserPassword1 != UserPassword2 {
 		return errors.New("Ошибка: пароли не совпадают!")
 	}
