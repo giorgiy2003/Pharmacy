@@ -160,7 +160,7 @@ func UseCoupon(c *gin.Context) {
 
 //Лекарства по категориям
 func Medicines_by_category(c *gin.Context) {
-	id := c.Param("id")
+	id := c.Param("category")
 	Products, err := Logic.Medicines_by_category(id)
 	if err != nil {
 		c.HTML(400, "400", gin.H{

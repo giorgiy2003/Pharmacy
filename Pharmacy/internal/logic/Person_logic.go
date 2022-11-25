@@ -107,11 +107,8 @@ func SearhProduct(product_name string) ([]Model.Product, error) {
 
 //Выборка по категориям
 func Medicines_by_category(category string) ([]Model.Product, error) {
-	Category, err := strconv.Atoi(category)
-	if err != nil {
-		return nil, errors.New("Error: неверно введён параметр category_id")
-	}
-	row, err := Repository.Connection.Query(`SELECT * FROM "products" WHERE "product_category" = $1`, Category)
+	
+	row, err := Repository.Connection.Query(`SELECT * FROM "products" WHERE "product_category" = $1`, category)
 	if err != nil {
 		return nil, err
 	}

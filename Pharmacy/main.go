@@ -35,6 +35,6 @@ func main() {
 	router.GET("/DeleteFromCart", Handler.DeleteFromCart) //Убрать из корзины
 	router.GET("/SendMessage", Handler.SendMessage)	//Оставить отзыв
 	router.GET("/UseCoupon", Handler.UseCoupon)	//Использовать купон
-	router.GET("/Product_category/:id", Handler.Medicines_by_category) //Поиск по категориям ✅
+	router.GET("/Product_category/:category", Handler.Medicines_by_category) //Поиск по категориям ✅
 	router.Run("localhost:8080")
 }
