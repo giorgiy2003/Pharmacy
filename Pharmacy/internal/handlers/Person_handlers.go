@@ -34,12 +34,12 @@ func Registration(c *gin.Context) {
 //Обработичик регистрации
 func Form_handler_Registration(c *gin.Context) {
 	UserName := c.Request.FormValue("UserName")
-	UserEmail := c.Request.FormValue("UserEmail")
-	UserPassword1 := c.Request.FormValue("UserPassword1")
-	UserPassword2 := c.Request.FormValue("UserPassword2")
-	Checkbox := c.Request.FormValue("Checkbox")
+	UserEmail := c.Request.FormValue("Email")
+	UserPassword1 := c.Request.FormValue("Password1")
+	UserPassword2 := c.Request.FormValue("Password2")
+	Checkbox := c.Request.FormValue("Check")
 
-	fmt.Println(UserName,UserEmail,UserPassword1,Checkbox)
+	fmt.Println(UserName, UserEmail, UserPassword1,UserPassword2, Checkbox)
 
 	err := Logic.Registration(UserName, UserEmail,UserPassword1,UserPassword2, Checkbox)
 	if err != nil {

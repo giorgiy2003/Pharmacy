@@ -10,60 +10,47 @@
     <title>Регистрация</title>
 </head>
 <body>
-    <section class="vh-100">
-  <div class="mask d-flex align-items-center h-100 gradient-custom-3">
-    <div class="container h-100">
-      <div class="row d-flex justify-content-center align-items-center h-100">
-        <div class="col-12 col-md-9 col-lg-7 col-xl-6">
-          <div class="card" style="border-radius: 15px;">
-            <div class="card-body p-5">
-              <h3 class="text-uppercase text-center mb-5">Регистрация</h3>
+  <section class="vh-100">
+    <div class="mask d-flex align-items-center h-100 gradient-custom-3">
+      <div class="container h-100">
+        <div class="row d-flex justify-content-center align-items-center h-100">
+          <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+            <div class="card" style="border-radius: 15px;">
+              <div class="card-body p-5">
 
-              <form>
+                <h4 class="text-uppercase text-center mb-5">Регистрация</h4>
 
-                <div class="form-outline mb-4">
-                  <input type="text" id="UserName" name="UserName" class="form-control form-control-lg" />
-                  <label class="form-label" for="UserName">Введите Имя</label>
-                </div>
+                  <form class="form-container" action="/Form_handler_Registration">
+                    <div class="form-group">
+                       <input type="text" class="form-control" id="UserName" name="UserName" placeholder="Введите Имя"><br>
+      
+                       <input type="email" class="form-control" id="Email" name="Email" placeholder="Электронная почта"><br>
+ 
+                       <input type="password" class="form-control" id="Password1" name="Password1" placeholder="Пароль"><br>
+    
+                       <input type="password" class="form-control" id="Password1" name="Password2" placeholder="Повторите пароль"><br>
 
-                <div class="form-outline mb-4">
-                  <input type="email"id="UserEmail" name="UserEmail" class="form-control form-control-lg" />
-                  <label class="form-label" for="UserEmail">Электронная почта</label>
-                </div>
+                       <div class="form-check d-flex justify-content-center mb-4">
+                        <input class="form-check-input me-2" type="checkbox" value="true" id="Check" name="Check" />
+                        <label class="form-check-label" for="Check">
+                          Я согласен(-на) с условиями <a href="https://kdvor.ru/agreement/terms-of-use.pdf" target="_blank" class="text-body"><u>Пользовательского соглашения</u></a>
+                        </label>
+                      </div>
+       
+                       <p style="color: rgb(151, 8, 8); font-size: smaller;">{{ .err}}</p> <!-->Вывод ошибки-->
 
-                <div class="form-outline mb-4">
-                  <input type="password" id="UserPassword1" name="UserPassword1" class="form-control form-control-lg" />
-                  <label class="form-label" for="UserPassword1">Пароль</label>
-                </div>
+                       <button type="submit" class="btn-block form-control" style="background-color: #654291; color: white;">Зарегистрироваться</button><br>
+                    </div>
+                  </form>
 
-                <div class="form-outline mb-4">
-                  <input type="password" id="UserPassword2" name="UserPassword2" class="form-control form-control-lg" />
-                  <label class="form-label" for="UserPassword2">Повторите пароль</label>
-                </div>
-
-                <div class="form-check d-flex justify-content-center mb-5">
-                  <input class="form-check-input me-2" type="checkbox" value="" id="Checkbox" name="Checkbox" />
-                  <label class="form-check-label" for="Checkbox">
-                    Я ознакомлен(а) с условиями <a href="#!" class="text-body"><u>Пользовательского соглашения</u></a>
-                  </label>
-                </div>
-
-                <p style="color: rgb(151, 8, 8); font-size: small;">{{ .err}}</p> <!-->Вывод ошибки-->
-                <div class="d-flex justify-content-center">
-                  <button type="button"
-                    class="btn btn-lg form-control form-control-lg" style="background-color: #654291; color: white;" onclick="window.location='/Form_handler_Registration'">Зарегистрироваться</button>
-                </div>
-
-              </form>
-
+              </div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</section>
-  </body>
+  </section>
+</body>
 </html>
 
 {{ end }}

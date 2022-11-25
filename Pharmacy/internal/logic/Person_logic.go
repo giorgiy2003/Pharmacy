@@ -242,9 +242,12 @@ func Registration(UserName, UserEmail, UserPassword1, UserPassword2, Checkbox st
 	UserName = strings.TrimSpace(UserName)
 	UserEmail = strings.TrimSpace(UserEmail)
 
-
-	if UserName == "" || UserEmail == "" || UserPassword1 == "" || UserPassword2 == ""{
+	if UserName == "" || UserEmail == "" || UserPassword1 == "" || UserPassword2 == "" {
 		return errors.New("Ошибка: не все поля заполнены!")
+	}
+
+	if Checkbox != "true" {
+		return errors.New("Для регистрации необходимо принять условия пользовательского соглашения!")
 	}
 
 	if UserPassword1 != UserPassword2 {
