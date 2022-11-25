@@ -60,7 +60,11 @@
             <a href="/cart" class="icons-btn d-inline-block bag">
               <span class="icon-shopping-bag"></span>
             </a>
+            {{ if eq .Auth "true"}}
+            <a href="/Sign_out" class="btn">Выйти</a>
+            {{ else }}
             <a href="/Authorization" class="btn">Войти</a>
+            {{ end }}
           </div>
         </div>
       </div>

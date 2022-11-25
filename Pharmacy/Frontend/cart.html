@@ -104,10 +104,10 @@
                     {{range .Products }}
 
                     <td class="product-thumbnail">
-                      <img src="/images/products/{{.Image}}" alt="Image" class="img-fluid">
+                      <a href="/shop_single?id={{ .Id }}"> <img src="/images/products/{{.Image}}" alt="Image" class="img-fluid"> </a>
                     </td>
                     <td class="product-name">
-                      <h2 class="h5 text-black">{{.Name}}/h2>
+                      <h2 class="h5 text-black"><a href="/shop_single?id={{ .Id }}">{{.Name}}</a></h2>
                     </td>
                     <td>{{.Price}} ₽</td>
                     <td>
@@ -121,7 +121,6 @@
                           <button class="btn btn-outline-primary js-btn-plus" type="button">&plus;</button>
                         </div>
                       </div>
-    
                     </td>
                     <td>{{ .Price}} ₽</td>
                     <td><a href="/DeleteFromCart" class="btn btn-primary height-auto btn-sm">X</a></td>
@@ -138,7 +137,7 @@
         <div class="row">
           <div class="col-md-6">
             <div class="row mb-5">
-              <form class="col-md-6" action="/">
+              <form class="col-md-6" action="/shop">
                 <button class="btn btn-outline-primary btn-md btn-block">Вернуться к покупкам</button>
               </form>
             </div>

@@ -54,10 +54,18 @@ func MainForm(c *gin.Context) {
 		})
 		return
 	}
+
 	c.HTML(200, "index", gin.H{
+		"Auth": Logic.Auth,
 		"Products": Products,
 	})
 }
+
+//Выйти из аккаунта
+func Sign_out(c *gin.Context) {
+	c.Redirect(http.StatusSeeOther, "/Authorization")
+}
+
 
 //Товары
 func Shop(c *gin.Context) {

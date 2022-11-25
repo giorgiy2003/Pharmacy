@@ -195,7 +195,7 @@ func PriceDESC() ([]Model.Product, error) {
 	return productInfo, nil
 }
 
-var Auth bool
+var Auth string
 
 //Авторизация
 func Autorization(login, password string) error {
@@ -221,7 +221,7 @@ func Autorization(login, password string) error {
 		return errors.New("Введён неверный логин или пароль!")
 	}
 
-	Auth = true
+	Auth = "true"
 	return nil
 }
 
