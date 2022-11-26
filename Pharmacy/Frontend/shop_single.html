@@ -107,7 +107,10 @@
                 <h2 class="text-black">{{ .Name }}</h2>
                 <p> </p>
                 <p><strong class="text-primary h4">{{ .Price }} ₽</strong></p>
-            
+
+                
+              <form action="/AddToCart/{{ .Id }}">
+
                 <div class="mb-5">
                   <div class="input-group mb-3" style="max-width: 220px;">
                     <div class="input-group-prepend">
@@ -120,8 +123,10 @@
                     </div>
                   </div>
                 </div>
-                <p><a href="/AddToCart" class="buy-now btn btn-sm height-auto px-4 py-3 btn-primary">Добавить в корзину</a></p>
-    
+              
+                  <p><button class="buy-now btn btn-sm height-auto px-4 py-3 btn-primary">Добавить в корзину</button></p>
+              </form>
+
             </div>
             
             <div class="mt-5">

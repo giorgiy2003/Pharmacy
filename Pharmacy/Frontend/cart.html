@@ -96,7 +96,6 @@
         </div>
       </div>
     </div>
-
     <div class="site-section">
       <div class="container">
         <div class="row mb-5">
@@ -119,25 +118,25 @@
                     {{range .Products }}
 
                     <td class="product-thumbnail">
-                      <a href="/shop_single?id={{ .Id }}"> <img src="/images/products/{{.Image}}" alt="Image" class="img-fluid"> </a>
+                      <a href="/shop_single?id={{ .Product_Id }}"> <img src="/images/products/{{ .Product_Image }}" alt="Image" class="img-fluid"> </a>
                     </td>
                     <td class="product-name">
-                      <h2 class="h5 text-black"><a href="/shop_single?id={{ .Id }}">{{.Name}}</a></h2>
+                      <h2 class="h5 text-black"><a href="/shop_single?id={{ .Product_Id}}">{{ .Product_Name}}</a></h2>
                     </td>
-                    <td>{{.Price}} ₽</td>
+                    <td>{{ .Product_Price }} ₽</td>
                     <td>
                       <div class="input-group mb-3" style="max-width: 120px;">
                         <div class="input-group-prepend">
                           <button class="btn btn-outline-primary js-btn-minus" type="button">&minus;</button>
                         </div>
-                        <input type="text" class="form-control text-center" value="1" placeholder=""
+                        <input type="text" class="form-control text-center" value="{{ .Product_Koll }}" placeholder=""
                           aria-label="Example text with button addon" aria-describedby="button-addon1" id="koll" name="koll">
                         <div class="input-group-append">
                           <button class="btn btn-outline-primary js-btn-plus" type="button">&plus;</button>
                         </div>
                       </div>
                     </td>
-                    <td>{{ .Price}} ₽</td>
+                    <td>{{ .Product_Price }} ₽</td>
                     <td><a href="/DeleteFromCart" class="btn btn-primary height-auto btn-sm">X</a></td>
                   </tr>
 
@@ -166,14 +165,6 @@
                     <h3 class="text-black h4 text-uppercase">Итог</h3>
                   </div>
                 </div>
-                <div class="row mb-3">
-                  <div class="col-md-6">
-                    <span class="text-black">Промежуточный итог</span>
-                  </div>
-                  <div class="col-md-6 text-right">
-                    <strong class="text-black">94.00 ₽</strong>
-                  </div>
-                </div>
                 <div class="row mb-5">
                   <div class="col-md-6">
                     <span class="text-black">Итог</span>
@@ -185,7 +176,7 @@
     
                 <div class="row">
                   <div class="col-md-12">
-                    <button class="btn btn-primary btn-lg btn-block" onclick="window.location='/checkout'">Оформить заказ</button>
+                    <button class="btn btn-primary btn-block" onclick="window.location='/checkout'">Перейти к оформлению</button>
                   </div>
                 </div>
               </div>
@@ -195,6 +186,8 @@
       </div>
     </div>
 
+
+    
     <div class="site-section bg-secondary bg-image" style="background-image: url('images/expert.jpg');">
       <div class="container">
         <div class="row align-items-stretch">

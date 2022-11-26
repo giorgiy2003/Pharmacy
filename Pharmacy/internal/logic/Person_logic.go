@@ -5,6 +5,7 @@ import (
 	"encoding/hex"
 	"errors"
 	"fmt"
+	"log"
 	Model "myapp/internal/model"
 	Repository "myapp/internal/repository"
 	"strconv"
@@ -196,28 +197,28 @@ func PriceDESC() ([]Model.Product, error) {
 }
 
 var Auth string
+var User_id = 0
+var Login, Password string
 
 //Авторизация
 func Autorization(login, password string) error {
-	login = strings.TrimSpace(login)
+	Login = strings.TrimSpace(login)
 
 	//Hashed value of password
-	password = SHA_256_Encode(password) //Кодируем значение пароля пользователя
+	Password = SHA_256_Encode(password) //Кодируем значение пароля пользователя
 
-	row, err := Repository.Connection.Query(`SELECT user_id FROM "users" WHERE user_login = $1 AND user_password = $2`, login, password)
+	row, err := Repository.Connection.Query(`SELECT "user_id", "user_login", "user_password" FROM "users" WHERE user_login = $1 AND user_password = $2`, Login, Password)
 	if err != nil {
 		return err
 	}
 
-	var u Model.User
+	var User Model.User
 	for row.Next() {
-		err := row.Scan(&u.Id)
-		if err != nil {
-			return err
-		}
+		row.Scan(&User.Id, &User.Login, &User.HashPassword)
 	}
+
 	//Если значения структуры пусты возращаем ошибку
-	if u.Id == 0 {
+	if User.Id == 0 {
 		return errors.New("Введён неверный логин или пароль!")
 	}
 
@@ -278,6 +279,51 @@ func Registration(UserName, UserEmail, UserPassword1, UserPassword2, Checkbox st
 	if err != nil {
 		return err
 	}
+	return nil
+}
+
+//Корзина
+func UserCart() ([]Model.User, error) {
+
+	row, err := Repository.Connection.Query(`SELECT * FROM "users" WHERE user_login = $1 AND user_password = $2`, Login, Password)
+	if err != nil {
+		return nil, err
+	}
+
+	var UserInfo = []Model.User{}
+	for row.Next() {
+		var User Model.User
+		row.Scan(&User.Id, &User.Name, &User.Login, &User.HashPassword, &User.Role, &User.Product_Id, &User.Product_Image, &User.Product_Name, &User.Product_Price, &User.Product_Koll)
+		User_id = User.Id
+		UserInfo = append(UserInfo, User)
+	}
+	log.Println(UserInfo)
+	return UserInfo, nil
+}
+
+//Добавить в корзину
+func AddToCart(id, koll string) error {
+	product_id, err := strconv.Atoi(id)
+	if err != nil {
+		return err
+	}
+	row, err := Repository.Connection.Query(`SELECT "product_id", "product_name","product_image", "product_price" FROM "products" WHERE "product_id" = $1`, product_id)
+	if err != nil {
+		return err
+	}
+
+	var u Model.User
+	for row.Next() {
+		err := row.Scan(&u.Product_Id, &u.Product_Name, &u.Product_Image, &u.Product_Price)
+		if err != nil {
+			return err
+		}
+	}
+
+	if _, err := Repository.Connection.Exec(`UPDATE "users" SET "product_id" = $1,"product_name" = $2, "product_image" = $3,"product_price" = $4,"product_koll" = $5 WHERE "user_id" = $6`, u.Product_Id, u.Product_Name, u.Product_Image, u.Product_Price, koll, User_id); err != nil {
+		return err
+	}
+
 	return nil
 }
 

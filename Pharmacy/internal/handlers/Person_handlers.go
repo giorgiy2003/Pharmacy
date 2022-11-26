@@ -63,7 +63,14 @@ func MainForm(c *gin.Context) {
 
 //Выйти из аккаунта
 func Sign_out(c *gin.Context) {
+	Logic.Login = ""
+	Logic.Password = ""
 	Logic.Auth = "false"
+	c.Redirect(http.StatusSeeOther, "/")
+}
+
+//Страница разработчика
+func Admin(c *gin.Context) {
 	c.Redirect(http.StatusSeeOther, "/")
 }
 
@@ -123,8 +130,15 @@ func SearhProduct(c *gin.Context) {
 
 //Корзина
 func Cart(c *gin.Context) {
-
+	Products, err := Logic.UserCart()
+	if err != nil {
+		c.HTML(400, "400", gin.H{
+			"Error": err.Error(),
+		})
+		return
+	}
 	c.HTML(200, "cart", gin.H{
+		"Products": Products,
 		"Auth": Logic.Auth,
 	})
 }
@@ -159,14 +173,16 @@ func Make_Order(c *gin.Context) {
 
 //Добавить в корзину
 func AddToCart(c *gin.Context) {
-
-	c.HTML(200, "index", nil)
+	id := c.Param("id")
+	koll := c.Request.FormValue("koll")
+	Logic.AddToCart(id, koll)
+	c.Redirect(http.StatusSeeOther, "/")
 }
 
 //Убрать из корзины
 func DeleteFromCart(c *gin.Context) {
 
-	c.HTML(200, "cart", nil)
+	c.Redirect(http.StatusSeeOther, "/cart")
 }
 
 //Оставить отзыв

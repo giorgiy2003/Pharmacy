@@ -18,7 +18,8 @@ func main() {
 	router.GET("/Form_handler_Authorization", Handler.Form_handler_Authorization) //Обработчик авторизации ✅
 	router.GET("/Registration", Handler.Registration) //Регистрация пользователя ✅
 	router.GET("/Form_handler_Registration", Handler.Form_handler_Registration) //Обработчик регистрации ✅
-	router.GET("/Sign_out", Handler.Sign_out) //Выйти из аккаунта
+	router.GET("/Sign_out", Handler.Sign_out) //Выйти из аккаунта ✅
+	router.GET("/admin", Handler.Admin) //Страница разработчика
 	router.GET("/", Handler.MainForm) //Главная страница ✅
 	router.GET("/shop", Handler.Shop) //Магазин ✅
 	router.GET("/NameASC", Handler.NameASC) //Фильтр товаров по наименованию ✅
@@ -32,8 +33,8 @@ func main() {
 	router.GET("/checkout", Handler.Checkout) //Страница оформления
 	router.GET("/contact", Handler.Contact) //Контакты
 	router.GET("/Order", Handler.Make_Order) //Оформить заказ
-	router.GET("/AddToCart", Handler.AddToCart) //Добавить в корзину
-	router.GET("/DeleteFromCart", Handler.DeleteFromCart) //Убрать из корзины
+	router.GET("/AddToCart/:id", Handler.AddToCart) //Добавить в корзину
+	router.GET("/DeleteFromCart/:id", Handler.DeleteFromCart) //Убрать из корзины
 	router.GET("/SendMessage", Handler.SendMessage)	//Оставить отзыв
 	router.GET("/UseCoupon", Handler.UseCoupon)	//Использовать купон
 	router.GET("/Product_category/:category", Handler.Medicines_by_category) //Поиск по категориям ✅
