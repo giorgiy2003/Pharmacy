@@ -284,12 +284,10 @@ func Registration(UserName, UserEmail, UserPassword1, UserPassword2, Checkbox st
 
 //Корзина
 func UserCart() ([]Model.User, error) {
-
 	row, err := Repository.Connection.Query(`SELECT * FROM "users" WHERE user_login = $1 AND user_password = $2`, Login, Password)
 	if err != nil {
 		return nil, err
 	}
-
 	var UserInfo = []Model.User{}
 	for row.Next() {
 		var User Model.User
