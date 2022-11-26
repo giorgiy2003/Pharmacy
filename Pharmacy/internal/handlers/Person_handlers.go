@@ -1,6 +1,7 @@
 package Handler
 
 import (
+	"fmt"
 	Logic "myapp/internal/logic"
 	Repository "myapp/internal/repository"
 	"net/http"
@@ -139,7 +140,7 @@ func Cart(c *gin.Context) {
 	}
 	c.HTML(200, "cart", gin.H{
 		"Products": Products,
-		"Auth": Logic.Auth,
+		"Auth":     Logic.Auth,
 	})
 }
 
@@ -176,19 +177,26 @@ func AddToCart(c *gin.Context) {
 	id := c.Param("id")
 	koll := c.Request.FormValue("koll")
 	Logic.AddToCart(id, koll)
-	c.Redirect(http.StatusSeeOther, "/")
+	c.Redirect(http.StatusSeeOther, fmt.Sprintf("/shop_single?id=%s", id))
 }
 
 //Убрать из корзины
 func DeleteFromCart(c *gin.Context) {
-
+	id := c.Param("id")
+	err := Logic.DeleteFromCart(id)
+	if err != nil {
+		c.HTML(400, "400", gin.H{
+			"Error": err.Error(),
+		})
+		return
+	}
 	c.Redirect(http.StatusSeeOther, "/cart")
 }
 
 //Оставить отзыв
 func SendMessage(c *gin.Context) {
 
-	c.HTML(200, "index",gin.H{
+	c.HTML(200, "index", gin.H{
 		"Auth": Logic.Auth,
 	})
 }
@@ -211,7 +219,7 @@ func Medicines_by_category(c *gin.Context) {
 		return
 	}
 	c.HTML(200, "shop", gin.H{
-		"Auth": Logic.Auth,
+		"Auth":     Logic.Auth,
 		"Category": category,
 		"Products": Products,
 	})
@@ -227,7 +235,7 @@ func NameASC(c *gin.Context) {
 		return
 	}
 	c.HTML(200, "shop", gin.H{
-		"Auth": Logic.Auth,
+		"Auth":     Logic.Auth,
 		"Products": Products,
 	})
 }
@@ -242,7 +250,7 @@ func NameDESC(c *gin.Context) {
 		return
 	}
 	c.HTML(200, "shop", gin.H{
-		"Auth": Logic.Auth,
+		"Auth":     Logic.Auth,
 		"Products": Products,
 	})
 }
@@ -257,7 +265,7 @@ func PriceASC(c *gin.Context) {
 		return
 	}
 	c.HTML(200, "shop", gin.H{
-		"Auth": Logic.Auth,
+		"Auth":     Logic.Auth,
 		"Products": Products,
 	})
 }
@@ -272,7 +280,7 @@ func PriceDESC(c *gin.Context) {
 		return
 	}
 	c.HTML(200, "shop", gin.H{
-		"Auth": Logic.Auth,
+		"Auth":     Logic.Auth,
 		"Products": Products,
 	})
 }

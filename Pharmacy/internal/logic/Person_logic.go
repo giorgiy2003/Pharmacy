@@ -5,11 +5,16 @@ import (
 	"encoding/hex"
 	"errors"
 	"fmt"
-	"log"
 	Model "myapp/internal/model"
 	Repository "myapp/internal/repository"
 	"strconv"
 	"strings"
+)
+
+var (
+	Auth            string
+	User_id         int
+	Login, Password string
 )
 
 //Вывести все товары
@@ -196,10 +201,6 @@ func PriceDESC() ([]Model.Product, error) {
 	return productInfo, nil
 }
 
-var Auth string
-var User_id int
-var Login, Password string
-
 //Авторизация
 func Autorization(login, password string) error {
 	Login = strings.TrimSpace(login)
@@ -304,17 +305,16 @@ func UserCart() ([]Model.Product, error) {
 		rows.Scan(&User.Product_Id, &User.Product_Koll)
 		UserInfo = append(UserInfo, User)
 	}
-	log.Println(UserInfo)
 
 	var productInfo = []Model.Product{}
-	
+
 	for _, Info := range UserInfo {
 
 		row, err := Repository.Connection.Query(`SELECT * FROM "products" WHERE "product_id" = $1`, Info.Product_Id)
 		if err != nil {
 			return nil, err
 		}
-		
+
 		for row.Next() {
 			var p Model.Product
 			err := row.Scan(&p.Id, &p.Image, &p.Name, &p.Manufacturer, &p.Category, &p.Description, &p.Price)
@@ -324,8 +324,6 @@ func UserCart() ([]Model.Product, error) {
 			productInfo = append(productInfo, p)
 		}
 	}
-
-	log.Println(productInfo)
 	return productInfo, nil
 }
 
@@ -335,7 +333,20 @@ func AddToCart(id, koll string) error {
 	if err != nil {
 		return err
 	}
-	if _, err := Repository.Connection.Exec(`INSERT INTO "shopping_cart" ("user_id","product_id", "quantity") VALUES ($1,$2,$3)`,User_id,product_id, koll); err != nil {
+	if _, err := Repository.Connection.Exec(`INSERT INTO "shopping_cart" ("user_id","product_id", "quantity") VALUES ($1,$2,$3)`, User_id, product_id, koll); err != nil {
+		return err
+	}
+	return nil
+}
+
+
+//Убрать из корзины
+func DeleteFromCart(id string) error {
+	product_id, err := strconv.Atoi(id)
+	if err != nil {
+		return err
+	}
+	if _, err := Repository.Connection.Exec(`DELETE FROM "shopping_cart" WHERE user_id = $1 AND product_id = $2`, User_id, product_id); err != nil { 
 		return err
 	}
 	return nil
