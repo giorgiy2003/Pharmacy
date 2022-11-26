@@ -197,7 +197,7 @@ func PriceDESC() ([]Model.Product, error) {
 }
 
 var Auth string
-var User_id = 0
+var User_id int
 var Login, Password string
 
 //Авторизация
@@ -283,20 +283,50 @@ func Registration(UserName, UserEmail, UserPassword1, UserPassword2, Checkbox st
 }
 
 //Корзина
-func UserCart() ([]Model.User, error) {
-	row, err := Repository.Connection.Query(`SELECT * FROM "users" WHERE user_login = $1 AND user_password = $2`, Login, Password)
+func UserCart() ([]Model.Product, error) {
+	row, err := Repository.Connection.Query(`SELECT "user_id" FROM "users" WHERE user_login = $1 AND user_password = $2`, Login, Password)
 	if err != nil {
 		return nil, err
 	}
-	var UserInfo = []Model.User{}
+
 	for row.Next() {
 		var User Model.User
-		row.Scan(&User.Id, &User.Name, &User.Login, &User.HashPassword, &User.Role, &User.Product_Id, &User.Product_Image, &User.Product_Name, &User.Product_Price, &User.Product_Koll)
+		row.Scan(&User.Id)
 		User_id = User.Id
+	}
+	rows, err := Repository.Connection.Query(`SELECT * FROM "shopping_cart" WHERE user_id = $1`, User_id)
+	if err != nil {
+		return nil, err
+	}
+
+	var UserInfo = []Model.User{}
+	for rows.Next() {
+		var User Model.User
+		rows.Scan(&User.Product_Id, &User.Product_Koll)
 		UserInfo = append(UserInfo, User)
 	}
-	log.Println(UserInfo)
-	return UserInfo, nil
+
+	var productInfo = []Model.Product{}
+	for _, Info := range UserInfo {
+
+		row, err := Repository.Connection.Query(`SELECT * FROM "products" WHERE "product_id" = $1`, Info.Id)
+		if err != nil {
+			return nil, err
+		}
+		
+		for row.Next() {
+			var p Model.Product
+			err := row.Scan(&p.Id, &p.Image, &p.Name, &p.Manufacturer, &p.Category, &p.Description, &p.Price)
+			if err != nil {
+				return nil, err
+			}
+			productInfo = append(productInfo, p)
+		}
+
+	}
+
+	log.Println(productInfo)
+	return productInfo, nil
 }
 
 //Добавить в корзину
@@ -305,23 +335,9 @@ func AddToCart(id, koll string) error {
 	if err != nil {
 		return err
 	}
-	row, err := Repository.Connection.Query(`SELECT "product_id", "product_name","product_image", "product_price" FROM "products" WHERE "product_id" = $1`, product_id)
-	if err != nil {
+	if _, err := Repository.Connection.Exec(`INSERT INTO "shopping_cart" ("user_id","product_id", "quantity") VALUES ($1,$2,$3)`,User_id,product_id, koll); err != nil {
 		return err
 	}
-
-	var u Model.User
-	for row.Next() {
-		err := row.Scan(&u.Product_Id, &u.Product_Name, &u.Product_Image, &u.Product_Price)
-		if err != nil {
-			return err
-		}
-	}
-
-	if _, err := Repository.Connection.Exec(`UPDATE "users" SET "product_id" = $1,"product_name" = $2, "product_image" = $3,"product_price" = $4,"product_koll" = $5 WHERE "user_id" = $6`, u.Product_Id, u.Product_Name, u.Product_Image, u.Product_Price, koll, User_id); err != nil {
-		return err
-	}
-
 	return nil
 }
 

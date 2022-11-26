@@ -25,13 +25,15 @@ CREATE TABLE users (
 	user_login character varying NOT NULL,
 	user_password character varying NOT NULL,
 	user_role character varying NOT NULL,
-	product_id integer,
-	product_image character varying,
-	product_name character varying,
-	product_price integer,
-	product_koll integer,
-	FOREIGN KEY (product_id) REFERENCES products (product_id),
 	FOREIGN KEY (user_role) REFERENCES role (role_name)
+);
+
+CREATE TABLE shopping_cart (
+	user_id integer NOT NULL,
+	product_id integer NOT NULL,
+	quantity integer NOT NULL,
+	FOREIGN KEY (user_id) REFERENCES users (user_id),
+	FOREIGN KEY (product_id) REFERENCES products (product_id)
 );
 
 INSERT INTO role (
@@ -56,7 +58,7 @@ VALUES (
 	'admin@mail.ru',
 	'8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', //admin
 	'Администратор'
-)
+);
 
 INSERT INTO categories (
 	category_name
