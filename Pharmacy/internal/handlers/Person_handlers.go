@@ -63,7 +63,8 @@ func MainForm(c *gin.Context) {
 
 //Выйти из аккаунта
 func Sign_out(c *gin.Context) {
-	c.Redirect(http.StatusSeeOther, "/Authorization")
+	Logic.Auth = "false"
+	c.Redirect(http.StatusSeeOther, "/")
 }
 
 //Товары
