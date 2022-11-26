@@ -292,8 +292,8 @@ func UserCart() ([]Model.Product, error) {
 	for row.Next() {
 		row.Scan(&User_id)
 	}
-	
-	rows, err := Repository.Connection.Query(`SELECT * FROM "shopping_cart" WHERE user_id = $1`, User_id)
+
+	rows, err := Repository.Connection.Query(`SELECT "product_id","quantity" FROM "shopping_cart" WHERE user_id = $1`, User_id)
 	if err != nil {
 		return nil, err
 	}
@@ -304,11 +304,13 @@ func UserCart() ([]Model.Product, error) {
 		rows.Scan(&User.Product_Id, &User.Product_Koll)
 		UserInfo = append(UserInfo, User)
 	}
+	log.Println(UserInfo)
 
 	var productInfo = []Model.Product{}
+	
 	for _, Info := range UserInfo {
 
-		row, err := Repository.Connection.Query(`SELECT * FROM "products" WHERE "product_id" = $1`, Info.Id)
+		row, err := Repository.Connection.Query(`SELECT * FROM "products" WHERE "product_id" = $1`, Info.Product_Id)
 		if err != nil {
 			return nil, err
 		}
@@ -321,7 +323,6 @@ func UserCart() ([]Model.Product, error) {
 			}
 			productInfo = append(productInfo, p)
 		}
-
 	}
 
 	log.Println(productInfo)

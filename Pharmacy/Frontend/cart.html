@@ -118,25 +118,25 @@
                     {{range .Products }}
 
                     <td class="product-thumbnail">
-                      <a href="/shop_single?id={{ .Product_Id }}"> <img src="/images/products/{{ .Product_Image }}" alt="Image" class="img-fluid"> </a>
+                      <a href="/shop_single?id={{ .Id }}"> <img src="/images/products/{{ .Image }}" alt="Image" class="img-fluid"> </a>
                     </td>
                     <td class="product-name">
-                      <h2 class="h5 text-black"><a href="/shop_single?id={{ .Product_Id}}">{{ .Product_Name}}</a></h2>
+                      <h2 class="h5 text-black"><a href="/shop_single?id={{ .Id}}">{{ .Name}}</a></h2>
                     </td>
-                    <td>{{ .Product_Price }} ₽</td>
+                    <td>{{ .Price }} ₽</td>
                     <td>
                       <div class="input-group mb-3" style="max-width: 120px;">
                         <div class="input-group-prepend">
                           <button class="btn btn-outline-primary js-btn-minus" type="button">&minus;</button>
                         </div>
-                        <input type="text" class="form-control text-center" value="{{ .Product_Koll }}" placeholder=""
+                        <input type="text" class="form-control text-center" value="2" placeholder=""
                           aria-label="Example text with button addon" aria-describedby="button-addon1" id="koll" name="koll">
                         <div class="input-group-append">
                           <button class="btn btn-outline-primary js-btn-plus" type="button">&plus;</button>
                         </div>
                       </div>
                     </td>
-                    <td>{{ .Product_Price }} ₽</td>
+                    <td>{{ .Price }} ₽</td>
                     <td><a href="/DeleteFromCart/{{ .Id }}" class="btn btn-primary height-auto btn-sm">X</a></td>
                   </tr>
 
