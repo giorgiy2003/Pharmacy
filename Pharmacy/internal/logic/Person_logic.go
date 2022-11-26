@@ -290,9 +290,7 @@ func UserCart() ([]Model.Product, error) {
 	}
 
 	for row.Next() {
-		var User Model.User
-		row.Scan(&User.Id)
-		User_id = User.Id
+		row.Scan(&User_id)
 	}
 	rows, err := Repository.Connection.Query(`SELECT * FROM "shopping_cart" WHERE user_id = $1`, User_id)
 	if err != nil {
