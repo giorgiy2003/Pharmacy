@@ -339,10 +339,10 @@ func AddToCart(id string) error {
 		var User Model.User
 		rows.Scan(&User.Product_Id)
 		if User.Product_Id != 0 {
-			err := DeleteFromCart(fmt.Sprint(User.Product_Id))
-			if err != nil {
+			if _, err := Repository.Connection.Exec(`UPDATE "shopping_cart" SET "time_of_adding" = $1 WHERE user_id = $2 AND product_id = $3`, time.Now(), User_id, product_id); err != nil {
 				return err
 			}
+			return nil
 		}
 	}
 
