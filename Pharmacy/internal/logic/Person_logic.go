@@ -324,6 +324,19 @@ func AddToCart(id string) error {
 	if err != nil {
 		return err
 	}
+	rows, err := Repository.Connection.Query(`SELECT "product_id" FROM "shopping_cart" WHERE user_id = $1 AND product_id = $2`, User_id, product_id)
+	if err != nil {
+		return err
+	}
+
+	for rows.Next() {
+		var User Model.User
+		rows.Scan(&User.Product_Id)
+		if User.Product_Id != 0 {
+			return errors.New("Данный товар уже в корзине!")
+		}
+	}
+
 	if _, err := Repository.Connection.Exec(`INSERT INTO "shopping_cart" ("user_id","product_id") VALUES ($1,$2)`, User_id, product_id); err != nil {
 		return err
 	}

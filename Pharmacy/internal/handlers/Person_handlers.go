@@ -175,7 +175,13 @@ func Make_Order(c *gin.Context) {
 //Добавить в корзину
 func AddToCart(c *gin.Context) {
 	id := c.Param("id")
-	Logic.AddToCart(id)
+	err := Logic.AddToCart(id)
+	if err != nil {
+		c.HTML(400, "400", gin.H{
+			"Error": err.Error(),
+		})
+		return
+	}
 	c.Redirect(http.StatusSeeOther, fmt.Sprintf("/shop_single?id=%s", id))
 }
 
