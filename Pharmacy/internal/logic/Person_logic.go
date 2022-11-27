@@ -13,8 +13,8 @@ import (
 )
 
 var (
-	Auth, Role      string
-	User_id         int
+	Auth, Role string
+	User_id    int
 )
 
 //Вывести все товары
@@ -208,14 +208,13 @@ func Autorization(login, password string) error {
 	//Hashed value of password
 	Password := SHA_256_Encode(password) //Кодируем значение пароля пользователя
 
-	row, err := Repository.Connection.Query(`SELECT "user_id", "user_login", "user_password", "user_role" FROM "users" WHERE user_login = $1 AND user_password = $2`, Login, Password)
+	row, err := Repository.Connection.Query(`SELECT "user_id", "user_role" FROM "users" WHERE user_login = $1 AND user_password = $2`, Login, Password)
 	if err != nil {
 		return err
 	}
 
-	var User Model.User
 	for row.Next() {
-		row.Scan(&User_id, &User.Login, &User.HashPassword, &Role)
+		row.Scan(&User_id, &Role)
 	}
 
 	//Если значения структуры пусты возращаем ошибку
@@ -340,6 +339,7 @@ func AddToCart(id string) error {
 		}
 	}
 
+	//Ecли товара не было в корзине, добавляем его
 	if _, err := Repository.Connection.Exec(`INSERT INTO "shopping_cart" ("user_id","product_id", "time_of_adding") VALUES ($1,$2,$3)`, User_id, product_id, time.Now()); err != nil {
 		return err
 	}
