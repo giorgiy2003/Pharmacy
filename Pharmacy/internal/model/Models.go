@@ -1,7 +1,5 @@
 package Model
 
-import "time"
-
 type Product struct {
 	Id           int    `json:"id"`
 	Image        string `json:"image"`
@@ -19,5 +17,4 @@ type User struct {
 	HashPassword   string `json:"password"`
 	Role           string `json:"role"`
 	Product_Id     int    `json:"product_Id"`
-	Time_of_adding time.Time //Время добавления товара в корзину
 }
