@@ -58,12 +58,13 @@
               </ul>
             </nav>
           </div>
+          {{ if eq .Auth "true"}}
           <div class="icons">
             <a href="/cart" class="icons-btn d-inline-block bag">
               <span class="icon-shopping-bag"></span>
             </a>
            </div>
-            {{ if eq .Auth "true"}}
+           
             <div class="main-nav d-none d-lg-block">
               <nav class="site-navigation text-right text-md-center" role="navigation">
                 <ul class="site-menu js-clone-nav d-none d-lg-block">
@@ -71,6 +72,9 @@
                     <a href="#"><img src= "/images/human.png" alt="Image"></a>
                     <ul class="dropdown">
                       <li><a href="/historyPage">Мои заказы</a></li>
+                      {{ if eq .Role "Администратор"}}
+                      <li><a href="/admin">Страница разработчика</a></li>
+                      {{ end }}
                       <li><a href="/Sign_out">Выйти</a></li>
                     </ul>
                   </li>
