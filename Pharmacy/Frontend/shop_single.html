@@ -118,12 +118,16 @@
                 <div class="mb-5">
                   
                 </div>
-              
+                {{ end }}
+
+                {{ if eq .Auth "true"}}
                   <p><button class="buy-now btn btn-sm height-auto px-4 py-3 btn-primary">Добавить в корзину</button></p>
+                {{ end }}
+                
               </form>
 
             </div>
-            
+            {{ range .Products}}
             <div class="mt-5">
                <h5 class="text-black" style="padding: 10% 0% 0% 0%;">Информация о товаре</h5>
                <table class="table custom-table mb-0">
