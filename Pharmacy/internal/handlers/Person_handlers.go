@@ -74,6 +74,12 @@ func Sign_out(c *gin.Context) {
 
 //Страница разработчика
 func Admin(c *gin.Context) {
+	if Logic.Role != "Администратор" {
+		c.HTML(404, "400", gin.H{
+			"Error": "Страница не найдена",
+		})
+		return
+	}
 	c.HTML(200, "Developer_page", nil)
 }
 
@@ -122,7 +128,7 @@ func SearhProduct(c *gin.Context) {
 	}
 	if len(Products) == 0 {
 		c.HTML(200, "InfoPage", gin.H{
-			"Role":     Logic.Role,
+			"Role": Logic.Role,
 			"Auth": Logic.Auth,
 			"Info": "По Вашему запросу ничего не найдено",
 		})
@@ -137,6 +143,12 @@ func SearhProduct(c *gin.Context) {
 
 //Корзина
 func Cart(c *gin.Context) {
+	if Logic.User_id == 0 {
+		c.HTML(404, "400", gin.H{
+			"Error": "Страница не найдена",
+		})
+		return
+	}
 	Products, err := Logic.UserCart()
 	if err != nil {
 		c.HTML(400, "400", gin.H{
@@ -154,7 +166,7 @@ func Cart(c *gin.Context) {
 //О нас
 func About(c *gin.Context) {
 	c.HTML(200, "about", gin.H{
-		"Role":     Logic.Role,
+		"Role": Logic.Role,
 		"Auth": Logic.Auth,
 	})
 }
@@ -162,7 +174,7 @@ func About(c *gin.Context) {
 //Контакты
 func Contact(c *gin.Context) {
 	c.HTML(200, "contact", gin.H{
-		"Role":     Logic.Role,
+		"Role": Logic.Role,
 		"Auth": Logic.Auth,
 	})
 }
@@ -170,7 +182,7 @@ func Contact(c *gin.Context) {
 //Страница оформления заказа
 func Checkout(c *gin.Context) {
 	c.HTML(200, "checkout", gin.H{
-		"Role":     Logic.Role,
+		"Role": Logic.Role,
 		"Auth": Logic.Auth,
 	})
 }
@@ -178,7 +190,7 @@ func Checkout(c *gin.Context) {
 //Сделать заказ
 func Make_Order(c *gin.Context) {
 	c.HTML(200, "thankyou", gin.H{
-		"Role":     Logic.Role,
+		"Role": Logic.Role,
 		"Auth": Logic.Auth,
 	})
 }
@@ -213,7 +225,7 @@ func DeleteFromCart(c *gin.Context) {
 func SendMessage(c *gin.Context) {
 
 	c.HTML(200, "index", gin.H{
-		"Role":     Logic.Role,
+		"Role": Logic.Role,
 		"Auth": Logic.Auth,
 	})
 }
@@ -221,7 +233,7 @@ func SendMessage(c *gin.Context) {
 //Использовать купон
 func UseCoupon(c *gin.Context) {
 	c.HTML(200, "checkout", gin.H{
-		"Role":     Logic.Role,
+		"Role": Logic.Role,
 		"Auth": Logic.Auth,
 	})
 }
