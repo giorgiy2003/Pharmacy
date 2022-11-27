@@ -215,11 +215,11 @@ func Autorization(login, password string) error {
 
 	var User Model.User
 	for row.Next() {
-		row.Scan(&User.Id, &User.Login, &User.HashPassword)
+		row.Scan(&User_id, &User.Login, &User.HashPassword)
 	}
 
 	//Если значения структуры пусты возращаем ошибку
-	if User.Id == 0 {
+	if User_id == 0 {
 		return errors.New("Введён неверный логин или пароль!")
 	}
 
@@ -294,7 +294,7 @@ func UserCart() ([]Model.Product, error) {
 		row.Scan(&User_id)
 	}
 
-	rows, err := Repository.Connection.Query(`SELECT "product_id","quantity" FROM "shopping_cart" WHERE user_id = $1`, User_id)
+	rows, err := Repository.Connection.Query(`SELECT "product_id" FROM "shopping_cart" WHERE user_id = $1`, User_id)
 	if err != nil {
 		return nil, err
 	}
@@ -302,43 +302,33 @@ func UserCart() ([]Model.Product, error) {
 	var UserInfo = []Model.User{}
 	for rows.Next() {
 		var User Model.User
-		rows.Scan(&User.Product_Id, &User.Product_Koll)
+		rows.Scan(&User.Product_Id)
 		UserInfo = append(UserInfo, User)
 	}
 
-	var productInfo = []Model.Product{}
+	var ProductInfo = []Model.Product{}
 
 	for _, Info := range UserInfo {
-
-		row, err := Repository.Connection.Query(`SELECT * FROM "products" WHERE "product_id" = $1`, Info.Product_Id)
+		Products, err := ReadOneProductById(fmt.Sprint(Info.Product_Id))
 		if err != nil {
 			return nil, err
 		}
-
-		for row.Next() {
-			var p Model.Product
-			err := row.Scan(&p.Id, &p.Image, &p.Name, &p.Manufacturer, &p.Category, &p.Description, &p.Price)
-			if err != nil {
-				return nil, err
-			}
-			productInfo = append(productInfo, p)
-		}
+		ProductInfo = append(ProductInfo, Products...)
 	}
-	return productInfo, nil
+	return ProductInfo, nil
 }
 
 //Добавить в корзину
-func AddToCart(id, koll string) error {
+func AddToCart(id string) error {
 	product_id, err := strconv.Atoi(id)
 	if err != nil {
 		return err
 	}
-	if _, err := Repository.Connection.Exec(`INSERT INTO "shopping_cart" ("user_id","product_id", "quantity") VALUES ($1,$2,$3)`, User_id, product_id, koll); err != nil {
+	if _, err := Repository.Connection.Exec(`INSERT INTO "shopping_cart" ("user_id","product_id") VALUES ($1,$2)`, User_id, product_id); err != nil {
 		return err
 	}
 	return nil
 }
-
 
 //Убрать из корзины
 func DeleteFromCart(id string) error {
@@ -346,7 +336,7 @@ func DeleteFromCart(id string) error {
 	if err != nil {
 		return err
 	}
-	if _, err := Repository.Connection.Exec(`DELETE FROM "shopping_cart" WHERE user_id = $1 AND product_id = $2`, User_id, product_id); err != nil { 
+	if _, err := Repository.Connection.Exec(`DELETE FROM "shopping_cart" WHERE user_id = $1 AND product_id = $2`, User_id, product_id); err != nil {
 		return err
 	}
 	return nil

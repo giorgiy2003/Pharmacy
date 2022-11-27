@@ -17,5 +17,4 @@ type User struct {
 	HashPassword  string `json:"password"`
 	Role          string `json:"role"`
 	Product_Id    int    `json:"product_Id"`
-	Product_Koll  string `json:"koll"`
 }
