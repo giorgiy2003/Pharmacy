@@ -12,7 +12,7 @@ import (
 )
 
 var (
-	Auth            string
+	Auth, Role      string
 	User_id         int
 	Login, Password string
 )
@@ -208,14 +208,14 @@ func Autorization(login, password string) error {
 	//Hashed value of password
 	Password = SHA_256_Encode(password) //Кодируем значение пароля пользователя
 
-	row, err := Repository.Connection.Query(`SELECT "user_id", "user_login", "user_password" FROM "users" WHERE user_login = $1 AND user_password = $2`, Login, Password)
+	row, err := Repository.Connection.Query(`SELECT "user_id", "user_login", "user_password", "user_role" FROM "users" WHERE user_login = $1 AND user_password = $2`, Login, Password)
 	if err != nil {
 		return err
 	}
 
 	var User Model.User
 	for row.Next() {
-		row.Scan(&User_id, &User.Login, &User.HashPassword)
+		row.Scan(&User_id, &User.Login, &User.HashPassword, &Role)
 	}
 
 	//Если значения структуры пусты возращаем ошибку
@@ -320,8 +320,8 @@ func UserCart() ([]Model.Product, error) {
 
 //Добавить в корзину
 func AddToCart(id string) error {
-	
-	if User_id == 0{
+
+	if User_id == 0 {
 		return nil
 	}
 	product_id, err := strconv.Atoi(id)

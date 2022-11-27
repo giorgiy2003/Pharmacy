@@ -57,6 +57,7 @@ func MainForm(c *gin.Context) {
 	}
 
 	c.HTML(200, "index", gin.H{
+		"Role":     Logic.Role,
 		"Auth":     Logic.Auth,
 		"Products": Products,
 	})
@@ -72,7 +73,7 @@ func Sign_out(c *gin.Context) {
 
 //Страница разработчика
 func Admin(c *gin.Context) {
-	c.Redirect(http.StatusSeeOther, "/")
+	c.HTML(200, "Developer_page", nil)
 }
 
 //Товары
@@ -85,6 +86,7 @@ func Shop(c *gin.Context) {
 		return
 	}
 	c.HTML(200, "shop", gin.H{
+		"Role":     Logic.Role,
 		"Auth":     Logic.Auth,
 		"Products": Products,
 	})
@@ -101,6 +103,7 @@ func Shop_single(c *gin.Context) {
 		return
 	}
 	c.HTML(200, "shop_single", gin.H{
+		"Role":     Logic.Role,
 		"Auth":     Logic.Auth,
 		"Products": Products,
 	})
@@ -118,12 +121,14 @@ func SearhProduct(c *gin.Context) {
 	}
 	if len(Products) == 0 {
 		c.HTML(200, "InfoPage", gin.H{
+			"Role":     Logic.Role,
 			"Auth": Logic.Auth,
 			"Info": "По Вашему запросу ничего не найдено",
 		})
 		return
 	}
 	c.HTML(200, "shop", gin.H{
+		"Role":     Logic.Role,
 		"Auth":     Logic.Auth,
 		"Products": Products,
 	})
@@ -139,6 +144,7 @@ func Cart(c *gin.Context) {
 		return
 	}
 	c.HTML(200, "cart", gin.H{
+		"Role":     Logic.Role,
 		"Products": Products,
 		"Auth":     Logic.Auth,
 	})
@@ -147,6 +153,7 @@ func Cart(c *gin.Context) {
 //О нас
 func About(c *gin.Context) {
 	c.HTML(200, "about", gin.H{
+		"Role":     Logic.Role,
 		"Auth": Logic.Auth,
 	})
 }
@@ -154,6 +161,7 @@ func About(c *gin.Context) {
 //Контакты
 func Contact(c *gin.Context) {
 	c.HTML(200, "contact", gin.H{
+		"Role":     Logic.Role,
 		"Auth": Logic.Auth,
 	})
 }
@@ -161,6 +169,7 @@ func Contact(c *gin.Context) {
 //Страница оформления заказа
 func Checkout(c *gin.Context) {
 	c.HTML(200, "checkout", gin.H{
+		"Role":     Logic.Role,
 		"Auth": Logic.Auth,
 	})
 }
@@ -168,6 +177,7 @@ func Checkout(c *gin.Context) {
 //Сделать заказ
 func Make_Order(c *gin.Context) {
 	c.HTML(200, "thankyou", gin.H{
+		"Role":     Logic.Role,
 		"Auth": Logic.Auth,
 	})
 }
@@ -202,6 +212,7 @@ func DeleteFromCart(c *gin.Context) {
 func SendMessage(c *gin.Context) {
 
 	c.HTML(200, "index", gin.H{
+		"Role":     Logic.Role,
 		"Auth": Logic.Auth,
 	})
 }
@@ -209,6 +220,7 @@ func SendMessage(c *gin.Context) {
 //Использовать купон
 func UseCoupon(c *gin.Context) {
 	c.HTML(200, "checkout", gin.H{
+		"Role":     Logic.Role,
 		"Auth": Logic.Auth,
 	})
 }
@@ -224,6 +236,7 @@ func Medicines_by_category(c *gin.Context) {
 		return
 	}
 	c.HTML(200, "shop", gin.H{
+		"Role":     Logic.Role,
 		"Auth":     Logic.Auth,
 		"Category": category,
 		"Products": Products,
@@ -240,6 +253,7 @@ func NameASC(c *gin.Context) {
 		return
 	}
 	c.HTML(200, "shop", gin.H{
+		"Role":     Logic.Role,
 		"Auth":     Logic.Auth,
 		"Products": Products,
 	})
@@ -255,6 +269,7 @@ func NameDESC(c *gin.Context) {
 		return
 	}
 	c.HTML(200, "shop", gin.H{
+		"Role":     Logic.Role,
 		"Auth":     Logic.Auth,
 		"Products": Products,
 	})
@@ -270,6 +285,7 @@ func PriceASC(c *gin.Context) {
 		return
 	}
 	c.HTML(200, "shop", gin.H{
+		"Role":     Logic.Role,
 		"Auth":     Logic.Auth,
 		"Products": Products,
 	})
@@ -285,6 +301,7 @@ func PriceDESC(c *gin.Context) {
 		return
 	}
 	c.HTML(200, "shop", gin.H{
+		"Role":     Logic.Role,
 		"Auth":     Logic.Auth,
 		"Products": Products,
 	})
