@@ -325,6 +325,7 @@ func AddToCart(id string) error {
 	if User_id == 0 {
 		return nil
 	}
+	
 	product_id, err := strconv.Atoi(id)
 	if err != nil {
 		return err
@@ -338,7 +339,10 @@ func AddToCart(id string) error {
 		var User Model.User
 		rows.Scan(&User.Product_Id)
 		if User.Product_Id != 0 {
-			return nil
+			err := DeleteFromCart(fmt.Sprint(User.Product_Id))
+			if err != nil {
+				return err
+			}
 		}
 	}
 
