@@ -121,8 +121,8 @@
                 {{ end }}
              
               {{ if eq .Proverka "товар в корзине"}}
-                <a href="/cart" class="buy-now btn btn-sm height-auto px-4 py-3 btn-primary" >Товар в корзине, перейти</a>
-                {{ else }}
+                <a href="/cart" class="buy-now btn btn-sm height-auto px-4 py-3 btn-primary"><div>Товар в корзине</br>перейти</div></a>
+              {{ else }}
                 <p><button class="buy-now btn btn-sm height-auto px-4 py-3 btn-primary">Добавить в корзину</button></p>
                 {{ end }}
               </form>

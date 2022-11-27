@@ -282,8 +282,14 @@ func Registration(UserName, UserEmail, UserPassword1, UserPassword2, Checkbox st
 	return nil
 }
 
+var ProductInfo map[int]interface{}
+
 //Корзина
 func UserCart() ([]Model.Product, error) {
+
+	if User_id == 0 {
+		return nil,nil
+	}
 
 	rows, err := Repository.Connection.Query(`SELECT "product_id" FROM "shopping_cart" WHERE user_id = $1 ORDER BY time_of_adding DESC`, User_id)
 	if err != nil {
@@ -348,6 +354,11 @@ func AddToCart(id string) error {
 
 //Убрать из корзины
 func DeleteFromCart(id string) error {
+	
+	if User_id == 0 {
+		return nil
+	}
+
 	product_id, err := strconv.Atoi(id)
 	if err != nil {
 		return err
