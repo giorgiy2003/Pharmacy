@@ -358,6 +358,28 @@ func DeleteFromCart(id string) error {
 	return nil
 }
 
+//Проверка на наличие товара в корзине пользователя
+func Proverka(id string) (string, error) {
+
+	product_id, err := strconv.Atoi(id)
+	if err != nil {
+		return "", err
+	}
+	rows, err := Repository.Connection.Query(`SELECT "product_id" FROM "shopping_cart" WHERE user_id = $1 AND product_id = $2`, User_id, product_id)
+	if err != nil {
+		return "", err
+	}
+
+	for rows.Next() {
+		var User Model.User
+		rows.Scan(&User.Product_Id)
+		if User.Product_Id != 0 {
+			return "товар в корзине", nil
+		}
+	}
+	return "", nil
+}
+
 func CreateProduct(p Model.Product) error {
 	p.Name = strings.TrimSpace(p.Name)
 	p.Image = strings.TrimSpace(p.Image)

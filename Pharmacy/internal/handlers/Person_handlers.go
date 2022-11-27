@@ -107,8 +107,15 @@ func Shop_single(c *gin.Context) {
 		})
 		return
 	}
-
+	proverka, err := Logic.Proverka(id)
+	if err != nil {
+		c.HTML(400, "400", gin.H{
+			"Error": err.Error(),
+		})
+		return
+	}
 	c.HTML(200, "shop_single", gin.H{
+		"Proverka": proverka,
 		"Role":     Logic.Role,
 		"Auth":     Logic.Auth,
 		"Products": Products,
@@ -142,12 +149,6 @@ func SearhProduct(c *gin.Context) {
 
 //Корзина
 func Cart(c *gin.Context) {
-	if Logic.User_id == 0 {
-		c.HTML(404, "400", gin.H{
-			"Error": "Страница не найдена",
-		})
-		return
-	}
 	Products, err := Logic.UserCart()
 	if err != nil {
 		c.HTML(400, "400", gin.H{

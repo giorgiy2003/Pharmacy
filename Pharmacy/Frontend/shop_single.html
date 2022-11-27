@@ -57,13 +57,13 @@
               </ul>
             </nav>
           </div>
-          {{ if eq .Auth "true"}}
+        
           <div class="icons">
             <a href="/cart" class="icons-btn d-inline-block bag">
               <span class="icon-shopping-bag"></span>
             </a>
            </div>
-           
+           {{ if eq .Auth "true"}}
             <div class="main-nav d-none d-lg-block">
               <nav class="site-navigation text-right text-md-center" role="navigation">
                 <ul class="site-menu js-clone-nav d-none d-lg-block">
@@ -119,11 +119,12 @@
                   
                 </div>
                 {{ end }}
-
-                {{ if eq .Auth "true"}}
-                  <p><button class="buy-now btn btn-sm height-auto px-4 py-3 btn-primary">Добавить в корзину</button></p>
+             
+              {{ if eq .Proverka "товар в корзине"}}
+                <a href="/cart" class="buy-now btn btn-sm height-auto px-4 py-3 btn-primary" >Товар в корзине, перейти</a>
+                {{ else }}
+                <p><button class="buy-now btn btn-sm height-auto px-4 py-3 btn-primary">Добавить в корзину</button></p>
                 {{ end }}
-                
               </form>
 
             </div>

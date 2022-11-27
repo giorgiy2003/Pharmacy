@@ -31,7 +31,7 @@ func main() {
 	router.GET("/cart", Handler.Cart) //Корзина ✅
 	router.GET("/about", Handler.About) //О нас ✅
 	router.GET("/checkout", Handler.Checkout) //Страница оформления
-	router.GET("/contact", Handler.Contact) //Контакты
+	router.GET("/contact", Handler.Contact) //Контакты ✅
 	router.GET("/Order", Handler.Make_Order) //Оформить заказ
 	router.GET("/AddToCart/:id", Handler.AddToCart) //Добавить в корзину ✅
 	router.GET("/DeleteFromCart/:id", Handler.DeleteFromCart) //Убрать из корзины ✅
