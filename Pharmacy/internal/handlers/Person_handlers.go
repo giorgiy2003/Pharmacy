@@ -65,8 +65,6 @@ func MainForm(c *gin.Context) {
 
 //Выйти из аккаунта
 func Sign_out(c *gin.Context) {
-	Logic.Login = ""
-	Logic.Password = ""
 	Logic.Auth = "false"
 	Logic.User_id = 0
 	c.Redirect(http.StatusSeeOther, "/")
@@ -109,6 +107,7 @@ func Shop_single(c *gin.Context) {
 		})
 		return
 	}
+
 	c.HTML(200, "shop_single", gin.H{
 		"Role":     Logic.Role,
 		"Auth":     Logic.Auth,

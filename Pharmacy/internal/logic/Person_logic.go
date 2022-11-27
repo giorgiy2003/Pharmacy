@@ -15,7 +15,6 @@ import (
 var (
 	Auth, Role      string
 	User_id         int
-	Login, Password string
 )
 
 //Вывести все товары
@@ -204,10 +203,10 @@ func PriceDESC() ([]Model.Product, error) {
 
 //Авторизация
 func Autorization(login, password string) error {
-	Login = strings.TrimSpace(login)
+	Login := strings.TrimSpace(login)
 
 	//Hashed value of password
-	Password = SHA_256_Encode(password) //Кодируем значение пароля пользователя
+	Password := SHA_256_Encode(password) //Кодируем значение пароля пользователя
 
 	row, err := Repository.Connection.Query(`SELECT "user_id", "user_login", "user_password", "user_role" FROM "users" WHERE user_login = $1 AND user_password = $2`, Login, Password)
 	if err != nil {
@@ -286,14 +285,6 @@ func Registration(UserName, UserEmail, UserPassword1, UserPassword2, Checkbox st
 
 //Корзина
 func UserCart() ([]Model.Product, error) {
-	row, err := Repository.Connection.Query(`SELECT "user_id" FROM "users" WHERE user_login = $1 AND user_password = $2`, Login, Password)
-	if err != nil {
-		return nil, err
-	}
-
-	for row.Next() {
-		row.Scan(&User_id)
-	}
 
 	rows, err := Repository.Connection.Query(`SELECT "product_id" FROM "shopping_cart" WHERE user_id = $1 ORDER BY time_of_adding DESC`, User_id)
 	if err != nil {
@@ -330,11 +321,14 @@ func AddToCart(id string) error {
 	if err != nil {
 		return err
 	}
+
+	//Проверяем существует товар в корзине пользователя
 	rows, err := Repository.Connection.Query(`SELECT "product_id" FROM "shopping_cart" WHERE user_id = $1 AND product_id = $2`, User_id, product_id)
 	if err != nil {
 		return err
 	}
 
+	//Ecли товар уже в корзине обновляем время его добавления
 	for rows.Next() {
 		var User Model.User
 		rows.Scan(&User.Product_Id)
