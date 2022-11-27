@@ -28,13 +28,13 @@ func main() {
 	router.GET("/PriceDESC", Handler.PriceDESC) //Фильтр товаров по цене в обратном порядке ✅
 	router.GET("/shop_single", Handler.Shop_single) //Просмотр карточки товара ✅
 	router.GET("/SearhProduct", Handler.SearhProduct) //Поиск товара по ID или названию ✅
-	router.GET("/cart", Handler.Cart) //Корзина
+	router.GET("/cart", Handler.Cart) //Корзина ✅
 	router.GET("/about", Handler.About) //О нас ✅
 	router.GET("/checkout", Handler.Checkout) //Страница оформления
 	router.GET("/contact", Handler.Contact) //Контакты
 	router.GET("/Order", Handler.Make_Order) //Оформить заказ
-	router.GET("/AddToCart/:id", Handler.AddToCart) //Добавить в корзину
-	router.GET("/DeleteFromCart/:id", Handler.DeleteFromCart) //Убрать из корзины
+	router.GET("/AddToCart/:id", Handler.AddToCart) //Добавить в корзину ✅
+	router.GET("/DeleteFromCart/:id", Handler.DeleteFromCart) //Убрать из корзины ✅
 	router.GET("/SendMessage", Handler.SendMessage)	//Оставить отзыв
 	router.GET("/UseCoupon", Handler.UseCoupon)	//Использовать купон
 	router.GET("/Product_category/:category", Handler.Medicines_by_category) //Поиск по категориям ✅

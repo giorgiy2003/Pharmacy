@@ -9,6 +9,7 @@ import (
 	Repository "myapp/internal/repository"
 	"strconv"
 	"strings"
+	"time"
 )
 
 var (
@@ -294,7 +295,7 @@ func UserCart() ([]Model.Product, error) {
 		row.Scan(&User_id)
 	}
 
-	rows, err := Repository.Connection.Query(`SELECT "product_id" FROM "shopping_cart" WHERE user_id = $1`, User_id)
+	rows, err := Repository.Connection.Query(`SELECT "product_id" FROM "shopping_cart" WHERE user_id = $1 ORDER BY time_of_adding DESC`, User_id)
 	if err != nil {
 		return nil, err
 	}
@@ -337,11 +338,11 @@ func AddToCart(id string) error {
 		var User Model.User
 		rows.Scan(&User.Product_Id)
 		if User.Product_Id != 0 {
-			return errors.New("Данный товар уже в корзине!")
+			return nil
 		}
 	}
 
-	if _, err := Repository.Connection.Exec(`INSERT INTO "shopping_cart" ("user_id","product_id") VALUES ($1,$2)`, User_id, product_id); err != nil {
+	if _, err := Repository.Connection.Exec(`INSERT INTO "shopping_cart" ("user_id","product_id", "time_of_adding") VALUES ($1,$2,$3)`, User_id, product_id, time.Now()); err != nil {
 		return err
 	}
 	return nil

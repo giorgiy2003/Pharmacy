@@ -68,6 +68,7 @@ func Sign_out(c *gin.Context) {
 	Logic.Login = ""
 	Logic.Password = ""
 	Logic.Auth = "false"
+	Logic.User_id = 0
 	c.Redirect(http.StatusSeeOther, "/")
 }
 
