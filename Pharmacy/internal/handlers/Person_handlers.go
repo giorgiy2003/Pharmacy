@@ -2,6 +2,7 @@ package Handler
 
 import (
 	"fmt"
+	"log"
 	Logic "myapp/internal/logic"
 	Repository "myapp/internal/repository"
 	"net/http"
@@ -232,12 +233,14 @@ func MinusKoll(c *gin.Context) {
 		})
 		return
 	}
+	c.Redirect(http.StatusSeeOther, "/cart")
 }
 
 //Увеличить количество товара в корзине
 func AddKoll(c *gin.Context) {
 	id := c.Param("id")
 	koll := c.Request.FormValue("koll")
+	log.Println(id, koll)
 	err := Logic.AddKoll(id,koll)
 	if err != nil {
 		c.HTML(400, "400", gin.H{
@@ -245,6 +248,7 @@ func AddKoll(c *gin.Context) {
 		})
 		return
 	}
+	c.Redirect(http.StatusSeeOther, "/cart")
 }
 
 

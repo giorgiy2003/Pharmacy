@@ -414,12 +414,12 @@ func AddKoll(id, koll string) error {
 	if err != nil {
 		return err
 	}
+	product_koll++
 	//Проверяем существует ли товар в корзине пользователя
 	rows, err := Repository.Connection.Query(`SELECT "product_id" FROM "shopping_cart" WHERE user_id = $1 AND product_id = $2`, User_id, product_id)
 	if err != nil {
 		return err
 	}
-
 	//Ecли товар в корзине обновляем количество товара
 	for rows.Next() {
 		var UserCart Model.UserCart
@@ -449,7 +449,7 @@ func MinusKoll(id, koll string) error {
 	if err != nil {
 		return err
 	}
-
+	product_koll--
 	if product_koll == 0 {
 		err := DeleteFromCart(id)
 		if err != nil {
