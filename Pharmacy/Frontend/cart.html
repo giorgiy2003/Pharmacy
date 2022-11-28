@@ -126,26 +126,26 @@
                     {{range .Products }}
 
                     <td class="product-thumbnail">
-                      <a href="/shop_single?id={{ .Id }}"> <img src="/images/products/{{ .Image }}" alt="Image" class="img-fluid"> </a>
+                      <a href="/shop_single?id={{ .Product_Id }}"> <img src="/images/products/{{ .Image }}" alt="Image" class="img-fluid"> </a>
                     </td>
                     <td class="product-name">
-                      <h2 class="h5 text-black"><a href="/shop_single?id={{ .Id}}">{{ .Name}}</a></h2>
+                      <h2 class="h5 text-black"><a href="/shop_single?id={{ .Product_Id}}">{{ .Name}}</a></h2>
                     </td>
                     <td>{{ .Price }} ₽</td>
                     <td>
                       <div class="input-group mb-3" style="max-width: 120px;">
                         <div class="input-group-prepend">
-                          <button  onclick="window.location='/MinusKoll/{{ .Id }}'" class="btn btn-outline-primary js-btn-minus" type="button">&minus;</a>
+                          <button  onclick="window.location='/MinusKoll/{{ .Product_Id }}'" class="btn btn-outline-primary js-btn-minus" type="button">&minus;</a>
                         </div>
-                        <input type="text" class="form-control text-center" value="1" placeholder=""
+                        <input type="text" class="form-control text-center" value="{{.Product_Koll }}" placeholder=""
                           aria-label="Example text with button addon" aria-describedby="button-addon1" id="koll" name="koll">
                         <div class="input-group-append">
-                          <button  onclick="window.location='/AddKoll/{{ .Id }}'" class="btn btn-outline-primary js-btn-plus" type="button">&plus;</button>
+                          <button  onclick="window.location='/AddKoll/{{ .Product_Id }}'" class="btn btn-outline-primary js-btn-plus" type="button">&plus;</button>
                         </div>
                       </div>
                     </td>
                     <td>{{ .Price }} ₽</td>
-                    <td><a href="/DeleteFromCart/{{ .Id }}" class="btn btn-primary height-auto btn-sm">X</a></td>
+                    <td><a href="/DeleteFromCart/{{ .Product_Id }}" class="btn btn-primary height-auto btn-sm">X</a></td>
                   </tr>
 
                   {{ end }}

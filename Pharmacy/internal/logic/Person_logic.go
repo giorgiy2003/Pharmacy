@@ -285,32 +285,40 @@ func Registration(UserName, UserEmail, UserPassword1, UserPassword2, Checkbox st
 var ProductInfo map[int]interface{}
 
 //Корзина
-func UserCart() ([]Model.Product, error) {
+func UserCart() ([]Model.UserCart, error) {
 
 	if User_id == 0 {
 		return nil, nil
 	}
 
-	rows, err := Repository.Connection.Query(`SELECT "product_id","product_id" FROM "shopping_cart" WHERE user_id = $1 ORDER BY time_of_adding DESC`, User_id)
+	rows, err := Repository.Connection.Query(`SELECT "product_id","product_koll" FROM "shopping_cart" WHERE user_id = $1 ORDER BY time_of_adding DESC`, User_id)
 	if err != nil {
 		return nil, err
 	}
 
-	var UserInfo = []Model.User{}
+	var UserInfo = []Model.UserCart{}
 	for rows.Next() {
-		var User Model.User
-		rows.Scan(&User.Product_Id, &User.Product_Koll)
-		UserInfo = append(UserInfo, User)
+		var UserCart Model.UserCart
+		rows.Scan(&UserCart.Product_Id, &UserCart.Product_Koll)
+		UserInfo = append(UserInfo, UserCart)
 	}
 
-	var ProductInfo = []Model.Product{}
+	var ProductInfo = []Model.UserCart{}
 
 	for _, Info := range UserInfo {
-		Products, err := ReadOneProductById(fmt.Sprint(Info.Product_Id))
+		row, err := Repository.Connection.Query(`SELECT * FROM "products" WHERE "product_id" = $1`, Info.Product_Id)
 		if err != nil {
 			return nil, err
 		}
-		ProductInfo = append(ProductInfo, Products...)
+		for row.Next() {
+			var p Model.UserCart
+			err := row.Scan(&p.Product_Id, &p.Image, &p.Name, &p.Manufacturer, &p.Category, &p.Description, &p.Price)
+			if err != nil {
+				return nil, err
+			}
+			p.Product_Koll = Info.Product_Koll
+			ProductInfo = append(ProductInfo, p)
+		}
 	}
 	return ProductInfo, nil
 }
@@ -335,9 +343,9 @@ func AddToCart(id string) error {
 
 	//Ecли товар уже в корзине обновляем время его добавления
 	for rows.Next() {
-		var User Model.User
-		rows.Scan(&User.Product_Id)
-		if User.Product_Id != 0 {
+		var UserCart Model.UserCart
+		rows.Scan(&UserCart.Product_Id)
+		if UserCart.Product_Id != 0 {
 			if _, err := Repository.Connection.Exec(`UPDATE "shopping_cart" SET "time_of_adding" = $1 WHERE user_id = $2 AND product_id = $3`, time.Now(), User_id, product_id); err != nil {
 				return err
 			}
@@ -382,9 +390,9 @@ func Proverka(id string) (string, error) {
 	}
 
 	for rows.Next() {
-		var User Model.User
-		rows.Scan(&User.Product_Id)
-		if User.Product_Id != 0 {
+		var UserCart Model.UserCart
+		rows.Scan(&UserCart.Product_Id)
+		if UserCart.Product_Id != 0 {
 			return "товар в корзине", nil
 		}
 	}
@@ -414,9 +422,9 @@ func AddKoll(id, koll string) error {
 
 	//Ecли товар в корзине обновляем количество товара
 	for rows.Next() {
-		var User Model.User
-		rows.Scan(&User.Product_Id)
-		if User.Product_Id != 0 {
+		var UserCart Model.UserCart
+		rows.Scan(&UserCart.Product_Id)
+		if UserCart.Product_Id != 0 {
 			if _, err := Repository.Connection.Exec(`UPDATE "shopping_cart" SET "product_koll" = $1 WHERE user_id = $2 AND product_id = $3`, product_koll, User_id, product_id); err != nil {
 				return err
 			}
@@ -456,9 +464,9 @@ func MinusKoll(id, koll string) error {
 
 	//Ecли товар в корзине обновляем количество товара
 	for rows.Next() {
-		var User Model.User
-		rows.Scan(&User.Product_Id)
-		if User.Product_Id != 0 {
+		var UserCart Model.UserCart
+		rows.Scan(&UserCart.Product_Id)
+		if UserCart.Product_Id != 0 {
 			if _, err := Repository.Connection.Exec(`UPDATE "shopping_cart" SET "product_koll" = $1 WHERE user_id = $2 AND product_id = $3`, product_koll, User_id, product_id); err != nil {
 				return err
 			}
