@@ -128,10 +128,10 @@
                 <input type="text" id="koll" name="koll" class="form-control text-center" value="1" placeholder=""
                   aria-label="Example text with button addon" aria-describedby="button-addon1">
                 <div class="input-group-append">
-                  <button class="btn btn-outline-primary js-btn-plus" type="button">&plus;</button>
+                  <button  onclick="window.location='/AddKoll/{{ .Id }}'" class="btn btn-outline-primary js-btn-plus" type="button">&plus;</button>
                 </div>
               </div>
-              <button  onclick="window.location='/AddKoll/{{ .Id }}'" class="buy-now btn btn-sm height-auto px-4 py-3 btn-primary"><div>Товар в корзине</br>перейти</div></button>
+              <a  href="/cart" class="buy-now btn btn-sm height-auto px-4 py-3 btn-primary"><div>Товар в корзине</br>перейти</div></a>
               {{ else }}
                 <p><button class="buy-now btn btn-sm height-auto px-4 py-3 btn-primary">Добавить в корзину</button></p>
                 {{ end }}
