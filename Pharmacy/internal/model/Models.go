@@ -11,10 +11,11 @@ type Product struct {
 }
 
 type User struct {
-	Id             int    `json:"id"`
-	Name           string `json:"name"`
-	Login          string `json:"login"`
-	HashPassword   string `json:"password"`
-	Role           string `json:"role"`
-	Product_Id     int    `json:"product_Id"`
+	Id           int    `json:"id"`
+	Name         string `json:"name"`
+	Login        string `json:"login"`
+	HashPassword string `json:"password"`
+	Role         string `json:"role"`
+	Product_Id   int    `json:"product_Id"`
+	Product_Koll int    `json:"product_Koll"`
 }

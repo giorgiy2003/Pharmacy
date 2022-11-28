@@ -221,18 +221,37 @@ func DeleteFromCart(c *gin.Context) {
 	c.Redirect(http.StatusSeeOther, "/cart")
 }
 
+//Уменьшить количество товара в корзине
+func MinusKoll(c *gin.Context) {
+	id := c.Param("id")
+	koll := c.Request.FormValue("koll")
+	err := Logic.MinusKoll(id,koll)
+	if err != nil {
+		c.HTML(400, "400", gin.H{
+			"Error": err.Error(),
+		})
+		return
+	}
+}
+
+//Увеличить количество товара в корзине
+func AddKoll(c *gin.Context) {
+	id := c.Param("id")
+	koll := c.Request.FormValue("koll")
+	err := Logic.AddKoll(id,koll)
+	if err != nil {
+		c.HTML(400, "400", gin.H{
+			"Error": err.Error(),
+		})
+		return
+	}
+}
+
+
 //Оставить отзыв
 func SendMessage(c *gin.Context) {
 
 	c.HTML(200, "index", gin.H{
-		"Role": Logic.Role,
-		"Auth": Logic.Auth,
-	})
-}
-
-//Использовать купон
-func UseCoupon(c *gin.Context) {
-	c.HTML(200, "checkout", gin.H{
 		"Role": Logic.Role,
 		"Auth": Logic.Auth,
 	})
