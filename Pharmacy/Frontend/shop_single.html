@@ -113,7 +113,7 @@
                 <p><strong class="text-primary h4">{{ .Price }} ₽</strong></p>
 
                 
-              <form action="/AddToCart/{{ .Id }}">
+              <form action="/AddToCart/{{ .Product_Id }}">
 
                 <div class="mb-5">
                   
@@ -123,12 +123,14 @@
               {{ if eq .Proverka "товар в корзине"}}
               <div class="input-group mb-3" style="max-width: 180px;">
                 <div class="input-group-prepend">
-                  <button  onclick="window.location='/MinusKoll/{{ .Id }}?koll={{ .Product_Koll }}'" class="btn btn-outline-primary js-btn-minus" type="button">&minus;</button>
+                  <button  onclick="window.location='/MinusKoll/{{ .Product_Id }}?koll={{ .Product_Koll }}'" class="btn btn-outline-primary js-btn-minus" type="button">&minus;</button>
                 </div>
-                <input type="text" id="koll" name="koll" class="form-control text-center" value="1" placeholder=""
+                {{ range .Products}}
+                <input type="text" id="koll" name="koll" class="form-control text-center" value="{{ .Product_Koll }}" placeholder=""
                   aria-label="Example text with button addon" aria-describedby="button-addon1">
+                {{ end }}
                 <div class="input-group-append">
-                  <button  onclick="window.location='/AddKoll/{{ .Id }}'" class="btn btn-outline-primary js-btn-plus" type="button">&plus;</button>
+                  <button onclick="window.location='/AddKoll/{{ .Product_Id }}?koll={{ .Product_Koll }}'" class="btn btn-outline-primary js-btn-plus" type="button">&plus;</button>
                 </div>
               </div>
               <a  href="/cart" class="buy-now btn btn-sm height-auto px-4 py-3 btn-primary"><div>Товар в корзине</br>перейти</div></a>

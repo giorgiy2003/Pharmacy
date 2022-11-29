@@ -476,6 +476,45 @@ func MinusKoll(id, koll string) error {
 	return nil
 }
 
+//Просмотреть карточку товара
+func ShopSingle(id string) ([]Model.UserCart, error) {
+
+	if User_id == 0 {
+		return nil, nil
+	}
+
+	product_id, err := strconv.Atoi(id)
+	if err != nil {
+		return nil, err
+	}
+	rows, err := Repository.Connection.Query(`SELECT "product_koll" FROM "shopping_cart" WHERE user_id = $1 AND product_id = $2`, User_id, product_id)
+	if err != nil {
+		return nil, err
+	}
+
+	var UserCart Model.UserCart
+	for rows.Next() {
+		rows.Scan(&UserCart.Product_Koll)
+	}
+
+	ProductInfo := []Model.UserCart{}
+
+	row, err := Repository.Connection.Query(`SELECT * FROM "products" WHERE "product_id" = $1`, product_id)
+	if err != nil {
+		return nil, err
+	}
+	for row.Next() {
+		var p Model.UserCart
+		err := row.Scan(&p.Product_Id, &p.Image, &p.Name, &p.Manufacturer, &p.Category, &p.Description, &p.Price)
+		if err != nil {
+			return nil, err
+		}
+		p.Product_Koll = UserCart.Product_Koll
+		ProductInfo = append(ProductInfo, p)
+	}
+	return ProductInfo, nil
+}
+
 func CreateProduct(p Model.Product) error {
 	p.Name = strings.TrimSpace(p.Name)
 	p.Image = strings.TrimSpace(p.Image)

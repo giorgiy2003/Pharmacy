@@ -101,7 +101,7 @@ func Shop(c *gin.Context) {
 //Просмотреть товар
 func Shop_single(c *gin.Context) {
 	id := c.Query("id")
-	Products, err := Logic.ReadOneProductById(id)
+	Products, err := Logic.ShopSingle(id)
 	if err != nil {
 		c.HTML(400, "400", gin.H{
 			"Error": err.Error(),
