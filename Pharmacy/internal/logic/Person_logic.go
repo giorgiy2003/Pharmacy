@@ -282,8 +282,6 @@ func Registration(UserName, UserEmail, UserPassword1, UserPassword2, Checkbox st
 	return nil
 }
 
-var ProductInfo map[int]interface{}
-
 //Корзина
 func UserCart() ([]Model.UserCart, error) {
 
@@ -291,36 +289,27 @@ func UserCart() ([]Model.UserCart, error) {
 		return nil, nil
 	}
 
-	rows, err := Repository.Connection.Query(`SELECT "product_id","product_koll" FROM "shopping_cart" WHERE user_id = $1 ORDER BY time_of_adding DESC`, User_id)
+	row, err := Repository.Connection.Query(`
+	SELECT products.product_id, products.product_image, products.product_name, products.product_manufacturer, products.product_category, products.product_description, products.product_price, shopping_cart.product_koll 
+	FROM products JOIN "shopping_cart" on products.product_id = shopping_cart.product_id
+	WHERE user_id = $1
+	ORDER BY "time_of_adding" DESC
+	`, User_id)
 	if err != nil {
 		return nil, err
 	}
 
 	var UserInfo = []Model.UserCart{}
-	for rows.Next() {
+	for row.Next() {
 		var UserCart Model.UserCart
-		rows.Scan(&UserCart.Product_Id, &UserCart.Product_Koll)
-		UserInfo = append(UserInfo, UserCart)
-	}
-
-	var ProductInfo = []Model.UserCart{}
-
-	for _, Info := range UserInfo {
-		row, err := Repository.Connection.Query(`SELECT * FROM "products" WHERE "product_id" = $1`, Info.Product_Id)
+		err := row.Scan(&UserCart.Product_Id, &UserCart.Image, &UserCart.Name, &UserCart.Manufacturer, &UserCart.Category, &UserCart.Description, &UserCart.Price, &UserCart.Product_Koll)
 		if err != nil {
 			return nil, err
 		}
-		for row.Next() {
-			var p Model.UserCart
-			err := row.Scan(&p.Product_Id, &p.Image, &p.Name, &p.Manufacturer, &p.Category, &p.Description, &p.Price)
-			if err != nil {
-				return nil, err
-			}
-			p.Product_Koll = Info.Product_Koll
-			ProductInfo = append(ProductInfo, p)
-		}
+		UserInfo = append(UserInfo, UserCart)
 	}
-	return ProductInfo, nil
+
+	return UserInfo, nil
 }
 
 //Добавить в корзину
@@ -476,11 +465,13 @@ func MinusKoll(id, koll string) error {
 	return nil
 }
 
+var ProductInfo []Model.UserCart
+
 //Просмотреть карточку товара
 func ShopSingle(id string) ([]Model.UserCart, error) {
 
 	if User_id == 0 {
-		return nil, nil
+		return ProductInfo, nil
 	}
 
 	product_id, err := strconv.Atoi(id)
