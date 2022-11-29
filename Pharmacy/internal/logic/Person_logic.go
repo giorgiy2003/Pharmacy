@@ -335,13 +335,9 @@ func AddToCart(id string) error {
 		var UserCart Model.UserCart
 		rows.Scan(&UserCart.Product_Id)
 		if UserCart.Product_Id != 0 {
-			if _, err := Repository.Connection.Exec(`UPDATE "shopping_cart" SET "time_of_adding" = $1 WHERE user_id = $2 AND product_id = $3`, time.Now(), User_id, product_id); err != nil {
-				return err
-			}
 			return nil
 		}
 	}
-
 	//Ecли товара не было в корзине, добавляем его
 	if _, err := Repository.Connection.Exec(`INSERT INTO "shopping_cart" ("user_id","product_id","product_koll", "time_of_adding") VALUES ($1,$2,$3,$4)`, User_id, product_id, 1, time.Now()); err != nil {
 		return err
@@ -465,45 +461,38 @@ func MinusKoll(id, koll string) error {
 	return nil
 }
 
-var ProductInfo []Model.UserCart
 
 //Просмотреть карточку товара
 func ShopSingle(id string) ([]Model.UserCart, error) {
 
 	if User_id == 0 {
-		return ProductInfo, nil
+		return nil, nil
 	}
 
 	product_id, err := strconv.Atoi(id)
 	if err != nil {
 		return nil, err
 	}
-	rows, err := Repository.Connection.Query(`SELECT "product_koll" FROM "shopping_cart" WHERE user_id = $1 AND product_id = $2`, User_id, product_id)
+	row, err := Repository.Connection.Query(`
+	SELECT products.product_id, products.product_image, products.product_name, products.product_manufacturer, products.product_category, products.product_description, products.product_price, shopping_cart.product_koll 
+	FROM products JOIN "shopping_cart" on products.product_id = shopping_cart.product_id
+	WHERE user_id = $1 AND products.product_id = $2
+	`, User_id, product_id)
 	if err != nil {
 		return nil, err
 	}
 
-	var UserCart Model.UserCart
-	for rows.Next() {
-		rows.Scan(&UserCart.Product_Koll)
-	}
-
-	ProductInfo := []Model.UserCart{}
-
-	row, err := Repository.Connection.Query(`SELECT * FROM "products" WHERE "product_id" = $1`, product_id)
-	if err != nil {
-		return nil, err
-	}
+	var UserInfo = []Model.UserCart{}
 	for row.Next() {
-		var p Model.UserCart
-		err := row.Scan(&p.Product_Id, &p.Image, &p.Name, &p.Manufacturer, &p.Category, &p.Description, &p.Price)
+		var UserCart Model.UserCart
+		err := row.Scan(&UserCart.Product_Id, &UserCart.Image, &UserCart.Name, &UserCart.Manufacturer, &UserCart.Category, &UserCart.Description, &UserCart.Price, &UserCart.Product_Koll)
 		if err != nil {
 			return nil, err
 		}
-		p.Product_Koll = UserCart.Product_Koll
-		ProductInfo = append(ProductInfo, p)
+		UserInfo = append(UserInfo, UserCart)
 	}
-	return ProductInfo, nil
+
+	return UserInfo, nil
 }
 
 func CreateProduct(p Model.Product) error {
