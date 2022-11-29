@@ -35,8 +35,8 @@ func main() {
 	router.GET("/Order", Handler.Make_Order) //Оформить заказ
 	router.GET("/AddToCart/:id", Handler.AddToCart) //Добавить в корзину ✅
 	router.GET("/DeleteFromCart/:id", Handler.DeleteFromCart) //Убрать из корзины ✅
-	router.GET("/MinusKoll/:id", Handler.MinusKoll) //Уменьшить количество товара в корзине 
-	router.GET("/AddKoll/:id", Handler.AddKoll) //Уменьшить количество товара в корзине 
+	router.GET("/MinusKoll/:id", Handler.MinusKoll) //Уменьшить количество товара в корзине ✅
+	router.GET("/AddKoll/:id", Handler.AddKoll) //Уменьшить количество товара в корзине ✅
 	router.GET("/SendMessage", Handler.SendMessage)	//Оставить отзыв
 	router.GET("/Product_category/:category", Handler.Medicines_by_category) //Поиск по категориям ✅
 	router.Run("localhost:8080")
