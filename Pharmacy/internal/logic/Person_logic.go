@@ -2,6 +2,7 @@ package Logic
 
 import (
 	"crypto/sha256"
+	"database/sql"
 	"encoding/hex"
 	"errors"
 	"fmt"
@@ -26,7 +27,7 @@ func ReadAllProducts() ([]Model.Product, error) {
 	var productInfo = []Model.Product{}
 	for row.Next() {
 		var p Model.Product
-		err := row.Scan(&p.Id, &p.Image, &p.Name, &p.Manufacturer, &p.Category, &p.Description, &p.Price)
+		err := row.Scan(&p.Product_Id, &p.Image, &p.Name, &p.Manufacturer, &p.Category, &p.Description, &p.Price)
 		if err != nil {
 			return nil, err
 		}
@@ -44,7 +45,7 @@ func ReadProductsWithLimit() ([]Model.Product, error) {
 	var productInfo = []Model.Product{}
 	for row.Next() {
 		var p Model.Product
-		err := row.Scan(&p.Id, &p.Image, &p.Name, &p.Manufacturer, &p.Category, &p.Description, &p.Price)
+		err := row.Scan(&p.Product_Id, &p.Image, &p.Name, &p.Manufacturer, &p.Category, &p.Description, &p.Price)
 		if err != nil {
 			return nil, err
 		}
@@ -62,7 +63,7 @@ func ReadOneProductByName(product_name string) ([]Model.Product, error) {
 	var productInfo = []Model.Product{}
 	for row.Next() {
 		var p Model.Product
-		err := row.Scan(&p.Id, &p.Image, &p.Name, &p.Manufacturer, &p.Category, &p.Description, &p.Price)
+		err := row.Scan(&p.Product_Id, &p.Image, &p.Name, &p.Manufacturer, &p.Category, &p.Description, &p.Price)
 		if err != nil {
 			return nil, err
 		}
@@ -84,7 +85,7 @@ func ReadOneProductById(product_id string) ([]Model.Product, error) {
 	var productInfo = []Model.Product{}
 	for row.Next() {
 		var p Model.Product
-		err := row.Scan(&p.Id, &p.Image, &p.Name, &p.Manufacturer, &p.Category, &p.Description, &p.Price)
+		err := row.Scan(&p.Product_Id, &p.Image, &p.Name, &p.Manufacturer, &p.Category, &p.Description, &p.Price)
 		if err != nil {
 			return nil, err
 		}
@@ -120,7 +121,7 @@ func Medicines_by_category(category string) ([]Model.Product, error) {
 	var productInfo = []Model.Product{}
 	for row.Next() {
 		var p Model.Product
-		err := row.Scan(&p.Id, &p.Image, &p.Name, &p.Manufacturer, &p.Category, &p.Description, &p.Price)
+		err := row.Scan(&p.Product_Id, &p.Image, &p.Name, &p.Manufacturer, &p.Category, &p.Description, &p.Price)
 		if err != nil {
 			return nil, err
 		}
@@ -138,7 +139,7 @@ func NameASC() ([]Model.Product, error) {
 	var productInfo = []Model.Product{}
 	for row.Next() {
 		var p Model.Product
-		err := row.Scan(&p.Id, &p.Image, &p.Name, &p.Manufacturer, &p.Category, &p.Description, &p.Price)
+		err := row.Scan(&p.Product_Id, &p.Image, &p.Name, &p.Manufacturer, &p.Category, &p.Description, &p.Price)
 		if err != nil {
 			return nil, err
 		}
@@ -156,7 +157,7 @@ func NameDESC() ([]Model.Product, error) {
 	var productInfo = []Model.Product{}
 	for row.Next() {
 		var p Model.Product
-		err := row.Scan(&p.Id, &p.Image, &p.Name, &p.Manufacturer, &p.Category, &p.Description, &p.Price)
+		err := row.Scan(&p.Product_Id, &p.Image, &p.Name, &p.Manufacturer, &p.Category, &p.Description, &p.Price)
 		if err != nil {
 			return nil, err
 		}
@@ -174,7 +175,7 @@ func PriceASC() ([]Model.Product, error) {
 	var productInfo = []Model.Product{}
 	for row.Next() {
 		var p Model.Product
-		err := row.Scan(&p.Id, &p.Image, &p.Name, &p.Manufacturer, &p.Category, &p.Description, &p.Price)
+		err := row.Scan(&p.Product_Id, &p.Image, &p.Name, &p.Manufacturer, &p.Category, &p.Description, &p.Price)
 		if err != nil {
 			return nil, err
 		}
@@ -192,7 +193,7 @@ func PriceDESC() ([]Model.Product, error) {
 	var productInfo = []Model.Product{}
 	for row.Next() {
 		var p Model.Product
-		err := row.Scan(&p.Id, &p.Image, &p.Name, &p.Manufacturer, &p.Category, &p.Description, &p.Price)
+		err := row.Scan(&p.Product_Id, &p.Image, &p.Name, &p.Manufacturer, &p.Category, &p.Description, &p.Price)
 		if err != nil {
 			return nil, err
 		}
@@ -461,37 +462,49 @@ func MinusKoll(id, koll string) error {
 	return nil
 }
 
-
 //Просмотреть карточку товара
 func ShopSingle(id string) ([]Model.UserCart, error) {
 
-	if User_id == 0 {
-		return nil, nil
-	}
+	var row *sql.Rows
+	var UserInfo = []Model.UserCart{}
+	var UserCart Model.UserCart
 
 	product_id, err := strconv.Atoi(id)
 	if err != nil {
 		return nil, err
 	}
-	row, err := Repository.Connection.Query(`
-	SELECT products.product_id, products.product_image, products.product_name, products.product_manufacturer, products.product_category, products.product_description, products.product_price, shopping_cart.product_koll 
-	FROM products JOIN "shopping_cart" on products.product_id = shopping_cart.product_id
-	WHERE user_id = $1 AND products.product_id = $2
-	`, User_id, product_id)
-	if err != nil {
-		return nil, err
-	}
 
-	var UserInfo = []Model.UserCart{}
-	for row.Next() {
-		var UserCart Model.UserCart
-		err := row.Scan(&UserCart.Product_Id, &UserCart.Image, &UserCart.Name, &UserCart.Manufacturer, &UserCart.Category, &UserCart.Description, &UserCart.Price, &UserCart.Product_Koll)
+	if User_id != 0 {
+		row, err = Repository.Connection.Query(`
+		SELECT products.product_id, products.product_image, products.product_name, products.product_manufacturer, products.product_category, products.product_description, products.product_price, shopping_cart.product_koll 
+		FROM products JOIN "shopping_cart" on products.product_id = shopping_cart.product_id
+		WHERE user_id = $1 AND products.product_id = $2
+		`, User_id, product_id)
 		if err != nil {
 			return nil, err
 		}
+		for row.Next() {
+			err := row.Scan(&UserCart.Product_Id, &UserCart.Image, &UserCart.Name, &UserCart.Manufacturer, &UserCart.Category, &UserCart.Description, &UserCart.Price, &UserCart.Product_Koll)
+			if err != nil {
+				return nil, err
+			}
+		}
 		UserInfo = append(UserInfo, UserCart)
 	}
-
+	if User_id == 0 || UserCart.Product_Koll == 0 {
+		row, err = Repository.Connection.Query(`SELECT * FROM "products" WHERE "product_id" = $1`, product_id)
+		if err != nil {
+			return nil, err
+		}
+		UserInfo = nil
+		for row.Next() {
+			err := row.Scan(&UserCart.Product_Id, &UserCart.Image, &UserCart.Name, &UserCart.Manufacturer, &UserCart.Category, &UserCart.Description, &UserCart.Price)
+			if err != nil {
+				return nil, err
+			}
+			UserInfo = append(UserInfo, UserCart)
+		}
+	}
 	return UserInfo, nil
 }
 
