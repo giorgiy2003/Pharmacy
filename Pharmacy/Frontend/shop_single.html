@@ -120,7 +120,7 @@
                 </div>
                 {{ end }}
              
-              {{ if eq .Proverka "товар в корзине"}}
+              {{ if eq .Proverka "товар в корзине" }}
               {{ range .Products}}
               <div class="input-group mb-3" style="max-width: 180px;">
                 <div class="input-group-prepend">
@@ -136,12 +136,15 @@
               </div>
               {{ end }}
               <a  href="/cart" class="buy-now btn btn-sm height-auto px-4 py-3 btn-primary"><div>Товар в корзине</br>перейти</div></a>
-              {{ else }}
+              {{ else if eq .Auth "false"}}
                 <p><button class="buy-now btn btn-sm height-auto px-4 py-3 btn-primary ">Добавить в корзину</button></p>
                 <p>Для добавления товара в корзину необходимо авторизоваться</p>
-                {{ end }}
+              {{ else }}
+              <p><button class="buy-now btn btn-sm height-auto px-4 py-3 btn-primary ">Добавить в корзину</button></p>
+         
+              {{ end }}
+              
               </form>
-
             </div>
             {{ range .Products}}
             <div class="mt-5">

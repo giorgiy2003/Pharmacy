@@ -2,7 +2,6 @@ package Logic
 
 import (
 	"crypto/sha256"
-	"database/sql"
 	"encoding/hex"
 	"errors"
 	"fmt"
@@ -426,7 +425,6 @@ func MinusKoll(id, koll string) error {
 	if User_id == 0 {
 		return nil
 	}
-
 	product_id, err := strconv.Atoi(id)
 	if err != nil {
 		return err
@@ -465,7 +463,7 @@ func MinusKoll(id, koll string) error {
 //Просмотреть карточку товара
 func ShopSingle(id string) ([]Model.UserCart, error) {
 
-	var row *sql.Rows
+	
 	var UserInfo = []Model.UserCart{}
 	var UserCart Model.UserCart
 
@@ -475,7 +473,7 @@ func ShopSingle(id string) ([]Model.UserCart, error) {
 	}
 
 	if User_id != 0 {
-		row, err = Repository.Connection.Query(`
+		row, err := Repository.Connection.Query(`
 		SELECT products.product_id, products.product_image, products.product_name, products.product_manufacturer, products.product_category, products.product_description, products.product_price, shopping_cart.product_koll 
 		FROM products JOIN "shopping_cart" on products.product_id = shopping_cart.product_id
 		WHERE user_id = $1 AND products.product_id = $2
@@ -491,8 +489,9 @@ func ShopSingle(id string) ([]Model.UserCart, error) {
 		}
 		UserInfo = append(UserInfo, UserCart)
 	}
+	
 	if User_id == 0 || UserCart.Product_Koll == 0 {
-		row, err = Repository.Connection.Query(`SELECT * FROM "products" WHERE "product_id" = $1`, product_id)
+		row, err := Repository.Connection.Query(`SELECT * FROM "products" WHERE "product_id" = $1`, product_id)
 		if err != nil {
 			return nil, err
 		}
