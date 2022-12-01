@@ -13,8 +13,8 @@ import (
 )
 
 var (
-	Auth, Role string
-	User_id    int
+	Role    string
+	User_id = 0
 )
 
 //Вывести все товары
@@ -221,8 +221,6 @@ func Autorization(login, password string) error {
 	if User_id == 0 {
 		return errors.New("Введён неверный логин или пароль!")
 	}
-
-	Auth = "true"
 	return nil
 }
 
@@ -330,7 +328,7 @@ func AddToCart(id string) error {
 		return err
 	}
 
-	//Ecли товар уже в корзине обновляем время его добавления
+	//Ecли товар уже в корзине выходим из функции
 	for rows.Next() {
 		var UserCart Model.UserCart
 		rows.Scan(&UserCart.Product_Id)
@@ -463,7 +461,6 @@ func MinusKoll(id, koll string) error {
 //Просмотреть карточку товара
 func ShopSingle(id string) ([]Model.UserCart, error) {
 
-	
 	var UserInfo = []Model.UserCart{}
 	var UserCart Model.UserCart
 
@@ -489,7 +486,7 @@ func ShopSingle(id string) ([]Model.UserCart, error) {
 		}
 		UserInfo = append(UserInfo, UserCart)
 	}
-	
+
 	if User_id == 0 || UserCart.Product_Koll == 0 {
 		row, err := Repository.Connection.Query(`SELECT * FROM "products" WHERE "product_id" = $1`, product_id)
 		if err != nil {

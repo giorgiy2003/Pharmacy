@@ -63,7 +63,7 @@
               <span class="icon-shopping-bag"></span>
             </a>
            </div>
-           {{ if eq .Auth "true"}}
+           {{ if ne .User_id 0}}
             <div class="main-nav d-none d-lg-block">
               <nav class="site-navigation text-right text-md-center" role="navigation">
                 <ul class="site-menu js-clone-nav d-none d-lg-block">
@@ -126,22 +126,19 @@
                 <div class="input-group-prepend">
                   <button  onclick="window.location='/MinusKoll/{{ .Product_Id }}?koll={{ .Product_Koll }}'" class="btn btn-outline-primary js-btn-minus" type="button">&minus;</button>
                 </div>
-           
                 <input type="text" id="koll" name="koll" class="form-control text-center" value="{{ .Product_Koll }}" placeholder=""
                   aria-label="Example text with button addon" aria-describedby="button-addon1">
-              
                 <div class="input-group-append">
                   <button onclick="window.location='/AddKoll/{{ .Product_Id }}?koll={{ .Product_Koll }}'" class="btn btn-outline-primary js-btn-plus" type="button">&plus;</button>
                 </div>
               </div>
               {{ end }}
               <a  href="/cart" class="buy-now btn btn-sm height-auto px-4 py-3 btn-primary"><div>Товар в корзине</br>перейти</div></a>
-              {{ else if eq .Auth "false"}}
+              {{ else if eq .User_id 0}}
                 <p><button class="buy-now btn btn-sm height-auto px-4 py-3 btn-primary ">Добавить в корзину</button></p>
                 <p>Для добавления товара в корзину необходимо авторизоваться</p>
               {{ else }}
               <p><button class="buy-now btn btn-sm height-auto px-4 py-3 btn-primary ">Добавить в корзину</button></p>
-         
               {{ end }}
               
               </form>

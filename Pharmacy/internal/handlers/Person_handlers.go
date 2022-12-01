@@ -58,14 +58,13 @@ func MainForm(c *gin.Context) {
 
 	c.HTML(200, "index", gin.H{
 		"Role":     Logic.Role,
-		"Auth":     Logic.Auth,
+		"User_id":  Logic.User_id,
 		"Products": Products,
 	})
 }
 
 //Выйти из аккаунта
 func Sign_out(c *gin.Context) {
-	Logic.Auth = "false"
 	Logic.User_id = 0
 	c.Redirect(http.StatusSeeOther, "/")
 }
@@ -92,7 +91,7 @@ func Shop(c *gin.Context) {
 	}
 	c.HTML(200, "shop", gin.H{
 		"Role":     Logic.Role,
-		"Auth":     Logic.Auth,
+		"User_id":  Logic.User_id,
 		"Products": Products,
 	})
 }
@@ -117,7 +116,7 @@ func Shop_single(c *gin.Context) {
 	c.HTML(200, "shop_single", gin.H{
 		"Proverka": proverka,
 		"Role":     Logic.Role,
-		"Auth":     Logic.Auth,
+		"User_id":  Logic.User_id,
 		"Products": Products,
 	})
 }
@@ -134,15 +133,15 @@ func SearhProduct(c *gin.Context) {
 	}
 	if len(Products) == 0 {
 		c.HTML(200, "InfoPage", gin.H{
-			"Role": Logic.Role,
-			"Auth": Logic.Auth,
-			"Info": "По Вашему запросу ничего не найдено",
+			"Role":    Logic.Role,
+			"User_id": Logic.User_id,
+			"Info":    "По Вашему запросу ничего не найдено",
 		})
 		return
 	}
 	c.HTML(200, "shop", gin.H{
 		"Role":     Logic.Role,
-		"Auth":     Logic.Auth,
+		"User_id":  Logic.User_id,
 		"Products": Products,
 	})
 }
@@ -159,39 +158,39 @@ func Cart(c *gin.Context) {
 	c.HTML(200, "cart", gin.H{
 		"Role":     Logic.Role,
 		"Products": Products,
-		"Auth":     Logic.Auth,
+		"User_id":  Logic.User_id,
 	})
 }
 
 //О нас
 func About(c *gin.Context) {
 	c.HTML(200, "about", gin.H{
-		"Role": Logic.Role,
-		"Auth": Logic.Auth,
+		"Role":    Logic.Role,
+		"User_id": Logic.User_id,
 	})
 }
 
 //Контакты
 func Contact(c *gin.Context) {
 	c.HTML(200, "contact", gin.H{
-		"Role": Logic.Role,
-		"Auth": Logic.Auth,
+		"Role":    Logic.Role,
+		"User_id": Logic.User_id,
 	})
 }
 
 //Страница оформления заказа
 func Checkout(c *gin.Context) {
 	c.HTML(200, "checkout", gin.H{
-		"Role": Logic.Role,
-		"Auth": Logic.Auth,
+		"Role":    Logic.Role,
+		"User_id": Logic.User_id,
 	})
 }
 
 //Сделать заказ
 func Make_Order(c *gin.Context) {
 	c.HTML(200, "thankyou", gin.H{
-		"Role": Logic.Role,
-		"Auth": Logic.Auth,
+		"Role":    Logic.Role,
+		"User_id": Logic.User_id,
 	})
 }
 
@@ -225,7 +224,7 @@ func DeleteFromCart(c *gin.Context) {
 func MinusKoll(c *gin.Context) {
 	id := c.Param("id")
 	koll := c.Request.FormValue("koll")
-	err := Logic.MinusKoll(id,koll)
+	err := Logic.MinusKoll(id, koll)
 	if err != nil {
 		c.HTML(400, "400", gin.H{
 			"Error": err.Error(),
@@ -239,7 +238,7 @@ func MinusKoll(c *gin.Context) {
 func AddKoll(c *gin.Context) {
 	id := c.Param("id")
 	koll := c.Request.FormValue("koll")
-	err := Logic.AddKoll(id,koll)
+	err := Logic.AddKoll(id, koll)
 	if err != nil {
 		c.HTML(400, "400", gin.H{
 			"Error": err.Error(),
@@ -249,13 +248,12 @@ func AddKoll(c *gin.Context) {
 	c.Redirect(http.StatusSeeOther, "/cart")
 }
 
-
 //Оставить отзыв
 func SendMessage(c *gin.Context) {
 
 	c.HTML(200, "index", gin.H{
-		"Role": Logic.Role,
-		"Auth": Logic.Auth,
+		"Role":    Logic.Role,
+		"User_id": Logic.User_id,
 	})
 }
 
@@ -271,7 +269,7 @@ func Medicines_by_category(c *gin.Context) {
 	}
 	c.HTML(200, "shop", gin.H{
 		"Role":     Logic.Role,
-		"Auth":     Logic.Auth,
+		"User_id":  Logic.User_id,
 		"Category": category,
 		"Products": Products,
 	})
@@ -288,7 +286,7 @@ func NameASC(c *gin.Context) {
 	}
 	c.HTML(200, "shop", gin.H{
 		"Role":     Logic.Role,
-		"Auth":     Logic.Auth,
+		"User_id":  Logic.User_id,
 		"Products": Products,
 	})
 }
@@ -304,7 +302,7 @@ func NameDESC(c *gin.Context) {
 	}
 	c.HTML(200, "shop", gin.H{
 		"Role":     Logic.Role,
-		"Auth":     Logic.Auth,
+		"User_id":  Logic.User_id,
 		"Products": Products,
 	})
 }
@@ -320,7 +318,7 @@ func PriceASC(c *gin.Context) {
 	}
 	c.HTML(200, "shop", gin.H{
 		"Role":     Logic.Role,
-		"Auth":     Logic.Auth,
+		"User_id":  Logic.User_id,
 		"Products": Products,
 	})
 }
@@ -336,7 +334,7 @@ func PriceDESC(c *gin.Context) {
 	}
 	c.HTML(200, "shop", gin.H{
 		"Role":     Logic.Role,
-		"Auth":     Logic.Auth,
+		"User_id":  Logic.User_id,
 		"Products": Products,
 	})
 }
