@@ -144,7 +144,7 @@
                         </div>
                       </div>
                     </td>
-                    <td>{{ .Price }} ₽</td>
+                    <td>{{ .Product_amount }} ₽</td>
                     <td><a href="/DeleteFromCart/{{ .Product_Id }}" class="btn btn-primary height-auto btn-sm">X</a></td>
                   </tr>
 
@@ -178,7 +178,7 @@
                     <span class="text-black">Итог</span>
                   </div>
                   <div class="col-md-6 text-right">
-                    <strong class="text-black">94.00 ₽</strong>
+                    <strong class="text-black">{{ .Total }} ₽</strong>
                   </div>
                 </div>
     

@@ -281,33 +281,50 @@ func Registration(UserName, UserEmail, UserPassword1, UserPassword2, Checkbox st
 }
 
 //Корзина
-func UserCart() ([]Model.UserCart, error) {
+func UserCart() ([]Model.UserCart, int, error) {
 
 	if User_id == 0 {
-		return nil, nil
+		return nil, 0, nil
 	}
 
 	row, err := Repository.Connection.Query(`
-	SELECT products.product_id, products.product_image, products.product_name, products.product_manufacturer, products.product_category, products.product_description, products.product_price, shopping_cart.product_koll 
+	SELECT products.product_id, products.product_image, products.product_name, products.product_manufacturer, products.product_category, products.product_description, 
+	products.product_price, shopping_cart.product_koll, shopping_cart.product_koll * products.product_price AS product_amount
 	FROM products JOIN "shopping_cart" on products.product_id = shopping_cart.product_id
 	WHERE user_id = $1
+	GROUP BY products.product_id, shopping_cart.product_koll, time_of_adding
 	ORDER BY "time_of_adding" DESC
 	`, User_id)
 	if err != nil {
-		return nil, err
+		return nil, 0, err
 	}
 
 	var UserInfo = []Model.UserCart{}
 	for row.Next() {
 		var UserCart Model.UserCart
-		err := row.Scan(&UserCart.Product_Id, &UserCart.Image, &UserCart.Name, &UserCart.Manufacturer, &UserCart.Category, &UserCart.Description, &UserCart.Price, &UserCart.Product_Koll)
+		err := row.Scan(&UserCart.Product_Id, &UserCart.Image, &UserCart.Name, &UserCart.Manufacturer, &UserCart.Category, &UserCart.Description, &UserCart.Price, &UserCart.Product_Koll, &UserCart.Product_amount)
 		if err != nil {
-			return nil, err
+			return nil, 0, err
 		}
 		UserInfo = append(UserInfo, UserCart)
 	}
 
-	return UserInfo, nil
+	row, err = Repository.Connection.Query(`
+	SELECT SUM(shopping_cart.product_koll * products.product_price) AS Product_total_price
+	FROM products JOIN "shopping_cart" on products.product_id = shopping_cart.product_id
+	WHERE user_id =$1
+	`, User_id)
+	if err != nil {
+		return nil, 0, err
+	}
+	var total int
+	for row.Next() {
+		err := row.Scan(&total)
+		if err != nil {
+			return nil, 0, err
+		}
+	}
+	return UserInfo, total, nil
 }
 
 //Добавить в корзину

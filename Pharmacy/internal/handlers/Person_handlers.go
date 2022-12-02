@@ -148,16 +148,23 @@ func SearhProduct(c *gin.Context) {
 
 //Корзина
 func Cart(c *gin.Context) {
-	Products, err := Logic.UserCart()
+	Products, total, err := Logic.UserCart()
 	if err != nil {
 		c.HTML(400, "400", gin.H{
 			"Error": err.Error(),
 		})
 		return
 	}
+	if len(Products) == 0 {
+		c.HTML(200, "NullCart", gin.H{
+			"Role":    Logic.Role,
+			"User_id": Logic.User_id,
+		})
+	}
 	c.HTML(200, "cart", gin.H{
 		"Role":     Logic.Role,
 		"Products": Products,
+		"Total":    total,
 		"User_id":  Logic.User_id,
 	})
 }
