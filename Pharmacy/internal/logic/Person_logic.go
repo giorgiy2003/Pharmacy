@@ -2,6 +2,7 @@ package Logic
 
 import (
 	"crypto/sha256"
+	"database/sql"
 	"encoding/hex"
 	"errors"
 	"fmt"
@@ -317,14 +318,16 @@ func UserCart() ([]Model.UserCart, int, error) {
 	if err != nil {
 		return nil, 0, err
 	}
-	var total int
+
+	var total sql.NullInt64
+
 	for row.Next() {
 		err := row.Scan(&total)
 		if err != nil {
 			return nil, 0, err
 		}
 	}
-	return UserInfo, total, nil
+	return UserInfo, int(total.Int64), nil
 }
 
 //Добавить в корзину

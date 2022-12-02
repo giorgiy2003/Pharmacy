@@ -160,6 +160,7 @@ func Cart(c *gin.Context) {
 			"Role":    Logic.Role,
 			"User_id": Logic.User_id,
 		})
+		return
 	}
 	c.HTML(200, "cart", gin.H{
 		"Role":     Logic.Role,
