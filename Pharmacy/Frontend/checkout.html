@@ -171,17 +171,15 @@
                       <th>Стоимость</th>
                     </thead>
                     <tbody>
+                      {{range .Products }}
                       <tr>
-                        <td>Биодерма <strong class="mx-2">x</strong> 1</td>
-                        <td>1300 ₽</td>
+                        <td>{{ .Name}}<strong class="mx-2">x</strong>{{.Product_Koll }}</td>
+                        <td>{{ .Product_amount }} ₽</td>
                       </tr>
-                      <tr>
-                        <td>Umcka Cold Care <strong class="mx-2">x</strong> 1</td>
-                        <td>559 ₽</td>
-                      </tr>
+                      {{ end }}
                       <tr>
                         <td class="text-black font-weight-bold"><strong>Итог</strong></td>
-                        <td class="text-black font-weight-bold"><strong>1859 ₽</strong></td>
+                        <td class="text-black font-weight-bold"><strong>{{ .Total }} ₽</strong></td>
                       </tr>
                     </tbody>
                   </table>

@@ -9,6 +9,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
   <link href="https://fonts.googleapis.com/css?family=Rubik:400,700|Crimson+Text:400,400i" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
   <link rel="stylesheet" href="/fonts/icomoon/style.css">
 
   <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -89,7 +90,6 @@
       </div>
 
 
-
     <div class="bg-light py-3">
       <div class="container">
         <div class="row">
@@ -101,32 +101,22 @@
       </div>
     </div>
 
-
-
-
+ 
     <div class="site-section">
       <div class="container">
         <div class="row mb-5">
-          <form class="col-md-12" method="post">
+          <form class="col-md-12" method="get">
             <div class="site-blocks-table">
-              <table class="table table-bordered">
-                <thead>
-                  <tr>
-                    <th class="product-thumbnail">Товар</th>
-                    <th class="product-name">Наименование</th>
-                    <th class="product-price">Цена</th>
-                    <th class="product-quantity">Количество</th>
-                    <th class="product-total">Общая стоимость</th>
-                    <th class="product-remove">Убрать</th>
-                  </tr>
-                </thead>
+              <table class="table">
                 <tbody>
                   <tr>
 
                     {{range .Products }}
 
                     <td class="product-thumbnail">
-                      <a href="/shop_single?id={{ .Product_Id }}"> <img src="/images/products/{{ .Image }}" alt="Image" class="img-fluid"> </a>
+                      <div class="row align-items-center">
+                          <a href="/shop_single?id={{ .Product_Id }}"> <img src="/images/products/{{ .Image }}" alt="Image" class="img-fluid"> </a>
+                      </div>
                     </td>
                     <td class="product-name">
                       <h2 class="h5 text-black"><a href="/shop_single?id={{ .Product_Id}}">{{ .Name}}</a></h2>
@@ -138,14 +128,13 @@
                           <button  onclick="window.location='/MinusKoll/{{ .Product_Id }}?koll={{ .Product_Koll }}'" class="btn btn-outline-primary js-btn-minus" type="button">&minus;</button>
                         </div>
                         <input type="text" class="form-control text-center" value="{{.Product_Koll }}" placeholder=""
-                          aria-label="Example text with button addon" aria-describedby="button-addon1" id="koll" name="koll">
+                          aria-label="Example text with button addon" aria-describedby="button-addon1" id="koll" name="koll" readonly style="background-color: white;">
                         <div class="input-group-append">
                           <button  onclick="window.location='/AddKoll/{{ .Product_Id }}?koll={{ .Product_Koll }}'" class="btn btn-outline-primary js-btn-plus" type="button">&plus;</button>
                         </div>
                       </div>
                     </td>
                     <td>{{ .Product_amount }} ₽</td>
-                    <td><a href="/DeleteFromCart/{{ .Product_Id }}" class="btn btn-primary height-auto btn-sm">X</a></td>
                   </tr>
 
                   {{ end }}

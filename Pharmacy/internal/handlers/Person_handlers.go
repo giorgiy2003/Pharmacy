@@ -188,9 +188,24 @@ func Contact(c *gin.Context) {
 
 //Страница оформления заказа
 func Checkout(c *gin.Context) {
+	Products, total, err := Logic.UserCart()
+	if err != nil {
+		c.HTML(400, "400", gin.H{
+			"Error": err.Error(),
+		})
+		return
+	}
+	if len(Products) == 0 {
+		c.HTML(200, "400", gin.H{
+			"Error": "Невозможно оформить заказ, в корзине ничего нет!",
+		})
+		return
+	}
 	c.HTML(200, "checkout", gin.H{
-		"Role":    Logic.Role,
-		"User_id": Logic.User_id,
+		"Role":     Logic.Role,
+		"Products": Products,
+		"Total":    total,
+		"User_id":  Logic.User_id,
 	})
 }
 
