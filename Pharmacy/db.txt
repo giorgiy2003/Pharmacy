@@ -37,6 +37,14 @@ CREATE TABLE shopping_cart (
 	FOREIGN KEY (product_id) REFERENCES products (product_id)
 );
 
+CREATE TABLE favourites (
+	user_id integer NOT NULL,
+	product_id integer NOT NULL,
+	time_of_adding TIME NOT NULL,
+	FOREIGN KEY (user_id) REFERENCES users (user_id),
+	FOREIGN KEY (product_id) REFERENCES products (product_id)
+);
+
 INSERT INTO role (
 	role_name
 )

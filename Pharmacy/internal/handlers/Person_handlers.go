@@ -106,19 +106,55 @@ func Shop_single(c *gin.Context) {
 		})
 		return
 	}
-	proverka, err := Logic.Proverka(id)
+	proverka1, err := Logic.Proverka1(id)
 	if err != nil {
 		c.HTML(400, "400", gin.H{
 			"Error": err.Error(),
 		})
 		return
 	}
+
+	proverka2, err := Logic.Proverka2(id)
+	if err != nil {
+		c.HTML(400, "400", gin.H{
+			"Error": err.Error(),
+		})
+		return
+	}
+
 	c.HTML(200, "shop_single", gin.H{
-		"Proverka": proverka,
+		"Proverka1": proverka1,
+		"Proverka2": proverka2,
 		"Role":     Logic.Role,
 		"User_id":  Logic.User_id,
 		"Products": Products,
 	})
+}
+
+//Добавить в избранное
+func AddToFavotites(c *gin.Context) {
+	id := c.Param("id")
+	err := Logic.AddToFavotites(id)
+	if err != nil {
+		c.HTML(400, "400", gin.H{
+			"Error": err.Error(),
+		})
+		return
+	}
+	c.Redirect(http.StatusSeeOther, fmt.Sprintf("/shop_single?id=%s", id))
+}
+
+//Убрать из избранного
+func DeleteFromFavotites(c *gin.Context) {
+	id := c.Param("id")
+	err := Logic.DeleteFromFavotites(id)
+	if err != nil {
+		c.HTML(400, "400", gin.H{
+			"Error": err.Error(),
+		})
+		return
+	}
+	c.Redirect(http.StatusSeeOther, fmt.Sprintf("/shop_single?id=%s", id))
 }
 
 //Поиск товара
@@ -195,7 +231,7 @@ func Checkout(c *gin.Context) {
 		})
 		return
 	}
-	if len(Products) == 0 {
+	if Products == nil {
 		c.HTML(200, "400", gin.H{
 			"Error": "Невозможно оформить заказ, в корзине ничего нет!",
 		})
@@ -210,12 +246,29 @@ func Checkout(c *gin.Context) {
 }
 
 //Сделать заказ
-func Make_Order(c *gin.Context) {
+func Order(c *gin.Context) {
 	c.HTML(200, "thankyou", gin.H{
 		"Role":    Logic.Role,
 		"User_id": Logic.User_id,
 	})
 }
+
+//История заказов
+func HistoryPage(c *gin.Context) {
+	c.HTML(200, "OrdersPage", gin.H{
+		"Role":    Logic.Role,
+		"User_id": Logic.User_id,
+	})
+}
+
+//Товары в избранном
+func Favourites(c *gin.Context) {
+	c.HTML(200, "favouritesPage", gin.H{
+		"Role":    Logic.Role,
+		"User_id": Logic.User_id,
+	})
+}
+
 
 //Добавить в корзину
 func AddToCart(c *gin.Context) {
@@ -273,7 +326,6 @@ func AddKoll(c *gin.Context) {
 
 //Оставить отзыв
 func SendMessage(c *gin.Context) {
-
 	c.HTML(200, "index", gin.H{
 		"Role":    Logic.Role,
 		"User_id": Logic.User_id,

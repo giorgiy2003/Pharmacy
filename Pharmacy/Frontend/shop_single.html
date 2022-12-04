@@ -70,7 +70,8 @@
                   <li class="has-children">
                     <a href="#"><img src= "/images/human.png" alt="Image"></a>
                     <ul class="dropdown">
-                      <li><a href="/historyPage">Мои заказы</a></li>
+                      <li><a href="/historyPage"><img src= "/images/cart.png" alt="Image"> Мои заказы</a></li>
+                      <li><a href="/favouritesPage"><img src= "/images/favourites.png" alt="Image"> Избранное</a></li>
                       {{ if eq .Role "Администратор"}}
                       <li><a href="/admin">Для разработчиков</a></li>
                       {{ end }}
@@ -96,13 +97,32 @@
         </div>
       </div>
     </div>
-
+    {{ end }}
     <div class="site-section">
       <div class="container">
         <div class="row">
           <div class="col-md-5 mr-auto">
             <div class="border text-center">
+
+              {{ if eq .Proverka2 "товар в избранном" }}
+              <div class="text-right">
+                {{ range .Products}}
+                  <button onclick="window.location='/DeleteFromfavourites/{{ .Product_Id }}'" class="btn" style="background-color:rgba(255,255,255,0.0); border:none;">
+                    <img src="/images/DeleteFromfavourites.png" alt="Image"></button>
+                {{ end }}
+              </div>
+              {{ else }}
+              <div class="text-right">
+                {{ range .Products}}
+                 <button onclick="window.location='/AddTofavourites/{{ .Product_Id }}'" class="btn" style="background-color:rgba(255,255,255,0.0); border:none;">
+                  <img src="/images/AddTofavourites.png" alt="Image"></button>
+                {{ end }}
+              </div>
+              {{ end }}
+
+              {{ range .Products}}
               <img src="/images/products/{{.Image}}" alt="Image" class="img-fluid p-5">
+
             </div>
           </div>
           <div class="col-md-6 align-self-center">
@@ -120,7 +140,7 @@
                 </div>
                 {{ end }}
              
-              {{ if eq .Proverka "товар в корзине" }}
+              {{ if eq .Proverka1 "товар в корзине" }}
               {{ range .Products}}
               <div class="input-group mb-3" style="max-width: 180px;">
                 <div class="input-group-prepend">

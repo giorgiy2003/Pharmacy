@@ -381,7 +381,7 @@ func DeleteFromCart(id string) error {
 }
 
 //Проверка на наличие товара в корзине пользователя
-func Proverka(id string) (string, error) {
+func Proverka1(id string) (string, error) {
 
 	product_id, err := strconv.Atoi(id)
 	if err != nil {
@@ -400,6 +400,78 @@ func Proverka(id string) (string, error) {
 		}
 	}
 	return "", nil
+}
+
+//Проверка на наличие товара в корзине пользователя
+func Proverka2(id string) (string, error) {
+
+	product_id, err := strconv.Atoi(id)
+	if err != nil {
+		return "", err
+	}
+	rows, err := Repository.Connection.Query(`SELECT "product_id" FROM "favourites" WHERE user_id = $1 AND product_id = $2`, User_id, product_id)
+	if err != nil {
+		return "", err
+	}
+
+	for rows.Next() {
+		var UserCart Model.UserCart
+		rows.Scan(&UserCart.Product_Id)
+		if UserCart.Product_Id != 0 {
+			return "товар в избранном", nil
+		}
+	}
+	return "", nil
+}
+
+//Добавить в избранное
+func AddToFavotites(id string) error {
+
+	if User_id == 0 {
+		return nil
+	}
+
+	product_id, err := strconv.Atoi(id)
+	if err != nil {
+		return err
+	}
+
+	//Проверяем существует ли товар в избранном
+	rows, err := Repository.Connection.Query(`SELECT "product_id" FROM "favourites" WHERE user_id = $1 AND product_id = $2`, User_id, product_id)
+	if err != nil {
+		return err
+	}
+
+	//Ecли товар уже в избранном выходим из функции
+	for rows.Next() {
+		var UserCart Model.UserCart
+		rows.Scan(&UserCart.Product_Id)
+		if UserCart.Product_Id != 0 {
+			return nil
+		}
+	}
+	//Ecли товара не было в избранном, добавляем его
+	if _, err := Repository.Connection.Exec(`INSERT INTO "favourites" ("user_id","product_id","time_of_adding") VALUES ($1,$2,$3)`, User_id, product_id, time.Now()); err != nil {
+		return err
+	}
+	return nil
+}
+
+//Убрать из избранного
+func DeleteFromFavotites(id string) error {
+
+	if User_id == 0 {
+		return nil
+	}
+
+	product_id, err := strconv.Atoi(id)
+	if err != nil {
+		return err
+	}
+	if _, err := Repository.Connection.Exec(`DELETE FROM "favourites" WHERE user_id = $1 AND product_id = $2`, User_id, product_id); err != nil {
+		return err
+	}
+	return nil
 }
 
 //Увеличить количество товара в корзине

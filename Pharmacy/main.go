@@ -30,13 +30,17 @@ func main() {
 	router.GET("/SearhProduct", Handler.SearhProduct) //Поиск товара по ID или названию ✅
 	router.GET("/cart", Handler.Cart) //Корзина ✅
 	router.GET("/about", Handler.About) //О нас ✅
-	router.GET("/checkout", Handler.Checkout) //Страница оформления
 	router.GET("/contact", Handler.Contact) //Контакты ✅
-	router.GET("/Order", Handler.Make_Order) //Оформить заказ
 	router.GET("/AddToCart/:id", Handler.AddToCart) //Добавить в корзину ✅
 	router.GET("/DeleteFromCart/:id", Handler.DeleteFromCart) //Убрать из корзины ✅
 	router.GET("/MinusKoll/:id", Handler.MinusKoll) //Уменьшить количество товара в корзине ✅
 	router.GET("/AddKoll/:id", Handler.AddKoll) //Уменьшить количество товара в корзине ✅
+	router.GET("/checkout", Handler.Checkout) //Страница оформления заказа ✅
+	router.GET("/Order", Handler.Order) //Оформить заказ
+	router.GET("/favouritesPage", Handler.Favourites) //Товары в избранном
+	router.GET("/AddTofavourites/:id", Handler.AddToFavotites) //Добавить в избранное ✅
+	router.GET("/DeleteFromfavourites/:id", Handler.DeleteFromFavotites) //Убрать из избранного ✅
+	router.GET("/historyPage", Handler.HistoryPage) //История заказов
 	router.GET("/SendMessage", Handler.SendMessage)	//Оставить отзыв
 	router.GET("/Product_category/:category", Handler.Medicines_by_category) //Поиск по категориям ✅
 	router.Run("localhost:8080")
