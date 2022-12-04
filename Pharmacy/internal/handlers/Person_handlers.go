@@ -216,7 +216,7 @@ func Favourites(c *gin.Context) {
 		return
 	}
 	if len(Products) == 0 {
-		c.HTML(200, "NullCart", gin.H{
+		c.HTML(200, "NullFavourites", gin.H{
 			"Role":    Logic.Role,
 			"User_id": Logic.User_id,
 		})

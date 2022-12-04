@@ -1,10 +1,10 @@
-{{define "shop_single" }}
+{{define "NullFavourites" }}
 
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-  <title>Информация о товаре</title>
+  <title>Избранное</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -18,9 +18,7 @@
   <link rel="stylesheet" href="/css/owl.theme.default.min.css">
 
   <link rel="stylesheet" href="/css/aos.css">
-
   <link rel="stylesheet" href="/css/style.css">
-
 </head>
 
 <body>
@@ -39,7 +37,7 @@
             <nav class="site-navigation text-right text-md-center" role="navigation">
               <ul class="site-menu js-clone-nav d-none d-lg-block">
                 <li><a href="/">Главная страница</a></li>
-                <li  class="active"><a href="/shop">Товары</a></li>
+                <li><a href="/shop">Товары</a></li>
                 <li class="has-children">
                   <a href="#">По категориям</a>
                   <ul class="dropdown">
@@ -57,7 +55,7 @@
               </ul>
             </nav>
           </div>
-        
+         
           <div class="icons">
             <a href="/cart" class="icons-btn d-inline-block bag">
               <span class="icon-shopping-bag"></span>
@@ -88,108 +86,24 @@
         </div>
       </div>
     
-    {{ range .Products}}
-    <div class="bg-light py-3">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-12 mb-0"><a href="/">Главная страница</a> <span class="mx-2 mb-0">/</span> <a
-              href="/shop">Товары</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">{{ .Name }}</strong></div>
-        </div>
-      </div>
-    </div>
-    {{ end }}
-    <div class="site-section">
-      <div class="container">
-        <div class="row">
-          <div class="col-md-5 mr-auto">
-            <div class="border text-center">
 
-              {{ if eq .Proverka2 "товар в избранном" }}
-              <div class="text-right">
-                {{ range .Products}}
-                  <button title="Убрать из избранного"  onclick="window.location='/DeleteFromfavourites/{{ .Product_Id }}'" class="btn" style="background-color:rgba(255,255,255,0.0); border:none;">
-                    <img src="/images/DeleteFromfavourites.png" alt="Image"></button>
-                {{ end }}
-              </div>
-              {{ else }}
-              <div class="text-right">
-                {{ range .Products}}
-                 <button title="Добавить в избранное" onclick="window.location='/AddTofavourites/{{ .Product_Id }}'" class="btn" style="background-color:rgba(255,255,255,0.0); border:none;">
-                  <img src="/images/AddTofavourites.png" alt="Image"></button>
-                {{ end }}
-              </div>
-              {{ end }}
 
-              {{ range .Products}}
-              <img src="/images/products/{{.Image}}" alt="Image" class="img-fluid p-5">
-
+          <div class="container">
+            <div class="row py-4">
+                <div class="col-12">
+                    <h1 class="mt-5 lead py-2" style="color: black;"><big>В избранном ничего нет</big></h1>
+                    <p>Перейдите на страницу – <a href="/shop">Товары</a>, чтобы найти всё, что нужно.<br>
+                   {{ if eq .User_id 0}}
+                   Если в избранном были товары – <a href="/Authorization">Войдите</a>, чтобы посмотреть список.</p>
+                   {{ end }}
+                </div>
             </div>
           </div>
-          <div class="col-md-6 align-self-center">
-
-            <div  style="padding: 20% 0px 0px 0px;">
-                <h2 class="text-black">{{ .Name }}</h2>
-                <p> </p>
-                <p><strong class="text-primary h4">{{ .Price }} ₽</strong></p>
-
-                
-              <form action="/AddToCart/{{ .Product_Id }}">
-
-                <div class="mb-5">
-                  
-                </div>
-                {{ end }}
-             
-              {{ if eq .Proverka1 "товар в корзине" }}
-              {{ range .Products}}
-              <div class="input-group mb-3" style="max-width: 180px;">
-                <div class="input-group-prepend">
-                  <button  onclick="window.location='/MinusKoll/{{ .Product_Id }}?koll={{ .Product_Koll }}'" class="btn btn-outline-primary js-btn-minus" type="button">&minus;</button>
-                </div>
-                <input type="text" id="koll" name="koll" class="form-control text-center" value="{{ .Product_Koll }}" placeholder=""
-                  aria-label="Example text with button addon" aria-describedby="button-addon1" readonly style="background-color: white;">
-                <div class="input-group-append">
-                  <button onclick="window.location='/AddKoll/{{ .Product_Id }}?koll={{ .Product_Koll }}'" class="btn btn-outline-primary js-btn-plus" type="button">&plus;</button>
-                </div>
-              </div>
-              {{ end }}
-              <a  href="/cart" class="buy-now btn btn-sm height-auto px-4 py-3 btn-primary"><div>Товар в корзине</br>перейти</div></a>
-              {{ else if eq .User_id 0}}
-                <p><button class="buy-now btn btn-sm height-auto px-4 py-3 btn-primary ">Добавить в корзину</button></p>
-                <p>Для добавления товара в корзину необходимо авторизоваться</p>
-              {{ else }}
-              <p><button class="buy-now btn btn-sm height-auto px-4 py-3 btn-primary ">Добавить в корзину</button></p>
-              {{ end }}
-              
-              </form>
-            </div>
-            {{ range .Products}}
-            <div class="mt-5">
-               <h5 class="text-black" style="padding: 10% 0% 0% 0%;">Информация о товаре</h5>
-               <table class="table custom-table mb-0">
-                 <tbody>
-                   <tr>
-                     <td>Категория</td>
-                     <td class="bg-light">{{ .Category}}</td>
-                   </tr>
-                   <tr>
-                     <td>Производитель</td>
-                     <td class="bg-light">{{ .Manufacturer}}</td>
-                   </tr>
-                   <tr>
-                     <td>Описание</td>
-                     <td class="bg-light">{{ .Description }}</td>
-                   </tr>
-                 </tbody>
-               </table>
-               
-            </div>
-            {{ end }}
-
-          </div>
-        </div>
+        
+           <div class="py-4"> <div class="row py-4"><div class="col-sm-6 col-lg-4 mb-4"></div></div></div>
       </div>
     </div>
+    
     <div class="site-section bg-secondary bg-image" style="background-image: url('/images/expert.jpg');">
       <div class="container">
         <div class="row align-items-stretch">
@@ -204,13 +118,12 @@
           </div>
           <div class="col-lg-6 mb-5 mb-lg-0">
             <a class="banner-1 h-100 d-flex" style="background-image: url('/images/expert.jpg');">
-              <div class="banner-1-inner ml-auto"></div>
+              <div class="banner-1-inner ml-auto "> </div>
             </a>
           </div>
         </div>
       </div>
     </div>
-
 
     <footer class="site-footer">
       <div class="container">
@@ -222,7 +135,7 @@
                  Здесь вы сможете получить профессиональную консультацию специалиста и приобрести аппараты для измерения давления.</p>
             </div>
           </div>
-
+          
           <div class="col-lg-3 mx-auto mb-5 mb-lg-0"></div>
 
           <div class="col-md-6 col-lg-3">
@@ -234,8 +147,8 @@
                 <li class="email">emailaddress@mail.ru</li>
               </ul>
             </div>
+
           </div>
-          
         </div>
       </div>
     </footer>
@@ -251,7 +164,6 @@
   <script src="/js/main.js"></script>
 
 </body>
-
 </html>
 
 {{ end }}
