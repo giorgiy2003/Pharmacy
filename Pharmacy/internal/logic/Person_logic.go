@@ -424,6 +424,36 @@ func Proverka2(id string) (string, error) {
 	return "", nil
 }
 
+//Товары в избранном
+func Favourites() ([]Model.UserCart, error) {
+
+	if User_id == 0 {
+		return nil, nil
+	}
+
+	row, err := Repository.Connection.Query(`
+	SELECT products.product_id, products.product_image, products.product_name, products.product_price
+	FROM products JOIN "favourites" on products.product_id = favourites.product_id
+	WHERE user_id = $1
+	GROUP BY products.product_id, time_of_adding
+	ORDER BY "time_of_adding" DESC
+	`, User_id)
+	if err != nil {
+		return nil, err
+	}
+
+	var UserInfo = []Model.UserCart{}
+	for row.Next() {
+		var UserCart Model.UserCart
+		err := row.Scan(&UserCart.Product_Id, &UserCart.Image, &UserCart.Name, &UserCart.Price)
+		if err != nil {
+			return nil, err
+		}
+		UserInfo = append(UserInfo, UserCart)
+	}
+	return UserInfo, nil
+}
+
 //Добавить в избранное
 func AddToFavotites(id string) error {
 

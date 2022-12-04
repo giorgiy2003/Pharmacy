@@ -206,6 +206,29 @@ func Cart(c *gin.Context) {
 	})
 }
 
+//Товары в избранном
+func Favourites(c *gin.Context) {
+	Products, err := Logic.Favourites()
+	if err != nil {
+		c.HTML(400, "400", gin.H{
+			"Error": err.Error(),
+		})
+		return
+	}
+	if len(Products) == 0 {
+		c.HTML(200, "NullCart", gin.H{
+			"Role":    Logic.Role,
+			"User_id": Logic.User_id,
+		})
+		return
+	}
+	c.HTML(200, "favouritesPage", gin.H{
+		"Role":     Logic.Role,
+		"Products": Products,
+		"User_id":  Logic.User_id,
+	})
+}
+
 //О нас
 func About(c *gin.Context) {
 	c.HTML(200, "about", gin.H{
@@ -260,15 +283,6 @@ func HistoryPage(c *gin.Context) {
 		"User_id": Logic.User_id,
 	})
 }
-
-//Товары в избранном
-func Favourites(c *gin.Context) {
-	c.HTML(200, "favouritesPage", gin.H{
-		"Role":    Logic.Role,
-		"User_id": Logic.User_id,
-	})
-}
-
 
 //Добавить в корзину
 func AddToCart(c *gin.Context) {
