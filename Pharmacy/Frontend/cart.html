@@ -125,12 +125,12 @@
                     <td>
                       <div class="input-group mb-3" style="max-width: 120px;">
                         <div class="input-group-prepend">
-                          <button  onclick="window.location='/MinusKoll/{{ .Product_Id }}?koll={{ .Product_Koll }}'" class="btn btn-outline-primary js-btn-minus" type="button">&minus;</button>
+                          <button  onclick="window.location='/MinusKollinCart/{{ .Product_Id }}?koll={{ .Product_Koll }}'" class="btn btn-outline-primary js-btn-minus" type="button">&minus;</button>
                         </div>
                         <input type="text" class="form-control text-center" value="{{.Product_Koll }}" placeholder=""
                           aria-label="Example text with button addon" aria-describedby="button-addon1" id="koll" name="koll" readonly style="background-color: white;">
                         <div class="input-group-append">
-                          <button  onclick="window.location='/AddKoll/{{ .Product_Id }}?koll={{ .Product_Koll }}'" class="btn btn-outline-primary js-btn-plus" type="button">&plus;</button>
+                          <button  onclick="window.location='/AddKollinCart/{{ .Product_Id }}?koll={{ .Product_Koll }}'" class="btn btn-outline-primary js-btn-plus" type="button">&plus;</button>
                         </div>
                       </div>
                     </td>

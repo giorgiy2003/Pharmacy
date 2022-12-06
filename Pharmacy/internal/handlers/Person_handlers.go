@@ -310,8 +310,36 @@ func DeleteFromCart(c *gin.Context) {
 	c.Redirect(http.StatusSeeOther, "/cart")
 }
 
-//Уменьшить количество товара в корзине
+//Уменьшить количество товара в корзине на странице товара
 func MinusKoll(c *gin.Context) {
+	id := c.Param("id")
+	koll := c.Request.FormValue("koll")
+	err := Logic.MinusKoll(id, koll)
+	if err != nil {
+		c.HTML(400, "400", gin.H{
+			"Error": err.Error(),
+		})
+		return
+	}
+	c.Redirect(http.StatusSeeOther, fmt.Sprintf("/shop_single?id=%s", id))
+}
+
+//Увеличить количество товара в корзине на странице товара
+func AddKoll(c *gin.Context) {
+	id := c.Param("id")
+	koll := c.Request.FormValue("koll")
+	err := Logic.AddKoll(id, koll)
+	if err != nil {
+		c.HTML(400, "400", gin.H{
+			"Error": err.Error(),
+		})
+		return
+	}
+	c.Redirect(http.StatusSeeOther, fmt.Sprintf("/shop_single?id=%s", id))
+}
+
+//Уменьшить количество товара в корзине
+func MinusKollinCart(c *gin.Context) {
 	id := c.Param("id")
 	koll := c.Request.FormValue("koll")
 	err := Logic.MinusKoll(id, koll)
@@ -325,7 +353,7 @@ func MinusKoll(c *gin.Context) {
 }
 
 //Увеличить количество товара в корзине
-func AddKoll(c *gin.Context) {
+func AddKollinCart(c *gin.Context) {
 	id := c.Param("id")
 	koll := c.Request.FormValue("koll")
 	err := Logic.AddKoll(id, koll)

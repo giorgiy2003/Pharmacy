@@ -33,8 +33,10 @@ func main() {
 	router.GET("/contact", Handler.Contact) //Контакты ✅
 	router.GET("/AddToCart/:id", Handler.AddToCart) //Добавить в корзину ✅
 	router.GET("/DeleteFromCart/:id", Handler.DeleteFromCart) //Убрать из корзины ✅
-	router.GET("/MinusKoll/:id", Handler.MinusKoll) //Уменьшить количество товара в корзине ✅
-	router.GET("/AddKoll/:id", Handler.AddKoll) //Уменьшить количество товара в корзине ✅
+	router.GET("/MinusKoll/:id", Handler.MinusKoll) //Уменьшить количество товара в корзине на странице товара ✅
+	router.GET("/AddKoll/:id", Handler.AddKoll) //Уменьшить количество товара в корзине на странице товара ✅
+	router.GET("/MinusKollinCart/:id", Handler.MinusKollinCart) //Уменьшить количество товара в корзине ✅
+	router.GET("/AddKollinCart/:id", Handler.AddKollinCart) //Уменьшить количество товара в корзине ✅
 	router.GET("/checkout", Handler.Checkout) //Страница оформления заказа ✅
 	router.GET("/Order", Handler.Order) //Оформить заказ
 	router.GET("/favouritesPage", Handler.Favourites) //Товары в избранном
