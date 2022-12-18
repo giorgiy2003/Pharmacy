@@ -4,7 +4,7 @@
 <html lang="en">
 
 <head>
-  <title>Корзина</title>
+  <title>Заказы</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -91,100 +91,83 @@
       </div>
 
 
-    <div class="bg-light py-3">
+    <div class="bg-light">
       <div class="container">
         <div class="row">
-          <div class="col-md-12 mb-0">
-            <a href="/">Главная страница</a> <span class="mx-2 mb-0">/</span> 
-            <strong class="text-black">Корзина</strong>
+          <div class="col-md-12">
+           <p><h4><strong class="text-black">Заказы</strong></h4></p>
           </div>
         </div>
       </div>
     </div>
 
- 
-    <div class="site-section">
-      <div class="container">
-        <div class="row mb-5">
-          <form class="col-md-12" method="get">
-            <div class="site-blocks-table">
-              <table class="table">
-                <tbody>
-                  
-                  {{range .Products }}
-                  <tr>
-                    <td class="product-thumbnail">
-                      <div class="row align-items-center">
-                          <a href="/shop_single?id={{ .Product_Id }}"> <img src="/images/products/{{ .Image }}" alt="Image" class="img-fluid"> </a>
-                      </div>
-                    </td>
-                    <td class="product-name">
-                      <h2 class="h5 text-black"><a href="/shop_single?id={{ .Product_Id}}">{{ .Name}}</a></h2>
-                    </td>
-                    <td>{{ .Price }} ₽</td>
-                    <td>
-                      <div class="input-group mb-3" style="max-width: 120px;">
-                        <div class="input-group-prepend">
-                          <button  onclick="window.location='/MinusKoll/{{ .Product_Id }}?koll={{ .Product_Koll }}'" class="btn btn-outline-primary js-btn-minus" type="button">&minus;</button>
-                        </div>
-                        <input type="text" class="form-control text-center" value="{{.Product_Koll }}" placeholder=""
-                          aria-label="Example text with button addon" aria-describedby="button-addon1" id="koll" name="koll" readonly style="background-color: white;">
-                        <div class="input-group-append">
-                          <button  onclick="window.location='/AddKoll/{{ .Product_Id }}?koll={{ .Product_Koll }}'" class="btn btn-outline-primary js-btn-plus" type="button">&plus;</button>
-                        </div>
-                      </div>
-                    </td>
-                    <td>{{ .Product_amount }} ₽</td>
-                  </tr>
 
-                  {{ end }}
+        <!--Доставки-->
+          <div class="site-section">
+            <div class="container">
+      
+              <div class="row">
+                <form class="col-md-12" method="get">
                   
-                </tbody>
-              </table>
-            </div>
-          </form>
-        </div>
-    
-        <div class="row">
-          <div class="col-md-6">
-            <div class="row mb-5">
-              <form class="col-md-6" action="/shop">
-                <button class="btn btn-outline-primary btn-md btn-block">Вернуться к покупкам</button>
-              </form>
-            </div>
-           
-          </div>
-          <div class="col-md-6 pl-5">
-            <div class="row justify-content-end">
-              <div class="col-md-7">
-                <div class="row">
-                  <div class="col-md-12 text-right border-bottom mb-5">
-                    <h3 class="text-black h4 text-uppercase">Итог</h3>
+                  <div class="site-blocks-table">
+
+                  {{range .Orders }}
+                  <p><h5><strong class="text-black">Заказ от {{ .Order_time }}</strong></h5></p>
+
+                    <table class="table" style="border-color: white;">
+                      <tbody>
+
+                        <tr>
+
+                          <td class="product-thumbnail">
+                            <div class="row align-items-center">
+                                <a href="/shop_single?id={{ .Product_Id }}"> <img src="/images/products/{{ .Image }}" alt="Image" class="img-fluid"> </a>
+                            </div>
+                          </td>
+
+                          <td class="product-name">
+                            <h2 class="h5 text-black"><a href="/shop_single?id={{ .Product_Id}}">{{ .Name}}</a></h2>
+                          </td>
+
+                          <td>{{ .Price }} ₽</td>
+
+                          <td>
+      
+                            <div class="input-group mb-3 " style="max-width: 120px;">
+                              <input type="text" class="form-control text-center" value="{{.Product_Koll }}" placeholder=""
+                                aria-label="Example text with button addon" aria-describedby="button-addon1" id="koll" name="koll" readonly style="background-color: white;">
+                            </div>
+      
+                          </td>
+
+                          <td>{{ .Product_amount }} ₽</td>
+
+                        </tr>
+
+                      </tbody>
+                    </table>
+
+                      {{ else }}
+
+                        <div class="container">
+                          <div class="row">
+                            <div class="col-12">
+                                <h1 class="mt-5 lead py-2" style="color: black;"><big>Здесь будут ваши заказы</big></h1>
+                                <p>Оформите заказ в <a href="/cart">корзине</a>, и возвращайтесь.<br></p>
+                            </div>
+                          </div>
+                        </div>
+
+                      {{ end }}
+                      
                   </div>
-                </div>
-                <div class="row mb-5">
-                  <div class="col-md-6">
-                    <span class="text-black">Итог</span>
-                  </div>
-                  <div class="col-md-6 text-right">
-                    <strong class="text-black">{{ .Total }} ₽</strong>
-                  </div>
-                </div>
-    
-                <div class="row">
-                  <div class="col-md-12">
-                    <button class="btn btn-primary btn-block" onclick="window.location='/checkout'">Перейти к оформлению</button>
-                  </div>
-                </div>
+                </form>
               </div>
+      
             </div>
           </div>
-        </div>
-      </div>
-    </div>
 
 
-    
     <div class="site-section bg-secondary bg-image" style="background-image: url('images/expert.jpg');">
       <div class="container">
         <div class="row align-items-stretch">

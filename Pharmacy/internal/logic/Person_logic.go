@@ -6,6 +6,7 @@ import (
 	"encoding/hex"
 	"errors"
 	"fmt"
+	"log"
 	Model "myapp/internal/model"
 	Repository "myapp/internal/repository"
 	"strconv"
@@ -22,6 +23,7 @@ var (
 func ReadAllProducts() ([]Model.Product, error) {
 	row, err := Repository.Connection.Query(`SELECT * FROM "products" ORDER BY "product_id"`)
 	if err != nil {
+		log.Println(err)
 		return nil, err
 	}
 	var productInfo = []Model.Product{}
@@ -29,6 +31,7 @@ func ReadAllProducts() ([]Model.Product, error) {
 		var p Model.Product
 		err := row.Scan(&p.Product_Id, &p.Image, &p.Name, &p.Manufacturer, &p.Category, &p.Description, &p.Price)
 		if err != nil {
+			log.Println(err)
 			return nil, err
 		}
 		productInfo = append(productInfo, p)
@@ -40,6 +43,7 @@ func ReadAllProducts() ([]Model.Product, error) {
 func ReadProductsWithLimit() ([]Model.Product, error) {
 	row, err := Repository.Connection.Query(`SELECT * FROM "products" ORDER BY "product_id" LIMIT 6`)
 	if err != nil {
+		log.Println(err)
 		return nil, err
 	}
 	var productInfo = []Model.Product{}
@@ -47,6 +51,7 @@ func ReadProductsWithLimit() ([]Model.Product, error) {
 		var p Model.Product
 		err := row.Scan(&p.Product_Id, &p.Image, &p.Name, &p.Manufacturer, &p.Category, &p.Description, &p.Price)
 		if err != nil {
+			log.Println(err)
 			return nil, err
 		}
 		productInfo = append(productInfo, p)
@@ -65,6 +70,7 @@ func ReadOneProductByName(product_name string) ([]Model.Product, error) {
 		var p Model.Product
 		err := row.Scan(&p.Product_Id, &p.Image, &p.Name, &p.Manufacturer, &p.Category, &p.Description, &p.Price)
 		if err != nil {
+			log.Println(err)
 			return nil, err
 		}
 		productInfo = append(productInfo, p)
@@ -76,10 +82,12 @@ func ReadOneProductByName(product_name string) ([]Model.Product, error) {
 func ReadOneProductById(product_id string) ([]Model.Product, error) {
 	id, err := strconv.Atoi(product_id)
 	if err != nil {
+		log.Println(err)
 		return nil, err
 	}
 	row, err := Repository.Connection.Query(`SELECT * FROM "products" WHERE "product_id" = $1`, id)
 	if err != nil {
+		log.Println(err)
 		return nil, err
 	}
 	var productInfo = []Model.Product{}
@@ -87,6 +95,7 @@ func ReadOneProductById(product_id string) ([]Model.Product, error) {
 		var p Model.Product
 		err := row.Scan(&p.Product_Id, &p.Image, &p.Name, &p.Manufacturer, &p.Category, &p.Description, &p.Price)
 		if err != nil {
+			log.Println(err)
 			return nil, err
 		}
 		productInfo = append(productInfo, p)
@@ -104,6 +113,7 @@ func SearhProduct(product_name string) ([]Model.Product, error) {
 	if len(Products) == 0 {
 		Products, err := ReadOneProductByName(product_name)
 		if err != nil {
+			log.Println(err)
 			return nil, err
 		}
 		return Products, nil
@@ -116,6 +126,7 @@ func Medicines_by_category(category string) ([]Model.Product, error) {
 
 	row, err := Repository.Connection.Query(`SELECT * FROM "products" WHERE "product_category" = $1`, category)
 	if err != nil {
+		log.Println(err)
 		return nil, err
 	}
 	var productInfo = []Model.Product{}
@@ -123,6 +134,7 @@ func Medicines_by_category(category string) ([]Model.Product, error) {
 		var p Model.Product
 		err := row.Scan(&p.Product_Id, &p.Image, &p.Name, &p.Manufacturer, &p.Category, &p.Description, &p.Price)
 		if err != nil {
+			log.Println(err)
 			return nil, err
 		}
 		productInfo = append(productInfo, p)
@@ -134,6 +146,7 @@ func Medicines_by_category(category string) ([]Model.Product, error) {
 func NameASC() ([]Model.Product, error) {
 	row, err := Repository.Connection.Query(`SELECT * FROM "products" ORDER BY "product_name"`)
 	if err != nil {
+		log.Println(err)
 		return nil, err
 	}
 	var productInfo = []Model.Product{}
@@ -141,6 +154,7 @@ func NameASC() ([]Model.Product, error) {
 		var p Model.Product
 		err := row.Scan(&p.Product_Id, &p.Image, &p.Name, &p.Manufacturer, &p.Category, &p.Description, &p.Price)
 		if err != nil {
+			log.Println(err)
 			return nil, err
 		}
 		productInfo = append(productInfo, p)
@@ -152,6 +166,7 @@ func NameASC() ([]Model.Product, error) {
 func NameDESC() ([]Model.Product, error) {
 	row, err := Repository.Connection.Query(`SELECT * FROM "products" ORDER BY "product_name" DESC`)
 	if err != nil {
+		log.Println(err)
 		return nil, err
 	}
 	var productInfo = []Model.Product{}
@@ -159,6 +174,7 @@ func NameDESC() ([]Model.Product, error) {
 		var p Model.Product
 		err := row.Scan(&p.Product_Id, &p.Image, &p.Name, &p.Manufacturer, &p.Category, &p.Description, &p.Price)
 		if err != nil {
+			log.Println(err)
 			return nil, err
 		}
 		productInfo = append(productInfo, p)
@@ -170,6 +186,7 @@ func NameDESC() ([]Model.Product, error) {
 func PriceASC() ([]Model.Product, error) {
 	row, err := Repository.Connection.Query(`SELECT * FROM "products" ORDER BY "product_price"`)
 	if err != nil {
+		log.Println(err)
 		return nil, err
 	}
 	var productInfo = []Model.Product{}
@@ -177,6 +194,7 @@ func PriceASC() ([]Model.Product, error) {
 		var p Model.Product
 		err := row.Scan(&p.Product_Id, &p.Image, &p.Name, &p.Manufacturer, &p.Category, &p.Description, &p.Price)
 		if err != nil {
+			log.Println(err)
 			return nil, err
 		}
 		productInfo = append(productInfo, p)
@@ -188,6 +206,7 @@ func PriceASC() ([]Model.Product, error) {
 func PriceDESC() ([]Model.Product, error) {
 	row, err := Repository.Connection.Query(`SELECT * FROM "products" ORDER BY "product_price" DESC `)
 	if err != nil {
+		log.Println(err)
 		return nil, err
 	}
 	var productInfo = []Model.Product{}
@@ -195,6 +214,7 @@ func PriceDESC() ([]Model.Product, error) {
 		var p Model.Product
 		err := row.Scan(&p.Product_Id, &p.Image, &p.Name, &p.Manufacturer, &p.Category, &p.Description, &p.Price)
 		if err != nil {
+			log.Println(err)
 			return nil, err
 		}
 		productInfo = append(productInfo, p)
@@ -211,6 +231,7 @@ func Autorization(login, password string) error {
 
 	row, err := Repository.Connection.Query(`SELECT "user_id", "user_role" FROM "users" WHERE user_login = $1 AND user_password = $2`, Login, Password)
 	if err != nil {
+		log.Println(err)
 		return err
 	}
 
@@ -247,6 +268,7 @@ func Registration(UserName, UserEmail, UserPassword1, UserPassword2, Checkbox st
 
 	row, err := Repository.Connection.Query(`SELECT user_login FROM "users" WHERE user_login = $1`, UserEmail)
 	if err != nil {
+		log.Println(err)
 		return err
 	}
 
@@ -254,6 +276,7 @@ func Registration(UserName, UserEmail, UserPassword1, UserPassword2, Checkbox st
 	for row.Next() {
 		err := row.Scan(&u.Login)
 		if err != nil {
+			log.Println(err)
 			return err
 		}
 	}
@@ -276,6 +299,7 @@ func Registration(UserName, UserEmail, UserPassword1, UserPassword2, Checkbox st
 
 	_, err = Repository.Connection.Exec(`INSERT INTO "users" ("user_name","user_login", "user_password", "user_role" ) VALUES ($1,$2,$3,$4)`, UserName, UserEmail, UserPassword1, "Пользователь")
 	if err != nil {
+		log.Println(err)
 		return err
 	}
 	return nil
@@ -297,6 +321,7 @@ func UserCart() ([]Model.UserCart, int, error) {
 	ORDER BY "time_of_adding" DESC
 	`, User_id)
 	if err != nil {
+		log.Println(err)
 		return nil, 0, err
 	}
 
@@ -305,30 +330,109 @@ func UserCart() ([]Model.UserCart, int, error) {
 		var UserCart Model.UserCart
 		err := row.Scan(&UserCart.Product_Id, &UserCart.Image, &UserCart.Name, &UserCart.Manufacturer, &UserCart.Category, &UserCart.Description, &UserCart.Price, &UserCart.Product_Koll, &UserCart.Product_amount)
 		if err != nil {
+			log.Println(err)
 			return nil, 0, err
 		}
 		UserInfo = append(UserInfo, UserCart)
 	}
 
-	row, err = Repository.Connection.Query(`
-	SELECT SUM(shopping_cart.product_koll * products.product_price) AS Product_total_price
-	FROM products JOIN "shopping_cart" on products.product_id = shopping_cart.product_id
-	WHERE user_id =$1
-	`, User_id)
-	if err != nil {
-		return nil, 0, err
-	}
-
 	var total sql.NullInt64
 
-	for row.Next() {
-		err := row.Scan(&total)
+	if UserInfo != nil {
+
+		row, err = Repository.Connection.Query(`
+		SELECT SUM(shopping_cart.product_koll * products.product_price) AS Product_total_price
+		FROM products JOIN "shopping_cart" on products.product_id = shopping_cart.product_id
+		WHERE user_id =$1
+		`, User_id)
 		if err != nil {
+			log.Println(err)
 			return nil, 0, err
+		}
+
+		for row.Next() {
+			err := row.Scan(&total)
+			if err != nil {
+				log.Println(err)
+				return nil, 0, err
+			}
 		}
 	}
 	return UserInfo, int(total.Int64), nil
 }
+
+//Сделать заказ
+func MakeOrder() error {
+
+	if User_id == 0 {
+		return nil
+	}
+
+	row, err := Repository.Connection.Query(`
+	SELECT products.product_id, products.product_image, products.product_name, products.product_manufacturer, products.product_category, products.product_description, 
+	products.product_price, shopping_cart.product_koll, shopping_cart.product_koll * products.product_price AS product_amount
+	FROM products JOIN "shopping_cart" on products.product_id = shopping_cart.product_id
+	WHERE user_id = $1
+	GROUP BY products.product_id, shopping_cart.product_koll, time_of_adding
+	ORDER BY "time_of_adding" DESC
+	`, User_id)
+	if err != nil {
+		log.Println(err)
+		return err
+	}
+
+	for row.Next() {
+		var UserCart Model.UserCart
+		err := row.Scan(&UserCart.Product_Id, &UserCart.Image, &UserCart.Name, &UserCart.Manufacturer, &UserCart.Category, &UserCart.Description, &UserCart.Price, &UserCart.Product_Koll, &UserCart.Product_amount)
+		if err != nil {
+			log.Println(err)
+			return err
+		}
+		if _, err := Repository.Connection.Exec(`DELETE FROM "shopping_cart" WHERE user_id = $1 AND product_id = $2`, User_id, UserCart.Product_Id); err != nil {
+			log.Println(err)
+			return err
+		}
+		if _, err := Repository.Connection.Exec(`INSERT INTO "orders" ("user_id","product_id", "product_koll", "product_price", "order_time", "order_status") VALUES ($1,$2,$3,$4,$5,$6)`, User_id, UserCart.Product_Id, UserCart.Product_Koll, UserCart.Price, time.Now(), "В работе"); err != nil {
+			log.Println(err)
+			return err
+		}
+	}
+	return nil
+}
+
+//Доставки
+func Orders() ([]Model.Order, error) {
+
+	if User_id == 0 {
+		return nil, nil
+	}
+
+	row, err := Repository.Connection.Query(`
+	SELECT products.product_id, products.product_image, products.product_name, orders.product_price, orders.product_koll, DATE(orders.order_time), orders.order_status, orders.product_koll * orders.product_price AS product_amount
+	FROM products JOIN "orders" on products.product_id = orders.product_id
+	WHERE user_id = $1
+	GROUP BY products.product_id, orders.product_koll, order_time, orders.product_price, orders.order_status
+	ORDER BY "order_time" DESC
+	`, User_id)
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+
+	var UserInfo = []Model.Order{}
+	for row.Next() {
+		var Order Model.Order
+		err := row.Scan(&Order.Product_Id, &Order.Image, &Order.Name, &Order.Price, &Order.Product_Koll, &Order.Order_time, &Order.Order_status, &Order.Product_amount)
+		if err != nil {
+			log.Println(err)
+			return nil, err
+		}
+		Order.Order_time.Format(time.ANSIC)
+		UserInfo = append(UserInfo, Order)
+	}
+	return UserInfo, nil
+}
+
 
 //Добавить в корзину
 func AddToCart(id string) error {
@@ -339,12 +443,14 @@ func AddToCart(id string) error {
 
 	product_id, err := strconv.Atoi(id)
 	if err != nil {
+		log.Println(err)
 		return err
 	}
 
 	//Проверяем существует товар в корзине пользователя
 	rows, err := Repository.Connection.Query(`SELECT "product_id" FROM "shopping_cart" WHERE user_id = $1 AND product_id = $2`, User_id, product_id)
 	if err != nil {
+		log.Println(err)
 		return err
 	}
 
@@ -358,6 +464,7 @@ func AddToCart(id string) error {
 	}
 	//Ecли товара не было в корзине, добавляем его
 	if _, err := Repository.Connection.Exec(`INSERT INTO "shopping_cart" ("user_id","product_id","product_koll", "time_of_adding") VALUES ($1,$2,$3,$4)`, User_id, product_id, 1, time.Now()); err != nil {
+		log.Println(err)
 		return err
 	}
 	return nil
@@ -372,9 +479,11 @@ func DeleteFromCart(id string) error {
 
 	product_id, err := strconv.Atoi(id)
 	if err != nil {
+		log.Println(err)
 		return err
 	}
 	if _, err := Repository.Connection.Exec(`DELETE FROM "shopping_cart" WHERE user_id = $1 AND product_id = $2`, User_id, product_id); err != nil {
+		log.Println(err)
 		return err
 	}
 	return nil
@@ -385,10 +494,12 @@ func Proverka1(id string) (string, error) {
 
 	product_id, err := strconv.Atoi(id)
 	if err != nil {
+		log.Println(err)
 		return "", err
 	}
 	rows, err := Repository.Connection.Query(`SELECT "product_id" FROM "shopping_cart" WHERE user_id = $1 AND product_id = $2`, User_id, product_id)
 	if err != nil {
+		log.Println(err)
 		return "", err
 	}
 
@@ -407,10 +518,12 @@ func Proverka2(id string) (string, error) {
 
 	product_id, err := strconv.Atoi(id)
 	if err != nil {
+		log.Println(err)
 		return "", err
 	}
 	rows, err := Repository.Connection.Query(`SELECT "product_id" FROM "favourites" WHERE user_id = $1 AND product_id = $2`, User_id, product_id)
 	if err != nil {
+		log.Println(err)
 		return "", err
 	}
 
@@ -439,6 +552,7 @@ func Favourites() ([]Model.UserCart, error) {
 	ORDER BY "time_of_adding" DESC
 	`, User_id)
 	if err != nil {
+		log.Println(err)
 		return nil, err
 	}
 
@@ -447,6 +561,7 @@ func Favourites() ([]Model.UserCart, error) {
 		var UserCart Model.UserCart
 		err := row.Scan(&UserCart.Product_Id, &UserCart.Image, &UserCart.Name, &UserCart.Price)
 		if err != nil {
+			log.Println(err)
 			return nil, err
 		}
 		UserInfo = append(UserInfo, UserCart)
@@ -463,12 +578,14 @@ func AddToFavotites(id string) error {
 
 	product_id, err := strconv.Atoi(id)
 	if err != nil {
+		log.Println(err)
 		return err
 	}
 
 	//Проверяем существует ли товар в избранном
 	rows, err := Repository.Connection.Query(`SELECT "product_id" FROM "favourites" WHERE user_id = $1 AND product_id = $2`, User_id, product_id)
 	if err != nil {
+		log.Println(err)
 		return err
 	}
 
@@ -482,6 +599,7 @@ func AddToFavotites(id string) error {
 	}
 	//Ecли товара не было в избранном, добавляем его
 	if _, err := Repository.Connection.Exec(`INSERT INTO "favourites" ("user_id","product_id","time_of_adding") VALUES ($1,$2,$3)`, User_id, product_id, time.Now()); err != nil {
+		log.Println(err)
 		return err
 	}
 	return nil
@@ -496,9 +614,11 @@ func DeleteFromFavotites(id string) error {
 
 	product_id, err := strconv.Atoi(id)
 	if err != nil {
+		log.Println(err)
 		return err
 	}
 	if _, err := Repository.Connection.Exec(`DELETE FROM "favourites" WHERE user_id = $1 AND product_id = $2`, User_id, product_id); err != nil {
+		log.Println(err)
 		return err
 	}
 	return nil
@@ -513,16 +633,19 @@ func AddKoll(id, koll string) error {
 
 	product_id, err := strconv.Atoi(id)
 	if err != nil {
+		log.Println(err)
 		return err
 	}
 	product_koll, err := strconv.Atoi(koll)
 	if err != nil {
+		log.Println(err)
 		return err
 	}
 	product_koll++
 	//Проверяем существует ли товар в корзине пользователя
 	rows, err := Repository.Connection.Query(`SELECT "product_id" FROM "shopping_cart" WHERE user_id = $1 AND product_id = $2`, User_id, product_id)
 	if err != nil {
+		log.Println(err)
 		return err
 	}
 	//Ecли товар в корзине обновляем количество товара
@@ -531,6 +654,7 @@ func AddKoll(id, koll string) error {
 		rows.Scan(&UserCart.Product_Id)
 		if UserCart.Product_Id != 0 {
 			if _, err := Repository.Connection.Exec(`UPDATE "shopping_cart" SET "product_koll" = $1 WHERE user_id = $2 AND product_id = $3`, product_koll, User_id, product_id); err != nil {
+				log.Println(err)
 				return err
 			}
 			return nil
@@ -547,22 +671,26 @@ func MinusKoll(id, koll string) error {
 	}
 	product_id, err := strconv.Atoi(id)
 	if err != nil {
+		log.Println(err)
 		return err
 	}
 	product_koll, err := strconv.Atoi(koll)
 	if err != nil {
+		log.Println(err)
 		return err
 	}
 	product_koll--
 	if product_koll == 0 {
 		err := DeleteFromCart(id)
 		if err != nil {
+			log.Println(err)
 			return err
 		}
 	}
 	//Проверяем существует ли товар в корзине пользователя
 	rows, err := Repository.Connection.Query(`SELECT "product_id" FROM "shopping_cart" WHERE user_id = $1 AND product_id = $2`, User_id, product_id)
 	if err != nil {
+		log.Println(err)
 		return err
 	}
 
@@ -572,6 +700,7 @@ func MinusKoll(id, koll string) error {
 		rows.Scan(&UserCart.Product_Id)
 		if UserCart.Product_Id != 0 {
 			if _, err := Repository.Connection.Exec(`UPDATE "shopping_cart" SET "product_koll" = $1 WHERE user_id = $2 AND product_id = $3`, product_koll, User_id, product_id); err != nil {
+				log.Println(err)
 				return err
 			}
 			return nil
@@ -588,6 +717,7 @@ func ShopSingle(id string) ([]Model.UserCart, error) {
 
 	product_id, err := strconv.Atoi(id)
 	if err != nil {
+		log.Println(err)
 		return nil, err
 	}
 
@@ -598,11 +728,13 @@ func ShopSingle(id string) ([]Model.UserCart, error) {
 		WHERE user_id = $1 AND products.product_id = $2
 		`, User_id, product_id)
 		if err != nil {
+			log.Println(err)
 			return nil, err
 		}
 		for row.Next() {
 			err := row.Scan(&UserCart.Product_Id, &UserCart.Image, &UserCart.Name, &UserCart.Manufacturer, &UserCart.Category, &UserCart.Description, &UserCart.Price, &UserCart.Product_Koll)
 			if err != nil {
+				log.Println(err)
 				return nil, err
 			}
 		}
@@ -612,12 +744,14 @@ func ShopSingle(id string) ([]Model.UserCart, error) {
 	if User_id == 0 || UserCart.Product_Koll == 0 {
 		row, err := Repository.Connection.Query(`SELECT * FROM "products" WHERE "product_id" = $1`, product_id)
 		if err != nil {
+			log.Println(err)
 			return nil, err
 		}
 		UserInfo = nil
 		for row.Next() {
 			err := row.Scan(&UserCart.Product_Id, &UserCart.Image, &UserCart.Name, &UserCart.Manufacturer, &UserCart.Category, &UserCart.Description, &UserCart.Price)
 			if err != nil {
+				log.Println(err)
 				return nil, err
 			}
 			UserInfo = append(UserInfo, UserCart)
@@ -637,6 +771,7 @@ func CreateProduct(p Model.Product) error {
 		return errors.New("невозможно добавить запись, не все поля заполнены!")
 	}
 	if _, err := Repository.Connection.Exec(`INSERT INTO "products" ("product_name","product_image", "product_manufacturer", "product_category", "product_description","product_price" ) VALUES ($1,$2,$3,$4,$5,$6)`, p.Name, p.Image, p.Manufacturer, p.Category, p.Description, p.Price); err != nil {
+		log.Println(err)
 		return err
 	}
 	return nil
@@ -644,6 +779,7 @@ func CreateProduct(p Model.Product) error {
 
 func UpdateProduct(p Model.Product, id string) error {
 	if err := dataExist(id); err != nil {
+		log.Println(err)
 		return err
 	}
 	p.Name = strings.TrimSpace(p.Name)
@@ -656,6 +792,7 @@ func UpdateProduct(p Model.Product, id string) error {
 		return errors.New("невозможно редактировать запись, не все поля заполнены!")
 	}
 	if _, err := Repository.Connection.Exec(`UPDATE "products" SET "product_name" = $1,"product_image" = $2,,"product_manufacturer" = $3,"product_category" = $4,"product_description" = $5  "product_price" = $6  WHERE "product_id" = $7`, p.Name, p.Image, p.Manufacturer, p.Category, p.Description, p.Price, id); err != nil {
+		log.Println(err)
 		return err
 	}
 	return nil
@@ -663,9 +800,11 @@ func UpdateProduct(p Model.Product, id string) error {
 
 func DeleteProduct(id string) error {
 	if err := dataExist(id); err != nil {
+		log.Println(err)
 		return err
 	}
 	if _, err := Repository.Connection.Exec(`DELETE FROM "products" WHERE "product_id" = $1`, id); err != nil {
+		log.Println(err)
 		return err
 	}
 	return nil
@@ -674,6 +813,7 @@ func DeleteProduct(id string) error {
 func dataExist(id string) error {
 	persons, err := ReadOneProductById(id)
 	if err != nil {
+		log.Println(err)
 		return err
 	}
 	if len(persons) == 0 {

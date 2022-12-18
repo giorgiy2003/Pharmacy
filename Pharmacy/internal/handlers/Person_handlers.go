@@ -215,13 +215,6 @@ func Favourites(c *gin.Context) {
 		})
 		return
 	}
-	if len(Products) == 0 {
-		c.HTML(200, "NullFavourites", gin.H{
-			"Role":    Logic.Role,
-			"User_id": Logic.User_id,
-		})
-		return
-	}
 	c.HTML(200, "favouritesPage", gin.H{
 		"Role":     Logic.Role,
 		"Products": Products,
@@ -270,16 +263,33 @@ func Checkout(c *gin.Context) {
 
 //Сделать заказ
 func Order(c *gin.Context) {
+	err := Logic.MakeOrder()
+	if err != nil {
+		c.HTML(400, "400", gin.H{
+			"Error": err.Error(),
+		})
+		return
+	}
 	c.HTML(200, "thankyou", gin.H{
 		"Role":    Logic.Role,
 		"User_id": Logic.User_id,
 	})
 }
 
-//История заказов
+//Доставки
 func HistoryPage(c *gin.Context) {
+
+	Orders, err := Logic.Orders()
+	if err != nil {
+		c.HTML(400, "400", gin.H{
+			"Error": err.Error(),
+		})
+		return
+	}
+	
 	c.HTML(200, "OrdersPage", gin.H{
 		"Role":    Logic.Role,
+		"Orders": Orders,
 		"User_id": Logic.User_id,
 	})
 }

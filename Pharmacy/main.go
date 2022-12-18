@@ -38,8 +38,8 @@ func main() {
 	router.GET("/MinusKollinCart/:id", Handler.MinusKollinCart) //Уменьшить количество товара в корзине ✅
 	router.GET("/AddKollinCart/:id", Handler.AddKollinCart) //Уменьшить количество товара в корзине ✅
 	router.GET("/checkout", Handler.Checkout) //Страница оформления заказа ✅
-	router.GET("/Order", Handler.Order) //Оформить заказ
-	router.GET("/favouritesPage", Handler.Favourites) //Товары в избранном
+	router.GET("/Order", Handler.Order) //Оформить заказ ✅
+	router.GET("/favouritesPage", Handler.Favourites) //Товары в избранном ✅
 	router.GET("/AddTofavourites/:id", Handler.AddToFavotites) //Добавить в избранное ✅
 	router.GET("/DeleteFromfavourites/:id", Handler.DeleteFromFavotites) //Убрать из избранного ✅
 	router.GET("/historyPage", Handler.HistoryPage) //История заказов
