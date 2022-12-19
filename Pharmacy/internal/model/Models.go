@@ -1,9 +1,5 @@
 package Model
 
-import (
-	"time"
-)
-
 type Product struct {
 	Product_Id   int    `json:"id"`
 	Image        string `json:"image"`
@@ -36,13 +32,15 @@ type UserCart struct {
 }
 
 type Order struct {
-	User_Id        int       `json:"user_Id"`
-	Product_Id     int       `json:"product_Id"`
-	Image          string    `json:"image"`
-	Name           string    `json:"product_name"`
-	Price          string    `json:"price"`
-	Product_Koll   int       `json:"product_Koll"`
-	Product_amount int       `json:"product_amount"`
-	Order_time     time.Time `json:"order_time"`
-	Order_status   string    `json:"order_status"`
+	Order_Id       int    `json:"order_Id"`
+	User_Id        int    `json:"user_Id"`
+	Product_Id     int    `json:"product_Id"`
+	Image          string `json:"image"`
+	Name           string `json:"product_name"`
+	Price          string `json:"price"`
+	Product_Koll   int    `json:"product_Koll"`
+	Product_amount int    `json:"product_amount"`
+	Order_time     string `json:"order_time"`
+	Order_status   string `json:"order_status"`
+	Bar_code       string `json:"bar_code"`
 }

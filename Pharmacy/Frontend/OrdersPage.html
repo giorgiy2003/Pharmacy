@@ -103,7 +103,7 @@
 
 
         <!--Доставки-->
-          <div class="site-section">
+          <div class="site-section" style="padding-top: 0%;">
             <div class="container">
       
               <div class="row">
@@ -112,7 +112,11 @@
                   <div class="site-blocks-table">
 
                   {{range .Orders }}
-                  <p><h5><strong class="text-black">Заказ от {{ .Order_time }}</strong></h5></p>
+
+                  <br>
+                  <p><h5><strong class="text-black" style="float: left; width: 50%;">Заказ от {{ .Order_time }}</strong></h5></p>
+                  <p><h5 class="text-black" style="float: right; width: 50%; text-align: right; padding-right: 2%;">{{ .Order_status }}</h5></p>
+                  <h6 style="float: left; width: 50%;"><a href="/order_details/{{ .Bar_code}}" style="color: #014dbf;" >{{ .Bar_code}}</a></h6>
 
                     <table class="table" style="border-color: white;">
                       <tbody>

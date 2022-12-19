@@ -374,7 +374,7 @@ func MakeOrder() error {
 	FROM products JOIN "shopping_cart" on products.product_id = shopping_cart.product_id
 	WHERE user_id = $1
 	GROUP BY products.product_id, shopping_cart.product_koll, time_of_adding
-	ORDER BY "time_of_adding" DESC
+	ORDER BY "time_of_adding"
 	`, User_id)
 	if err != nil {
 		log.Println(err)
@@ -392,12 +392,30 @@ func MakeOrder() error {
 			log.Println(err)
 			return err
 		}
-		if _, err := Repository.Connection.Exec(`INSERT INTO "orders" ("user_id","product_id", "product_koll", "product_price", "order_time", "order_status") VALUES ($1,$2,$3,$4,$5,$6)`, User_id, UserCart.Product_Id, UserCart.Product_Koll, UserCart.Price, time.Now(), "В работе"); err != nil {
+
+		//Находим максимальный order_id у пользователя из таблицы заказы для формирования трек-номера
+		rows, err := Repository.Connection.Query(`SELECT MAX (order_id) FROM "orders" WHERE user_id = $1`, User_id)
+		if err != nil {
+			log.Println(err)
+			return err
+		}
+		var order_id int
+		for rows.Next() {
+			rows.Scan(&order_id)
+		}
+		bar_code := make_BarCode(order_id)
+
+		if _, err := Repository.Connection.Exec(`INSERT INTO "orders" ("user_id","product_id", "product_koll", "product_price", "order_time", "order_status", "order_bar_code") VALUES ($1,$2,$3,$4,$5,$6,$7)`, User_id, UserCart.Product_Id, UserCart.Product_Koll, UserCart.Price, time.Now(), "Ожидает подтверждения", bar_code); err != nil {
 			log.Println(err)
 			return err
 		}
 	}
 	return nil
+}
+
+//Создание трек-номера заказа
+func make_BarCode(Order_id int) string {
+	return fmt.Sprintf("%d-%d", User_id+1000000, Order_id+1)
 }
 
 //Доставки
@@ -408,10 +426,10 @@ func Orders() ([]Model.Order, error) {
 	}
 
 	row, err := Repository.Connection.Query(`
-	SELECT products.product_id, products.product_image, products.product_name, orders.product_price, orders.product_koll, DATE(orders.order_time), orders.order_status, orders.product_koll * orders.product_price AS product_amount
+	SELECT products.product_id, products.product_image, products.product_name, orders.product_price, orders.product_koll, orders.order_time, orders.order_status, orders.product_koll * orders.product_price AS product_amount, orders.order_bar_code
 	FROM products JOIN "orders" on products.product_id = orders.product_id
 	WHERE user_id = $1
-	GROUP BY products.product_id, orders.product_koll, order_time, orders.product_price, orders.order_status
+	GROUP BY products.product_id, orders.product_koll, order_time, orders.product_price, orders.order_status, orders.order_bar_code
 	ORDER BY "order_time" DESC
 	`, User_id)
 	if err != nil {
@@ -421,18 +439,20 @@ func Orders() ([]Model.Order, error) {
 
 	var UserInfo = []Model.Order{}
 	for row.Next() {
-		var Order Model.Order
-		err := row.Scan(&Order.Product_Id, &Order.Image, &Order.Name, &Order.Price, &Order.Product_Koll, &Order.Order_time, &Order.Order_status, &Order.Product_amount)
+		var (
+			Order Model.Order
+			time  time.Time
+		)
+		err := row.Scan(&Order.Product_Id, &Order.Image, &Order.Name, &Order.Price, &Order.Product_Koll, &time, &Order.Order_status, &Order.Product_amount, &Order.Bar_code)
 		if err != nil {
 			log.Println(err)
 			return nil, err
 		}
-		Order.Order_time.Format(time.ANSIC)
+		Order.Order_time = time.Format("2006-01-02")
 		UserInfo = append(UserInfo, Order)
 	}
 	return UserInfo, nil
 }
-
 
 //Добавить в корзину
 func AddToCart(id string) error {

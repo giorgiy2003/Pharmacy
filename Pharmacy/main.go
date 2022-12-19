@@ -42,7 +42,8 @@ func main() {
 	router.GET("/favouritesPage", Handler.Favourites) //Товары в избранном ✅
 	router.GET("/AddTofavourites/:id", Handler.AddToFavotites) //Добавить в избранное ✅
 	router.GET("/DeleteFromfavourites/:id", Handler.DeleteFromFavotites) //Убрать из избранного ✅
-	router.GET("/historyPage", Handler.HistoryPage) //История заказов
+	router.GET("/historyPage", Handler.HistoryPage) //История заказов ✅
+	//router.GET("/order_details/:order", Handler.Order_details) //Поиск по трек-номеру заказа
 	router.GET("/SendMessage", Handler.SendMessage)	//Оставить отзыв
 	router.GET("/Product_category/:category", Handler.Medicines_by_category) //Поиск по категориям ✅
 	router.Run("localhost:8080")
