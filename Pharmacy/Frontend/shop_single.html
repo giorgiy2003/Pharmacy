@@ -94,7 +94,7 @@
       <div class="container">
         <div class="row">
           <div class="col-md-12 mb-0"><a href="/">Главная страница</a> <span class="mx-2 mb-0">/</span> <a
-              href="/shop">Товары</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">{{ .Name }}</strong></div>
+              href="/shop">Товары</a> <span class="mx-2 mb-0">/</span> <strong class="text-black">{{ .Product_Name }}</strong></div>
         </div>
       </div>
     </div>
@@ -122,16 +122,16 @@
               {{ end }}
 
               {{ range .Products}}
-              <img src="/images/products/{{.Image}}" alt="Image" class="img-fluid p-5">
+              <img src="/images/products/{{.Product_Image}}" alt="Image" class="img-fluid p-5">
 
             </div>
           </div>
           <div class="col-md-6 align-self-center">
 
             <div  style="padding: 20% 0px 0px 0px;">
-                <h2 class="text-black">{{ .Name }}</h2>
+                <h2 class="text-black">{{ .Product_Name }}</h2>
                 <p> </p>
-                <p><strong class="text-primary h4">{{ .Price }} ₽</strong></p>
+                <p><strong class="text-primary h4">{{ .Product_Price }} ₽</strong></p>
 
                 
               <form action="/AddToCart/{{ .Product_Id }}">
@@ -171,15 +171,15 @@
                  <tbody>
                    <tr>
                      <td>Категория</td>
-                     <td class="bg-light">{{ .Category}}</td>
+                     <td class="bg-light">{{ .Product_Category}}</td>
                    </tr>
                    <tr>
                      <td>Производитель</td>
-                     <td class="bg-light">{{ .Manufacturer}}</td>
+                     <td class="bg-light">{{ .Product_Manufacturer}}</td>
                    </tr>
                    <tr>
                      <td>Описание</td>
-                     <td class="bg-light">{{ .Description }}</td>
+                     <td class="bg-light">{{ .Product_Description }}</td>
                    </tr>
                  </tbody>
                </table>

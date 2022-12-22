@@ -294,6 +294,23 @@ func HistoryPage(c *gin.Context) {
 	})
 }
 
+//Информация о заказе
+func Order_details(c *gin.Context) {
+	order := c.Param("order")
+	Orders, err := Logic.Order_details(order)
+	if err != nil {
+		c.HTML(400, "400", gin.H{
+			"Error": err.Error(),
+		})
+		return
+	}
+	c.HTML(200, "Order_details", gin.H{
+		"Role":    Logic.Role,
+		"Orders": Orders,
+		"User_id": Logic.User_id,
+	})
+}
+
 //Добавить в корзину
 func AddToCart(c *gin.Context) {
 	id := c.Param("id")

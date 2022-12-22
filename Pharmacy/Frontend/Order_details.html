@@ -1,10 +1,10 @@
-{{define "OrdersPage" }}
+{{define "Order_details" }}
 
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-  <title>Заказы</title>
+  <title>Корзина</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -72,8 +72,8 @@
                   <li class="has-children">
                     <a href="#"><img src= "/images/human.png" alt="Image"></a>
                     <ul class="dropdown">
-                        <li><a href="/historyPage"><img src= "/images/cart.png" alt="Image"> Мои заказы</a></li>
-                        <li><a href="/favouritesPage"><img src= "/images/favourites.png" alt="Image"> Избранное</a></li>
+                      <li><a href="/historyPage"><img src= "/images/cart.png" alt="Image"> Мои заказы</a></li>
+                      <li><a href="/favouritesPage"><img src= "/images/favourites.png" alt="Image"> Избранное</a></li>
                       {{ if eq .Role "Администратор"}}
                       <li><a href="/admin">Для разработчиков</a></li>
                       {{ end }}
@@ -91,87 +91,62 @@
       </div>
 
 
-    <div class="bg-light">
+    <div class="py-3"> 
       <div class="container">
         <div class="row">
           <div class="col-md-12">
-           <p><h4><strong class="text-black">Заказы</strong></h4></p>
+            <a href="/historyPage">К списку заказов</a>
           </div>
         </div>
       </div>
     </div>
 
+ 
+    <div class="site-section" style="padding-top: 1%;">
+      <div class="container">
+        <div class="row mb-5">
+          <form class="col-md-12" method="get">
 
-        <!--Доставки-->
-          <div class="site-section" style="padding-top: 0%;">
-            <div class="container">
-      
-              <div class="row">
-                <form class="col-md-12" method="get">
+            {{range .Orders }}
+
+            <h2 class="text-black">Заказ № {{ .Track_number}}</h2>
+            <h6 class="h5 text-black mb-5">от {{ .Order_time}}</h6>
+
+
+            <div>
+              <table class="table" style="border: white ;">
+                <tbody>
                   
-                  <div class="site-blocks-table">
+                  <tr>
 
-                  {{range .Orders }}
+                    <td>
+                          <p class="h5 text-black">Доставка по адресу</p><br>
+                          <p class="h5 text-black">Получатель</p>
+                    </td>
 
-                  <br>
-                  <p><h5><strong class="text-black" style="float: left; width: 50%;">Заказ от {{ .Order_time }}</strong></h5></p>
-                  <p><h5 class="text-black" style="float: right; width: 50%; text-align: right; padding-right: 2%;">{{ .Order_status }}</h5></p>
-                  <h6 style="float: left; width: 50%;"><a href="/order_details/{{ .Track_number}}" style="color: #014dbf;" >{{ .Track_number}}</a></h6>
+                    <td>
+                      <p class="h5 text-black">Сумма</p><br>
+                      <p class="h5 text-black">Доставка</p><br>
+                      <p class="h5 text-black">Итого</p><br>
+                    </td>
 
-                    <table class="table" style="border-color: white;">
-                      <tbody>
+                    <td>{{ .Product_amount }} ₽</td>
 
-                        <tr>
-
-                          <td class="product-thumbnail">
-                            <div class="row align-items-center">
-                                <a href="/shop_single?id={{ .Product_Id }}"> <img src="/images/products/{{ .Product_Image }}" alt="Image" class="img-fluid"> </a>
-                            </div>
-                          </td>
-
-                          <td class="product-name">
-                            <h2 class="h5 text-black"><a href="/shop_single?id={{ .Product_Id}}">{{ .Product_Name}}</a></h2>
-                          </td>
-
-                          <td>{{ .Product_Price }} ₽</td>
-
-                          <td>
-      
-                            <div class="input-group mb-3" style="max-width: 120px;">
-                              <input type="text" class="form-control text-center" value="{{.Product_Koll }}" placeholder=""
-                                aria-label="Example text with button addon" aria-describedby="button-addon1" id="koll" name="koll" readonly style="background-color: white;">
-                            </div>
-      
-                          </td>
-
-                          <td>{{ .Product_amount }} ₽</td>
-
-                        </tr>
-
-                      </tbody>
-                    </table>
-
-                      {{ else }}
-
-                        <div class="container">
-                          <div class="row">
-                            <div class="col-12">
-                                <h1 class="mt-5 lead py-2" style="color: black;"><big>Здесь будут ваши заказы</big></h1>
-                                <p>Оформите заказ в <a href="/cart">корзине</a>, и возвращайтесь.<br></p>
-                            </div>
-                          </div>
-                        </div>
-
-                      {{ end }}
-                      
-                  </div>
-                </form>
-              </div>
-      
+                  </tr>
+                  
+                </tbody>
+              </table>
             </div>
-          </div>
+            {{ end }}
+          </form>
+        </div>
+    
+      
+      </div>
+    </div>
 
 
+    
     <div class="site-section bg-secondary bg-image" style="background-image: url('/images/expert.jpg');">
       <div class="container">
         <div class="row align-items-stretch">

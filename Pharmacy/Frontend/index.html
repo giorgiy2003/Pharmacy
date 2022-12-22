@@ -102,9 +102,9 @@
          
           {{range .Products }}
             <div class="col-sm-6 col-lg-4 text-center item mb-4">
-            <a href="/shop_single?id={{ .Product_Id }}"> <img src= "/images/products/{{.Image}}" alt="Image"></a>
-            <h3 class="text-dark"><a href="/shop_single?id={{ .Product_Id }}">{{.Name}}</a></h3>
-            <p class="price">{{.Price}} ₽</p>
+            <a href="/shop_single?id={{ .Product_Id }}"> <img src= "/images/products/{{.Product_Image}}" alt="Image"></a>
+            <h3 class="text-dark"><a href="/shop_single?id={{ .Product_Id }}">{{.Product_Name}}</a></h3>
+            <p class="price">{{.Product_Price}} ₽</p>
             </div>
           {{ end }}
 
@@ -131,9 +131,9 @@
 
               {{range .Products }}
               <div class="text-center item mb-4">
-                <a href="/shop_single?id={{ .Product_Id }}"> <img src="/images/products/{{.Image}}" alt="Image"></a>
+                <a href="/shop_single?id={{ .Product_Id }}"> <img src="/images/products/{{.Product_Image}}" alt="Image"></a>
                 <h3 class="text-dark"><a href="/shop_single?id={{ .Product_Id }}">{{.Name}}</a></h3>
-                <p class="price">{{.Price}} ₽</p>
+                <p class="price">{{.Product_Price}} ₽</p>
               </div>
               {{ end }}
 

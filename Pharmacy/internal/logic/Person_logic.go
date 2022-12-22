@@ -29,7 +29,7 @@ func ReadAllProducts() ([]Model.Product, error) {
 	var productInfo = []Model.Product{}
 	for row.Next() {
 		var p Model.Product
-		err := row.Scan(&p.Product_Id, &p.Image, &p.Name, &p.Manufacturer, &p.Category, &p.Description, &p.Price)
+		err := row.Scan(&p.Product_Id, &p.Product_Image, &p.Product_Name, &p.Product_Manufacturer, &p.Product_Category, &p.Product_Description, &p.Product_Price)
 		if err != nil {
 			log.Println(err)
 			return nil, err
@@ -49,7 +49,7 @@ func ReadProductsWithLimit() ([]Model.Product, error) {
 	var productInfo = []Model.Product{}
 	for row.Next() {
 		var p Model.Product
-		err := row.Scan(&p.Product_Id, &p.Image, &p.Name, &p.Manufacturer, &p.Category, &p.Description, &p.Price)
+		err := row.Scan(&p.Product_Id, &p.Product_Image, &p.Product_Name, &p.Product_Manufacturer, &p.Product_Category, &p.Product_Description, &p.Product_Price)
 		if err != nil {
 			log.Println(err)
 			return nil, err
@@ -68,7 +68,7 @@ func ReadOneProductByName(product_name string) ([]Model.Product, error) {
 	var productInfo = []Model.Product{}
 	for row.Next() {
 		var p Model.Product
-		err := row.Scan(&p.Product_Id, &p.Image, &p.Name, &p.Manufacturer, &p.Category, &p.Description, &p.Price)
+		err := row.Scan(&p.Product_Id, &p.Product_Image, &p.Product_Name, &p.Product_Manufacturer, &p.Product_Category, &p.Product_Description, &p.Product_Price)
 		if err != nil {
 			log.Println(err)
 			return nil, err
@@ -93,7 +93,7 @@ func ReadOneProductById(product_id string) ([]Model.Product, error) {
 	var productInfo = []Model.Product{}
 	for row.Next() {
 		var p Model.Product
-		err := row.Scan(&p.Product_Id, &p.Image, &p.Name, &p.Manufacturer, &p.Category, &p.Description, &p.Price)
+		err := row.Scan(&p.Product_Id, &p.Product_Image, &p.Product_Name, &p.Product_Manufacturer, &p.Product_Category, &p.Product_Description, &p.Product_Price)
 		if err != nil {
 			log.Println(err)
 			return nil, err
@@ -132,7 +132,7 @@ func Medicines_by_category(category string) ([]Model.Product, error) {
 	var productInfo = []Model.Product{}
 	for row.Next() {
 		var p Model.Product
-		err := row.Scan(&p.Product_Id, &p.Image, &p.Name, &p.Manufacturer, &p.Category, &p.Description, &p.Price)
+		err := row.Scan(&p.Product_Id, &p.Product_Image, &p.Product_Name, &p.Product_Manufacturer, &p.Product_Category, &p.Product_Description, &p.Product_Price)
 		if err != nil {
 			log.Println(err)
 			return nil, err
@@ -152,7 +152,7 @@ func NameASC() ([]Model.Product, error) {
 	var productInfo = []Model.Product{}
 	for row.Next() {
 		var p Model.Product
-		err := row.Scan(&p.Product_Id, &p.Image, &p.Name, &p.Manufacturer, &p.Category, &p.Description, &p.Price)
+		err := row.Scan(&p.Product_Id, &p.Product_Image, &p.Product_Name, &p.Product_Manufacturer, &p.Product_Category, &p.Product_Description, &p.Product_Price)
 		if err != nil {
 			log.Println(err)
 			return nil, err
@@ -172,7 +172,7 @@ func NameDESC() ([]Model.Product, error) {
 	var productInfo = []Model.Product{}
 	for row.Next() {
 		var p Model.Product
-		err := row.Scan(&p.Product_Id, &p.Image, &p.Name, &p.Manufacturer, &p.Category, &p.Description, &p.Price)
+		err := row.Scan(&p.Product_Id, &p.Product_Image, &p.Product_Name, &p.Product_Manufacturer, &p.Product_Category, &p.Product_Description, &p.Product_Price)
 		if err != nil {
 			log.Println(err)
 			return nil, err
@@ -192,7 +192,7 @@ func PriceASC() ([]Model.Product, error) {
 	var productInfo = []Model.Product{}
 	for row.Next() {
 		var p Model.Product
-		err := row.Scan(&p.Product_Id, &p.Image, &p.Name, &p.Manufacturer, &p.Category, &p.Description, &p.Price)
+		err := row.Scan(&p.Product_Id, &p.Product_Image, &p.Product_Name, &p.Product_Manufacturer, &p.Product_Category, &p.Product_Description, &p.Product_Price)
 		if err != nil {
 			log.Println(err)
 			return nil, err
@@ -212,7 +212,7 @@ func PriceDESC() ([]Model.Product, error) {
 	var productInfo = []Model.Product{}
 	for row.Next() {
 		var p Model.Product
-		err := row.Scan(&p.Product_Id, &p.Image, &p.Name, &p.Manufacturer, &p.Category, &p.Description, &p.Price)
+		err := row.Scan(&p.Product_Id, &p.Product_Image, &p.Product_Name, &p.Product_Manufacturer, &p.Product_Category, &p.Product_Description, &p.Product_Price)
 		if err != nil {
 			log.Println(err)
 			return nil, err
@@ -328,7 +328,7 @@ func UserCart() ([]Model.UserCart, int, error) {
 	var UserInfo = []Model.UserCart{}
 	for row.Next() {
 		var UserCart Model.UserCart
-		err := row.Scan(&UserCart.Product_Id, &UserCart.Image, &UserCart.Name, &UserCart.Manufacturer, &UserCart.Category, &UserCart.Description, &UserCart.Price, &UserCart.Product_Koll, &UserCart.Product_amount)
+		err := row.Scan(&UserCart.Product_Id, &UserCart.Product_Image, &UserCart.Product_Name, &UserCart.Product_Manufacturer, &UserCart.Product_Category, &UserCart.Product_Description, &UserCart.Product_Price, &UserCart.Product_Koll, &UserCart.Product_amount)
 		if err != nil {
 			log.Println(err)
 			return nil, 0, err
@@ -383,16 +383,12 @@ func MakeOrder() error {
 
 	for row.Next() {
 		var UserCart Model.UserCart
-		err := row.Scan(&UserCart.Product_Id, &UserCart.Image, &UserCart.Name, &UserCart.Manufacturer, &UserCart.Category, &UserCart.Description, &UserCart.Price, &UserCart.Product_Koll, &UserCart.Product_amount)
+		err := row.Scan(&UserCart.Product_Id, &UserCart.Product_Image, &UserCart.Product_Name, &UserCart.Product_Manufacturer, &UserCart.Product_Category, &UserCart.Product_Description, &UserCart.Product_Price, &UserCart.Product_Koll, &UserCart.Product_amount)
 		if err != nil {
 			log.Println(err)
 			return err
 		}
-		if _, err := Repository.Connection.Exec(`DELETE FROM "shopping_cart" WHERE user_id = $1 AND product_id = $2`, User_id, UserCart.Product_Id); err != nil {
-			log.Println(err)
-			return err
-		}
-
+		
 		//Находим максимальный order_id у пользователя из таблицы заказы для формирования трек-номера
 		rows, err := Repository.Connection.Query(`SELECT MAX (order_id) FROM "orders" WHERE user_id = $1`, User_id)
 		if err != nil {
@@ -403,19 +399,60 @@ func MakeOrder() error {
 		for rows.Next() {
 			rows.Scan(&order_id)
 		}
-		bar_code := make_BarCode(order_id)
+		Track_number := make_Track_number(order_id)
 
-		if _, err := Repository.Connection.Exec(`INSERT INTO "orders" ("user_id","product_id", "product_koll", "product_price", "order_time", "order_status", "order_bar_code") VALUES ($1,$2,$3,$4,$5,$6,$7)`, User_id, UserCart.Product_Id, UserCart.Product_Koll, UserCart.Price, time.Now(), "Ожидает подтверждения", bar_code); err != nil {
+		if _, err := Repository.Connection.Exec(`INSERT INTO "orders" ("user_id", "product_id", "product_koll", "product_price", "order_time", "order_status", "order_track_number") VALUES ($1,$2,$3,$4,$5,$6,$7)`, User_id, UserCart.Product_Id, UserCart.Product_Koll, UserCart.Product_Price, time.Now(), "Ожидает подтверждения", Track_number); err != nil {
 			log.Println(err)
 			return err
 		}
+
+		//После добавления товара в таблицу заказы, удаляем его из корзины
+		if _, err := Repository.Connection.Exec(`DELETE FROM "shopping_cart" WHERE user_id = $1 AND product_id = $2`, User_id, UserCart.Product_Id); err != nil {
+			log.Println(err)
+			return err
+		}
+
 	}
 	return nil
 }
 
 //Создание трек-номера заказа
-func make_BarCode(Order_id int) string {
+func make_Track_number(Order_id int) string {
 	return fmt.Sprintf("%d-%d", User_id+1000000, Order_id+1)
+}
+
+//Информация о заказе по трек-номеру
+func Order_details(Track_number string) ([]Model.Order, error) {
+
+	if User_id == 0 {
+		return nil, nil
+	}
+
+	row, err := Repository.Connection.Query(`
+	SELECT "product_id", "product_koll", "product_price", "order_time", "order_status", orders.product_koll * orders.product_price AS product_amount, "order_track_number"
+	FROM "orders"
+	WHERE user_id = $1 AND order_Track_number = $2
+	`, User_id, Track_number)
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+
+	var OrderInfo = []Model.Order{}
+	for row.Next() {
+		var (
+			Order Model.Order
+			time  time.Time
+		)
+		err := row.Scan(&Order.Product_Id, &Order.Product_Koll, &Order.Product_Price, &time, &Order.Order_status, &Order.Product_amount, &Order.Track_number)
+		if err != nil {
+			log.Println(err)
+			return nil, err
+		}
+		Order.Order_time = time.Format("2006-01-02")
+		OrderInfo = append(OrderInfo, Order)
+	}
+	return OrderInfo, nil
 }
 
 //Доставки
@@ -426,10 +463,10 @@ func Orders() ([]Model.Order, error) {
 	}
 
 	row, err := Repository.Connection.Query(`
-	SELECT products.product_id, products.product_image, products.product_name, orders.product_price, orders.product_koll, orders.order_time, orders.order_status, orders.product_koll * orders.product_price AS product_amount, orders.order_bar_code
+	SELECT products.product_id, products.product_image, products.product_name, orders.product_price, orders.product_koll, orders.order_time, orders.order_status, orders.product_koll * orders.product_price AS product_amount, orders.order_track_number
 	FROM products JOIN "orders" on products.product_id = orders.product_id
 	WHERE user_id = $1
-	GROUP BY products.product_id, orders.product_koll, order_time, orders.product_price, orders.order_status, orders.order_bar_code
+	GROUP BY products.product_id, orders.product_koll, order_time, orders.product_price, orders.order_status, orders.order_track_number
 	ORDER BY "order_time" DESC
 	`, User_id)
 	if err != nil {
@@ -437,21 +474,21 @@ func Orders() ([]Model.Order, error) {
 		return nil, err
 	}
 
-	var UserInfo = []Model.Order{}
+	var OrderInfo = []Model.Order{}
 	for row.Next() {
 		var (
 			Order Model.Order
 			time  time.Time
 		)
-		err := row.Scan(&Order.Product_Id, &Order.Image, &Order.Name, &Order.Price, &Order.Product_Koll, &time, &Order.Order_status, &Order.Product_amount, &Order.Bar_code)
+		err := row.Scan(&Order.Product_Id, &Order.Product_Image, &Order.Product_Name, &Order.Product_Price, &Order.Product_Koll, &time, &Order.Order_status, &Order.Product_amount, &Order.Track_number)
 		if err != nil {
 			log.Println(err)
 			return nil, err
 		}
 		Order.Order_time = time.Format("2006-01-02")
-		UserInfo = append(UserInfo, Order)
+		OrderInfo = append(OrderInfo, Order)
 	}
-	return UserInfo, nil
+	return OrderInfo, nil
 }
 
 //Добавить в корзину
@@ -579,7 +616,7 @@ func Favourites() ([]Model.UserCart, error) {
 	var UserInfo = []Model.UserCart{}
 	for row.Next() {
 		var UserCart Model.UserCart
-		err := row.Scan(&UserCart.Product_Id, &UserCart.Image, &UserCart.Name, &UserCart.Price)
+		err := row.Scan(&UserCart.Product_Id, &UserCart.Product_Image, &UserCart.Product_Name, &UserCart.Product_Price)
 		if err != nil {
 			log.Println(err)
 			return nil, err
@@ -752,7 +789,7 @@ func ShopSingle(id string) ([]Model.UserCart, error) {
 			return nil, err
 		}
 		for row.Next() {
-			err := row.Scan(&UserCart.Product_Id, &UserCart.Image, &UserCart.Name, &UserCart.Manufacturer, &UserCart.Category, &UserCart.Description, &UserCart.Price, &UserCart.Product_Koll)
+			err := row.Scan(&UserCart.Product_Id, &UserCart.Product_Image, &UserCart.Product_Name, &UserCart.Product_Manufacturer, &UserCart.Product_Category, &UserCart.Product_Description, &UserCart.Product_Price, &UserCart.Product_Koll)
 			if err != nil {
 				log.Println(err)
 				return nil, err
@@ -769,7 +806,7 @@ func ShopSingle(id string) ([]Model.UserCart, error) {
 		}
 		UserInfo = nil
 		for row.Next() {
-			err := row.Scan(&UserCart.Product_Id, &UserCart.Image, &UserCart.Name, &UserCart.Manufacturer, &UserCart.Category, &UserCart.Description, &UserCart.Price)
+			err := row.Scan(&UserCart.Product_Id, &UserCart.Product_Image, &UserCart.Product_Name, &UserCart.Product_Manufacturer, &UserCart.Product_Category, &UserCart.Product_Description, &UserCart.Product_Price)
 			if err != nil {
 				log.Println(err)
 				return nil, err
@@ -781,16 +818,16 @@ func ShopSingle(id string) ([]Model.UserCart, error) {
 }
 
 func CreateProduct(p Model.Product) error {
-	p.Name = strings.TrimSpace(p.Name)
-	p.Image = strings.TrimSpace(p.Image)
-	p.Manufacturer = strings.TrimSpace(p.Manufacturer)
-	p.Category = strings.TrimSpace(p.Category)
-	p.Description = strings.TrimSpace(p.Description)
-	p.Price = strings.TrimSpace(p.Price)
-	if p.Name == "" || p.Image == "" || p.Manufacturer == "" || p.Category == "" || p.Description == "" || p.Price == "" {
+	p.Product_Name = strings.TrimSpace(p.Product_Name)
+	p.Product_Image = strings.TrimSpace(p.Product_Image)
+	p.Product_Manufacturer = strings.TrimSpace(p.Product_Manufacturer)
+	p.Product_Category = strings.TrimSpace(p.Product_Category)
+	p.Product_Description = strings.TrimSpace(p.Product_Description)
+	p.Product_Price = strings.TrimSpace(p.Product_Price)
+	if p.Product_Name == "" || p.Product_Image == "" || p.Product_Manufacturer == "" || p.Product_Category == "" || p.Product_Description == "" || p.Product_Price == "" {
 		return errors.New("невозможно добавить запись, не все поля заполнены!")
 	}
-	if _, err := Repository.Connection.Exec(`INSERT INTO "products" ("product_name","product_image", "product_manufacturer", "product_category", "product_description","product_price" ) VALUES ($1,$2,$3,$4,$5,$6)`, p.Name, p.Image, p.Manufacturer, p.Category, p.Description, p.Price); err != nil {
+	if _, err := Repository.Connection.Exec(`INSERT INTO "products" ("product_name","product_image", "product_manufacturer", "product_category", "product_description","product_price" ) VALUES ($1,$2,$3,$4,$5,$6)`, p.Product_Name, p.Product_Image, p.Product_Manufacturer, p.Product_Category, p.Product_Description, p.Product_Price); err != nil {
 		log.Println(err)
 		return err
 	}
@@ -802,16 +839,16 @@ func UpdateProduct(p Model.Product, id string) error {
 		log.Println(err)
 		return err
 	}
-	p.Name = strings.TrimSpace(p.Name)
-	p.Image = strings.TrimSpace(p.Image)
-	p.Manufacturer = strings.TrimSpace(p.Manufacturer)
-	p.Category = strings.TrimSpace(p.Category)
-	p.Description = strings.TrimSpace(p.Description)
-	p.Price = strings.TrimSpace(p.Price)
-	if p.Name == "" || p.Image == "" || p.Manufacturer == "" || p.Category == "" || p.Description == "" || p.Price == "" {
+	p.Product_Name = strings.TrimSpace(p.Product_Name)
+	p.Product_Image = strings.TrimSpace(p.Product_Image)
+	p.Product_Manufacturer = strings.TrimSpace(p.Product_Manufacturer)
+	p.Product_Category = strings.TrimSpace(p.Product_Category)
+	p.Product_Description = strings.TrimSpace(p.Product_Description)
+	p.Product_Price = strings.TrimSpace(p.Product_Price)
+	if p.Product_Name == "" || p.Product_Image == "" || p.Product_Manufacturer == "" || p.Product_Category == "" || p.Product_Description == "" || p.Product_Price == "" {
 		return errors.New("невозможно редактировать запись, не все поля заполнены!")
 	}
-	if _, err := Repository.Connection.Exec(`UPDATE "products" SET "product_name" = $1,"product_image" = $2,,"product_manufacturer" = $3,"product_category" = $4,"product_description" = $5  "product_price" = $6  WHERE "product_id" = $7`, p.Name, p.Image, p.Manufacturer, p.Category, p.Description, p.Price, id); err != nil {
+	if _, err := Repository.Connection.Exec(`UPDATE "products" SET "product_name" = $1,"product_image" = $2,,"product_manufacturer" = $3,"product_category" = $4,"product_description" = $5  "product_price" = $6  WHERE "product_id" = $7`, p.Product_Name, p.Product_Image, p.Product_Manufacturer, p.Product_Category, p.Product_Description, p.Product_Price, id); err != nil {
 		log.Println(err)
 		return err
 	}

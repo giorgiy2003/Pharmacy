@@ -1,13 +1,13 @@
 package Model
 
 type Product struct {
-	Product_Id   int    `json:"id"`
-	Image        string `json:"image"`
-	Name         string `json:"product_name"`
-	Manufacturer string `json:"manufacturer"`
-	Category     string `json:"category"`
-	Description  string `json:"description"`
-	Price        string `json:"price"`
+	Product_Id           int    `json:"id"`
+	Product_Image        string `json:"image"`
+	Product_Name         string `json:"product_name"`
+	Product_Manufacturer string `json:"manufacturer"`
+	Product_Category     string `json:"category"`
+	Product_Description  string `json:"description"`
+	Product_Price        string `json:"price"`
 }
 
 type User struct {
@@ -19,28 +19,31 @@ type User struct {
 }
 
 type UserCart struct {
-	User_Id        int    `json:"user_Id"`
-	Product_Id     int    `json:"product_Id"`
-	Image          string `json:"image"`
-	Name           string `json:"product_name"`
-	Manufacturer   string `json:"manufacturer"`
-	Category       string `json:"category"`
-	Description    string `json:"description"`
-	Price          string `json:"price"`
-	Product_Koll   int    `json:"product_Koll"`
-	Product_amount int    `json:"product_amount"`
+	Product_Id           int    `json:"product_Id"`
+	Product_Image        string `json:"image"`
+	Product_Name         string `json:"product_name"`
+	Product_Manufacturer string `json:"manufacturer"`
+	Product_Category     string `json:"category"`
+	Product_Description  string `json:"description"`
+	Product_Price        string `json:"price"`
+	Product_Koll         int    `json:"product_Koll"`
+	Product_amount       int    `json:"product_amount"`
 }
 
 type Order struct {
-	Order_Id       int    `json:"order_Id"`
-	User_Id        int    `json:"user_Id"`
 	Product_Id     int    `json:"product_Id"`
-	Image          string `json:"image"`
-	Name           string `json:"product_name"`
-	Price          string `json:"price"`
+	Product_Image  string `json:"image"`
+	Product_Name   string `json:"product_name"`
+	Product_Price  string `json:"price"`
 	Product_Koll   int    `json:"product_Koll"`
 	Product_amount int    `json:"product_amount"`
 	Order_time     string `json:"order_time"`
 	Order_status   string `json:"order_status"`
-	Bar_code       string `json:"bar_code"`
+	Track_number   string `json:"track_number"`
+	//Данные покупателя
+	Customer_Name    string `json:"customer_Name"`
+	Customer_City    string `json:"customer_City"`
+	Customer_Address string `json:"customer_Address"`
+	Customer_Email   string `json:"customer_Email"`
+	Customer_Comment string `json:"customer_Comment"`
 }

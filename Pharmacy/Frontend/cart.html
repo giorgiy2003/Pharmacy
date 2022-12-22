@@ -115,13 +115,13 @@
                   <tr>
                     <td class="product-thumbnail">
                       <div class="row align-items-center">
-                          <a href="/shop_single?id={{ .Product_Id }}"> <img src="/images/products/{{ .Image }}" alt="Image" class="img-fluid"> </a>
+                          <a href="/shop_single?id={{ .Product_Id }}"> <img src="/images/products/{{ .Product_Image }}" alt="Image" class="img-fluid"> </a>
                       </div>
                     </td>
                     <td class="product-name">
-                      <h2 class="h5 text-black"><a href="/shop_single?id={{ .Product_Id}}">{{ .Name}}</a></h2>
+                      <h2 class="h5 text-black"><a href="/shop_single?id={{ .Product_Id}}">{{ .Product_Name}}</a></h2>
                     </td>
-                    <td>{{ .Price }} ₽</td>
+                    <td>{{ .Product_Price }} ₽</td>
                     <td>
                       <div class="input-group mb-3" style="max-width: 120px;">
                         <div class="input-group-prepend">
