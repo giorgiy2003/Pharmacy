@@ -21,7 +21,7 @@ var (
 
 //Вывести все товары
 func ReadAllProducts() ([]Model.Product, error) {
-	row, err := Repository.Connection.Query(`SELECT * FROM "products" ORDER BY "product_id"`)
+	row, err := Repository.Connection.Query(`SELECT product_id, product_image, product_name, product_price FROM "products" ORDER BY "product_id"`)
 	if err != nil {
 		log.Println(err)
 		return nil, err
@@ -29,7 +29,7 @@ func ReadAllProducts() ([]Model.Product, error) {
 	var productInfo = []Model.Product{}
 	for row.Next() {
 		var p Model.Product
-		err := row.Scan(&p.Product_Id, &p.Product_Image, &p.Product_Name, &p.Product_Manufacturer, &p.Product_Category, &p.Product_Description, &p.Product_Price)
+		err := row.Scan(&p.Product_Id, &p.Product_Image, &p.Product_Name, &p.Product_Price)
 		if err != nil {
 			log.Println(err)
 			return nil, err
@@ -41,7 +41,7 @@ func ReadAllProducts() ([]Model.Product, error) {
 
 //Вывести первые 6 записей
 func ReadProductsWithLimit() ([]Model.Product, error) {
-	row, err := Repository.Connection.Query(`SELECT * FROM "products" ORDER BY "product_id" LIMIT 6`)
+	row, err := Repository.Connection.Query(`SELECT product_id, product_image, product_name, product_price FROM "products" ORDER BY "product_id" LIMIT 6`)
 	if err != nil {
 		log.Println(err)
 		return nil, err
@@ -49,7 +49,7 @@ func ReadProductsWithLimit() ([]Model.Product, error) {
 	var productInfo = []Model.Product{}
 	for row.Next() {
 		var p Model.Product
-		err := row.Scan(&p.Product_Id, &p.Product_Image, &p.Product_Name, &p.Product_Manufacturer, &p.Product_Category, &p.Product_Description, &p.Product_Price)
+		err := row.Scan(&p.Product_Id, &p.Product_Image, &p.Product_Name, &p.Product_Price)
 		if err != nil {
 			log.Println(err)
 			return nil, err
