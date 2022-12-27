@@ -2,6 +2,7 @@ package Handler
 
 import (
 	"fmt"
+	"log"
 	Logic "myapp/internal/logic"
 	Repository "myapp/internal/repository"
 	"net/http"
@@ -125,9 +126,9 @@ func Shop_single(c *gin.Context) {
 	c.HTML(200, "shop_single", gin.H{
 		"Proverka1": proverka1,
 		"Proverka2": proverka2,
-		"Role":     Logic.Role,
-		"User_id":  Logic.User_id,
-		"Products": Products,
+		"Role":      Logic.Role,
+		"User_id":   Logic.User_id,
+		"Products":  Products,
 	})
 }
 
@@ -263,6 +264,16 @@ func Checkout(c *gin.Context) {
 
 //Сделать заказ
 func Order(c *gin.Context) {
+	
+	c_fname := c.Request.FormValue("c_fname")
+	c_lname := c.Request.FormValue("c_lname")
+	c_patronymic := c.Request.FormValue("c_patronymic")
+	c_address := c.Request.FormValue("c_address")
+	c_email_address := c.Request.FormValue("c_email_address")
+	c_phone := c.Request.FormValue("c_phone")
+	c_order_notes := c.Request.FormValue("c_order_notes")
+	log.Println(c_fname, c_lname, c_patronymic, c_address, c_email_address, c_phone, c_order_notes)
+	
 	err := Logic.MakeOrder()
 	if err != nil {
 		c.HTML(400, "400", gin.H{
@@ -286,10 +297,10 @@ func HistoryPage(c *gin.Context) {
 		})
 		return
 	}
-	
+
 	c.HTML(200, "OrdersPage", gin.H{
 		"Role":    Logic.Role,
-		"Orders": Orders,
+		"Orders":  Orders,
 		"User_id": Logic.User_id,
 	})
 }
@@ -306,7 +317,7 @@ func Order_details(c *gin.Context) {
 	}
 	c.HTML(200, "Order_details", gin.H{
 		"Role":    Logic.Role,
-		"Orders": Orders,
+		"Orders":  Orders,
 		"User_id": Logic.User_id,
 	})
 }

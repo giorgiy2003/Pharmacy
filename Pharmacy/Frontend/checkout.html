@@ -99,22 +99,20 @@
       </div>
     </div>
 
+    <form action= "/Order">
+
     <div class="site-section">
       <div class="container">
         <div class="row mb-5">
         <div class="row">
           <div class="col-md-6 mb-5 mb-md-0">
             <h2 class="h3 mb-3 text-black">Реквизиты</h2>
+
+
             <div class="p-3 p-lg-5 border">
               <div class="form-group">
-                <label for="c_country" class="text-black">Город <span class="text-danger">*</span></label>
-                <select id="c_country" class="form-control">
-                  <option value="1">Населённый пункт</option>
-                  <option value="2">Рязань</option>
-                  <option value="3">Дядьково</option>
-                  <option value="4">Коломна</option>
-                  <option value="5">Скопин</option>
-                </select>
+                <label for="c_city" class="text-black">Город <span class="text-danger">*</span></label>
+                <input type="text" class="form-control" value="Рязань" readonly id="c_city" name="c_city" style="background-color: white;">
               </div>
               <div class="form-group row">
                 <div class="col-md-6">
@@ -128,8 +126,8 @@
               </div>
               <div class="form-group row">
                 <div class="col-md-12">
-                  <label for="c_lname" class="text-black">Отчество</label>
-                  <input type="text" class="form-control" id="c_lname" name="c_lname">
+                  <label for="c_patronymic" class="text-black">Отчество</label>
+                  <input type="text" class="form-control" id="c_patronymic" name="c_patronymic">
                 </div>
               </div>
     
@@ -155,12 +153,12 @@
                 <label for="c_order_notes" class="text-black">Комментарий к заказу</label>
                 <textarea name="c_order_notes" id="c_order_notes" cols="30" rows="5" class="form-control"></textarea>
               </div>
-    
             </div>
+
           </div>
+
           <div class="col-md-6">
-    
-            
+  
     
             <div class="row mb-5">
               <div class="col-md-12">
@@ -172,21 +170,38 @@
                       <th>Стоимость</th>
                     </thead>
                     <tbody>
+
                       {{range .Products }}
+
                       <tr>
-                        <td>{{ .Product_Name}}<strong class="mx-2">x</strong>{{.Product_Koll }}</td>
+                        <td>{{ .Product_Name }}<strong class="mx-2">x</strong>{{ .Product_Koll }}</td>
                         <td>{{ .Product_amount }} ₽</td>
                       </tr>
+                    
                       {{ end }}
                       <tr>
-                        <td class="text-black font-weight-bold"><strong>Итог</strong></td>
+                        <td class="text-black font-weight-bold"><strong>Промежуточный итог</strong></td>
                         <td class="text-black font-weight-bold"><strong>{{ .Total }} ₽</strong></td>
                       </tr>
+
+                      <tr>
+                        <td class="text-black"><strong>Доставка</strong></td>
+                        <td class="text-black"><strong>{{ .Total }} ₽</strong></td>
+                      </tr>
+
+                      <tr>
+                        <td class="text-black font-weight-bold"><strong>Итог</strong></td>
+                        <td class="text-black font-weight-bold"><strong>350.00 ₽</strong></td>
+                      </tr>
+                      
                     </tbody>
                   </table>
-    
+              
+                
+                  <p>Бесплатная доставка при заказе от 1000 рублей</p>
+              
                   <div class="form-group">
-                    <button class="btn btn-primary btn-lg btn-block" onclick="window.location='/Order'">Заказать</button>
+                    <button class="btn btn-primary btn-lg btn-block">Заказать</button>
                   </div>
                   
                 </div>
@@ -196,6 +211,9 @@
         </div>
       </div>
     </div>
+
+  </form>
+
 
   </div>
 
