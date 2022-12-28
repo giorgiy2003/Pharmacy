@@ -362,11 +362,26 @@ func UserCart() ([]Model.UserCart, int, error) {
 }
 
 //Сделать заказ
-func MakeOrder() error {
+func MakeOrder(city, fname, lname, patronymic, address, email_address, phone, order_notes string) error {
 
 	if User_id == 0 {
 		return nil
 	}
+
+	fname = strings.TrimSpace(fname)
+	lname = strings.TrimSpace(lname)
+	patronymic = strings.TrimSpace(patronymic)
+	address = strings.TrimSpace(address)
+	email_address = strings.TrimSpace(email_address)
+	phone = strings.TrimSpace(phone)
+	order_notes = strings.TrimSpace(order_notes)
+
+	if fname == "" || lname == "" || address == "" || phone == "" {
+		return errors.New("Ошибка: не все поля заполнены!")
+	}
+
+	//name := fmt.Sprintf("%s %s %s", fname, lname, patronymic)
+	//newAddress := fmt.Sprintf("%s, %s", city, address)
 
 	row, err := Repository.Connection.Query(`
 	SELECT products.product_id, products.product_image, products.product_name, products.product_manufacturer, products.product_category, products.product_description, 
@@ -388,7 +403,7 @@ func MakeOrder() error {
 			log.Println(err)
 			return err
 		}
-		
+
 		//Находим максимальный order_id у пользователя из таблицы заказы для формирования трек-номера
 		rows, err := Repository.Connection.Query(`SELECT MAX (order_id) FROM "orders" WHERE user_id = $1`, User_id)
 		if err != nil {
@@ -570,7 +585,7 @@ func Proverka1(id string) (string, error) {
 	return "", nil
 }
 
-//Проверка на наличие товара в корзине пользователя
+//Проверка на наличие товара в избранном у пользователя
 func Proverka2(id string) (string, error) {
 
 	product_id, err := strconv.Atoi(id)

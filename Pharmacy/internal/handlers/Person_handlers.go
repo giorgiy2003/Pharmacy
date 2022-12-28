@@ -2,7 +2,6 @@ package Handler
 
 import (
 	"fmt"
-	"log"
 	Logic "myapp/internal/logic"
 	Repository "myapp/internal/repository"
 	"net/http"
@@ -67,6 +66,7 @@ func MainForm(c *gin.Context) {
 //Выйти из аккаунта
 func Sign_out(c *gin.Context) {
 	Logic.User_id = 0
+	Logic.Role = ""
 	c.Redirect(http.StatusSeeOther, "/")
 }
 
@@ -241,7 +241,9 @@ func Contact(c *gin.Context) {
 
 //Страница оформления заказа
 func Checkout(c *gin.Context) {
-	Products, total, err := Logic.UserCart()
+	var delivery = 150
+
+	Products, sumPrice, err := Logic.UserCart()
 	if err != nil {
 		c.HTML(400, "400", gin.H{
 			"Error": err.Error(),
@@ -254,17 +256,24 @@ func Checkout(c *gin.Context) {
 		})
 		return
 	}
+	if sumPrice >= 1000 {
+		delivery = 0
+	}
+	total := delivery + sumPrice
+
 	c.HTML(200, "checkout", gin.H{
 		"Role":     Logic.Role,
 		"Products": Products,
+		"SumPrice": sumPrice,
 		"Total":    total,
+		"Delivery": delivery,
 		"User_id":  Logic.User_id,
 	})
 }
 
 //Сделать заказ
 func Order(c *gin.Context) {
-	
+	c_city := c.Request.FormValue("c_city")
 	c_fname := c.Request.FormValue("c_fname")
 	c_lname := c.Request.FormValue("c_lname")
 	c_patronymic := c.Request.FormValue("c_patronymic")
@@ -272,9 +281,8 @@ func Order(c *gin.Context) {
 	c_email_address := c.Request.FormValue("c_email_address")
 	c_phone := c.Request.FormValue("c_phone")
 	c_order_notes := c.Request.FormValue("c_order_notes")
-	log.Println(c_fname, c_lname, c_patronymic, c_address, c_email_address, c_phone, c_order_notes)
-	
-	err := Logic.MakeOrder()
+
+	err := Logic.MakeOrder(c_city, c_fname, c_lname, c_patronymic, c_address, c_email_address, c_phone, c_order_notes)
 	if err != nil {
 		c.HTML(400, "400", gin.H{
 			"Error": err.Error(),

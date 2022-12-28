@@ -41,8 +41,8 @@ type Order struct {
 	Order_status   string `json:"order_status"`
 	Track_number   string `json:"track_number"`
 	//Данные покупателя
-	Customer_Name    string `json:"customer_Name"`
 	Customer_City    string `json:"customer_City"`
+	Customer_Name    string `json:"customer_Name"`
 	Customer_Address string `json:"customer_Address"`
 	Customer_Email   string `json:"customer_Email"`
 	Customer_Comment string `json:"customer_Comment"`
