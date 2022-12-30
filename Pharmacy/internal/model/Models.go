@@ -40,10 +40,12 @@ type Order struct {
 	Order_time     string `json:"order_time"`
 	Order_status   string `json:"order_status"`
 	Track_number   string `json:"track_number"`
+	Delivery_price int    `json:"delivery_price"`
+	Total_price    int    `json:"total_price"`
 	//Данные покупателя
-	Customer_City    string `json:"customer_City"`
 	Customer_Name    string `json:"customer_Name"`
 	Customer_Address string `json:"customer_Address"`
 	Customer_Email   string `json:"customer_Email"`
+	Customer_Phone   string `json:"customer_Phone"`
 	Customer_Comment string `json:"customer_Comment"`
 }

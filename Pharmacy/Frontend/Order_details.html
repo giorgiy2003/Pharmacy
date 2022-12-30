@@ -4,7 +4,7 @@
 <html lang="en">
 
 <head>
-  <title>Корзина</title>
+  <title>Заказы</title>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -114,26 +114,49 @@
 
 
             <div>
-              <table class="table" style="border: white ;">
+              <table class="table" style="border: white ; table-layout: fixed; width:100%">
                 <tbody>
                   
                   <tr>
-
-                    <td>
-                          <p class="h5 text-black"><img src= "/images/geozone.png" alt="Image"> Доставка по адресу</p><br>
+                    
+                    <td colspan="2">
+                       <p class="h5 text-black"><img src= "/images/geozone.png" alt="Image"> Доставка по адресу</p>
+                          <p style="word-wrap: break-word; margin-left: 35px;"><big>{{ .Customer_Address }}</big></p>
                           <p class="h5 text-black"><img src= "/images/man.png" alt="Image"> Получатель</p>
+
+                          <div class="bag text-black" style="line-height:1; word-wrap: break-word; margin-left: 35px;" >
+                          <p ><big>{{ .Customer_Name }} </big></p>
+                          <p ><big>{{ .Customer_Email }}</big></p>
+                          <p ><big>{{ .Customer_Phone }}</big></p>
+                          </div>
+                    </td>
+
+                    <td style="width: 5%;">
+
                     </td>
 
                     <td>
-                      <p class="h5 text-black"><img src= "/images/summa6.png" alt="Image"> Стоимость</p><br>
-                      <p class="h5 text-black" style="padding-left: 10%;">Доставка</p><br>
-                      <p class="h5 text-black" style="padding-left: 10%;">Итого</p><br>
+                      <div class="bag text-blac; word-wrap: break-word;">
+                      <p class="h5 text-black"style="line-height:2;"><img src= "/images/s.png" alt="Image"> Товар</p>
+                      <p class="h5 text-black" style="line-height:2.5; margin-left: 36px;">Сумма</p>
+                      <p class="h5 text-black" style="line-height:2; margin-left: 36px;">Доставка</p>
+                      <p class="h5 text-black" style="line-height:2.5; font-weight: bold; margin-left: 36px;">Итого</p>
+                      </div>
                     </td>
 
-                    <td>
-                      <p class="bag text-black"><big>{{ .Product_amount }} ₽</big></p><br>
+                    <td style="width: 30%;" >
+                      <div class="bag text-black" style="word-wrap: break-word; text-align: right; margin-right: 35px;" >
+                      <p class="bag text-black"  style="line-height:2;"><big>{{ .Product_Name }} x {{ .Product_Koll }}</big></p>
+                      <p class="bag text-black"style="line-height:2;"><big>{{ .Product_amount }}</big></p>
+                      {{ if ne .Delivery_price 0}}
+                      <p class="bag text-black"style="line-height:2;"><big>{{ .Delivery_price }} ₽</big></p>
+                      {{ else }}
+                      <p class="bag text-black"style="line-height:2;"><big>Бесплатно</big></p>
+                      {{ end }}
+                      <p class="bag text-black" style="font-weight: bold;line-height:2;"><big>{{ .Total_price }} ₽</big></p>
+                    </div>
                     </td>
-
+                    
                   </tr>
                   
                 </tbody>

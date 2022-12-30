@@ -380,8 +380,8 @@ func MakeOrder(city, fname, lname, patronymic, address, email_address, phone, or
 		return errors.New("Ошибка: не все поля заполнены!")
 	}
 
-	//name := fmt.Sprintf("%s %s %s", fname, lname, patronymic)
-	//newAddress := fmt.Sprintf("%s, %s", city, address)
+	name := fmt.Sprintf("%s %s %s", fname, lname, patronymic)
+	newAddress := fmt.Sprintf("%s, %s", city, address)
 
 	row, err := Repository.Connection.Query(`
 	SELECT products.product_id, products.product_image, products.product_name, products.product_manufacturer, products.product_category, products.product_description, 
@@ -416,7 +416,17 @@ func MakeOrder(city, fname, lname, patronymic, address, email_address, phone, or
 		}
 		Track_number := make_Track_number(order_id)
 
-		if _, err := Repository.Connection.Exec(`INSERT INTO "orders" ("user_id", "product_id", "product_koll", "product_price", "order_time", "order_status", "order_track_number") VALUES ($1,$2,$3,$4,$5,$6,$7)`, User_id, UserCart.Product_Id, UserCart.Product_Koll, UserCart.Product_Price, time.Now(), "Ожидает подтверждения", Track_number); err != nil {
+		delivery := 0
+
+		if UserCart.Product_amount < 1000 {
+			delivery = 150
+		}
+		total := delivery + UserCart.Product_amount
+
+		if _, err := Repository.Connection.Exec(`INSERT INTO "orders" ("user_id", "product_id", "product_koll", "product_price", "order_time", 
+		"order_status", "order_track_number", "delivery_price", "total_price", "customer_name", "customer_address", "customer_phone", "customer_email", "customer_comment") 
+		VALUES ($1,$2,$3,$4,$5,$6,$7,$8,$9,$10,$11,$12,$13,$14)`,
+			User_id, UserCart.Product_Id, UserCart.Product_Koll, UserCart.Product_Price, time.Now(), "Ожидает подтверждения", Track_number, delivery, total, name, newAddress, phone, email_address, order_notes); err != nil {
 			log.Println(err)
 			return err
 		}
@@ -444,8 +454,9 @@ func Order_details(Track_number string) ([]Model.Order, error) {
 	}
 
 	row, err := Repository.Connection.Query(`
-	SELECT "product_id", "product_koll", "product_price", "order_time", "order_status", orders.product_koll * orders.product_price AS product_amount, "order_track_number"
-	FROM "orders"
+	SELECT orders.product_id, products.product_name, "product_koll", orders.product_price, "order_time", "order_status", orders.product_koll * orders.product_price AS product_amount, "order_track_number",
+	"delivery_price", "total_price", "customer_name", "customer_address", "customer_phone", "customer_email"
+	FROM "orders" JOIN "products" on products.product_id = orders.product_id
 	WHERE user_id = $1 AND order_Track_number = $2
 	`, User_id, Track_number)
 	if err != nil {
@@ -459,7 +470,7 @@ func Order_details(Track_number string) ([]Model.Order, error) {
 			Order Model.Order
 			time  time.Time
 		)
-		err := row.Scan(&Order.Product_Id, &Order.Product_Koll, &Order.Product_Price, &time, &Order.Order_status, &Order.Product_amount, &Order.Track_number)
+		err := row.Scan(&Order.Product_Id,&Order.Product_Name, &Order.Product_Koll, &Order.Product_Price, &time, &Order.Order_status, &Order.Product_amount, &Order.Track_number, &Order.Delivery_price, &Order.Total_price, &Order.Customer_Name, &Order.Customer_Address, &Order.Customer_Phone, &Order.Customer_Email)
 		if err != nil {
 			log.Println(err)
 			return nil, err

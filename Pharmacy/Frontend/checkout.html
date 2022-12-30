@@ -21,6 +21,9 @@
 
   <link rel="stylesheet" href="/css/style.css">
 
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+  <script src="/js/jquery.maskedinput.min.js"></script>
+
 </head>
 
 <body>
@@ -109,7 +112,7 @@
             <h2 class="h3 mb-3 text-black">Реквизиты</h2>
 
 
-            <div class="p-3 p-lg-5 border">
+            <div class="p-3 p-lg-5 border" style="width: 550px;">
               <div class="form-group">
                 <label for="c_city" class="text-black">Город</label>
                 <input type="text" class="form-control" value="Рязань" readonly id="c_city" name="c_city" style="background-color: white;">
@@ -144,8 +147,11 @@
                   <input type="text" class="form-control" id="c_email_address" name="c_email_address">
                 </div>
                 <div class="col-md-6">
-                  <label for="c_phone" class="text-black">Телефон <span class="text-danger">*</span></label>
-                  <input type="text" class="form-control" id="c_phone" name="c_phone" required>
+                  <label for="c_phone" class="text-black ">Телефон <span class="text-danger">*</span></label>
+                  <input type="text" class="phone_mask form-control" id="c_phone" name="c_phone" required>
+                  <script>
+                    $(".phone_mask").mask("+7 (999) 999-99-99");
+                    </script>
                 </div>
               </div>
     
@@ -158,7 +164,7 @@
 
           </div>
 
-          <div class="col-md-6">
+          <div class="col-md-6" style=" width: 550px;">
   
     
             <div class="row mb-5">
@@ -187,7 +193,11 @@
 
                       <tr>
                         <td class="text-black"><strong>Доставка</strong></td>
+                      {{ if ne .Delivery 0}}
                         <td class="text-black"><strong>{{ .Delivery }} ₽</strong></td>
+                      {{ else }}
+                      <td class="text-black"><strong>Бесплатно</strong></td>
+                      {{ end }}
                       </tr>
 
                       <tr>
