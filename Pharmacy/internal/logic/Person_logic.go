@@ -39,9 +39,16 @@ func ReadAllProducts() ([]Model.Product, error) {
 	return productInfo, nil
 }
 
-//Вывести первые 6 записей
+//Популярные товары в течение 7 дней
 func ReadProductsWithLimit() ([]Model.Product, error) {
-	row, err := Repository.Connection.Query(`SELECT product_id, product_image, product_name, product_price FROM "products" ORDER BY "product_id" LIMIT 6`)
+	row, err := Repository.Connection.Query(`
+	SELECT  products.product_id, products.product_image, products.product_name, products.product_price
+	FROM orders JOIN "products" on orders.product_id = products.product_id
+	WHERE  order_time >= now() - interval  '7 days'
+	GROUP BY products.product_id, orders.product_price 
+	ORDER BY SUM(orders.product_koll) DESC
+	LIMIT 10
+	`)
 	if err != nil {
 		log.Println(err)
 		return nil, err
@@ -470,7 +477,7 @@ func Order_details(Track_number string) ([]Model.Order, error) {
 			Order Model.Order
 			time  time.Time
 		)
-		err := row.Scan(&Order.Product_Id,&Order.Product_Name, &Order.Product_Koll, &Order.Product_Price, &time, &Order.Order_status, &Order.Product_amount, &Order.Track_number, &Order.Delivery_price, &Order.Total_price, &Order.Customer_Name, &Order.Customer_Address, &Order.Customer_Phone, &Order.Customer_Email)
+		err := row.Scan(&Order.Product_Id, &Order.Product_Name, &Order.Product_Koll, &Order.Product_Price, &time, &Order.Order_status, &Order.Product_amount, &Order.Track_number, &Order.Delivery_price, &Order.Total_price, &Order.Customer_Name, &Order.Customer_Address, &Order.Customer_Phone, &Order.Customer_Email)
 		if err != nil {
 			log.Println(err)
 			return nil, err
