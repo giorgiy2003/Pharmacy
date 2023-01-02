@@ -6,11 +6,84 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Страница разработчика</title>
-</head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+    <title>Главная</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+
+  </head>
+
 <body>
+
+  <main class="d-flex flex-nowrap">
     
-    <h3>Страница в разработке</h3>
+    <div class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark" style="width: 13%; height: 100vh;">
+      <p class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+        <svg class="bi pe-none me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
+        <span class="fs-4">Страничка модератора</span>
+      </p>
+      <hr>
+      <ul class="nav nav-pills flex-column mb-auto"><li class="mb-1" >
+
+       
+        <li class="nav-item">         
+          <a href="#" class="nav-link active" aria-current="page">
+            <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#home"></use></svg>
+            Главная
+          </a>
+        </li>
+        <li>
+          <a href="#" class="nav-link text-white"  data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="true">
+            <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#table"></use></svg>
+            Заказы
+          </a>
+          <div class="collapse" id="orders-collapse">
+            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small nav-link text-white" style="background-color: darkslategrey; color: white; " >
+              <li ><a href="#"  class="mb-2 link-dark d-inline-flex text-decoration-none rounded text-white btn-toggle-nav">Новый</a></li>
+              <li><a href="#" class="mb-2 link-dark d-inline-flex text-decoration-none rounded text-white">Обработан</a></li>
+              <li><a href="#" class="mb-2 link-dark d-inline-flex text-decoration-none rounded text-white">Доставлен</a></li>
+              <li><a href="#" class="mb-2 link-dark d-inline-flex text-decoration-none rounded text-white">Отказ</a></li>
+            </ul>
+          </div>
+        </li>
+        <li>
+          <a href="#" class="nav-link text-white">
+            <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#grid"></use></svg>
+            Продукты
+          </a>
+        </li>
+        <li>
+          <a href="#" class="nav-link text-white">
+            <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#people-circle"></use></svg>
+            Сотрудники
+          </a>
+        </li>
+        <li>
+          <a href="#" class="nav-link text-white">
+            <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#people-circle"></use></svg>
+            Отзывы
+          </a>
+        </li>
+        
+      </ul>
+      
+      <hr>
+      <div class="dropdown">
+        <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+          <img src="/images/human.png" alt="" width="32" height="32" class="rounded-circle me-2">
+          <strong>admin</strong>
+        </a>
+        <ul class="dropdown-menu dropdown-menu-dark text-small shadow">
+          <li><a class="dropdown-item" href="#">Настройки</a></li>
+          <li><hr class="dropdown-divider"></li>
+          <li><a class="dropdown-item" href="/Sign_out">Выход</a></li>
+        </ul>
+      </div>
+    </div>
+  
+  </main>
+
 </body>
 </html>
 
