@@ -549,5 +549,4 @@ func Change_status(c *gin.Context) {
 		})
 		return
 	}
-	c.Redirect(http.StatusSeeOther, "/orders/Ожидает подтверждения")
 }
