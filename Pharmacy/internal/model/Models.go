@@ -31,6 +31,8 @@ type UserCart struct {
 }
 
 type Order struct {
+	Order_Id       int    `json:"order_Id"`
+	User_Id        int    `json:"user_Id"`
 	Product_Id     int    `json:"product_Id"`
 	Product_Image  string `json:"image"`
 	Product_Name   string `json:"product_name"`

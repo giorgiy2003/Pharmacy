@@ -19,7 +19,6 @@ func main() {
 	router.GET("/Registration", Handler.Registration) //Регистрация пользователя ✅
 	router.GET("/Form_handler_Registration", Handler.Form_handler_Registration) //Обработчик регистрации ✅
 	router.GET("/Sign_out", Handler.Sign_out) //Выйти из аккаунта ✅
-	router.GET("/admin", Handler.Admin) //Страница разработчика
 	router.GET("/", Handler.MainForm) //Главная страница ✅
 	router.GET("/shop", Handler.Shop) //Магазин ✅
 	router.GET("/NameASC", Handler.NameASC) //Фильтр товаров по наименованию ✅
@@ -46,5 +45,9 @@ func main() {
 	router.GET("/order_details/:order", Handler.Order_details) //Информация о заказе ✅
 	router.GET("/SendMessage", Handler.SendMessage)	//Оставить отзыв
 	router.GET("/Product_category/:category", Handler.Medicines_by_category) //Поиск по категориям ✅
+
+	//Для администраторов
+	router.GET("/orders/:order_status", Handler.Orders_Page) //Заказы 
+	router.GET("/change_status/:order_id/:order_status", Handler.Change_status) //Заказы 
 	router.Run("localhost:8080")
 }

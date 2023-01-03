@@ -39,8 +39,28 @@ func ReadAllProducts() ([]Model.Product, error) {
 	return productInfo, nil
 }
 
-//Популярные товары в течение 7 дней
+//Вывести первые 6 записей
 func ReadProductsWithLimit() ([]Model.Product, error) {
+	row, err := Repository.Connection.Query(`SELECT product_id, product_image, product_name, product_price FROM "products" ORDER BY "product_id" LIMIT 6`)
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+	var productInfo = []Model.Product{}
+	for row.Next() {
+		var p Model.Product
+		err := row.Scan(&p.Product_Id, &p.Product_Image, &p.Product_Name, &p.Product_Price)
+		if err != nil {
+			log.Println(err)
+			return nil, err
+		}
+		productInfo = append(productInfo, p)
+	}
+	return productInfo, nil
+}
+
+//Популярные товары в течение 7 дней
+func Popular_Products() ([]Model.Product, error) {
 	row, err := Repository.Connection.Query(`
 	SELECT  products.product_id, products.product_image, products.product_name, products.product_price
 	FROM orders JOIN "products" on orders.product_id = products.product_id
@@ -848,6 +868,66 @@ func ShopSingle(id string) ([]Model.UserCart, error) {
 		}
 	}
 	return UserInfo, nil
+}
+
+//Для администратора
+
+//Список заказов
+func Orders_Page(order_status string) ([]Model.Order, error) {
+
+	if User_id == 0 {
+		return nil, nil
+	}
+
+	row, err := Repository.Connection.Query(`
+	SELECT orders.user_id, products.product_id,  products.product_name, orders.product_price, orders.product_koll, orders.order_time, orders.order_status, orders.product_koll * orders.product_price AS product_amount, 
+	orders.order_track_number, orders.order_id ,orders.customer_address, orders.customer_phone, orders.customer_email,orders.customer_comment
+	FROM products JOIN "orders" on products.product_id = orders.product_id
+	WHERE orders.order_status = $1
+	GROUP BY orders.user_id, products.product_id, orders.product_koll, order_time, orders.product_price, orders.order_status, orders.order_track_number, orders.order_id, orders.customer_address, orders.customer_phone, orders.customer_email,orders.customer_comment
+	ORDER BY "order_time" ASC, orders.user_id
+	`, order_status)
+	if err != nil {
+		log.Println(err)
+		return nil, err
+	}
+
+	var OrderInfo = []Model.Order{}
+	for row.Next() {
+		var (
+			Order Model.Order
+			time  time.Time
+		)
+		err := row.Scan(&Order.User_Id, &Order.Product_Id, &Order.Product_Name, &Order.Product_Price, &Order.Product_Koll, &time, &Order.Order_status, &Order.Product_amount,
+			&Order.Track_number, &Order.Order_Id, &Order.Customer_Address, &Order.Customer_Phone, &Order.Customer_Email, &Order.Customer_Comment)
+		if err != nil {
+			log.Println(err)
+			return nil, err
+		}
+		Order.Order_time = time.Format("2006-01-02")
+		OrderInfo = append(OrderInfo, Order)
+	}
+	return OrderInfo, nil
+}
+
+//Поменять статус заказа
+func Change_status(order_status, order_id string) error {
+
+	if User_id == 0 {
+		return nil
+	}
+
+	id, err := strconv.Atoi(order_id)
+	if err != nil {
+		log.Println(err)
+		return err
+	}
+
+	if _, err := Repository.Connection.Exec(`UPDATE "orders" SET "order_status" = $1 WHERE "order_id" = $2`, order_status, id); err != nil {
+		log.Println(err)
+		return err
+	}
+	return nil
 }
 
 func CreateProduct(p Model.Product) error {

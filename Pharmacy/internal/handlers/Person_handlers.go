@@ -56,10 +56,18 @@ func MainForm(c *gin.Context) {
 		return
 	}
 
+	Popular_Products, err := Logic.Popular_Products()
+	if err != nil {
+		c.HTML(400, "400", gin.H{
+			"Error": err.Error(),
+		})
+		return
+	}
 	c.HTML(200, "index", gin.H{
-		"Role":     Logic.Role,
-		"User_id":  Logic.User_id,
-		"Products": Products,
+		"Role":             Logic.Role,
+		"User_id":          Logic.User_id,
+		"Products":         Products,
+		"Popular_Products": Popular_Products,
 	})
 }
 
@@ -68,17 +76,6 @@ func Sign_out(c *gin.Context) {
 	Logic.User_id = 0
 	Logic.Role = ""
 	c.Redirect(http.StatusSeeOther, "/")
-}
-
-//Страница разработчика
-func Admin(c *gin.Context) {
-	if Logic.Role != "Администратор" {
-		c.HTML(404, "400", gin.H{
-			"Error": "Страница не найдена",
-		})
-		return
-	}
-	c.HTML(200, "Developer_page", nil)
 }
 
 //Товары
@@ -511,4 +508,46 @@ func ConnectDB() gin.HandlerFunc {
 			return
 		}
 	}
+}
+
+//Заказы
+func Orders_Page(c *gin.Context) {
+	if Logic.Role != "Администратор" {
+		c.HTML(404, "400", gin.H{
+			"Error": "Страница не найдена",
+		})
+		return
+	}
+	category := c.Param("order_status")
+	Orders, err := Logic.Orders_Page(category)
+	if err != nil {
+		c.HTML(400, "400", gin.H{
+			"Error": err.Error(),
+		})
+		return
+	}
+	c.HTML(200, "Developer_page", gin.H{
+		"Orders": Orders,
+		"Status": category,
+	})
+}
+
+//Поменять статус заказа
+func Change_status(c *gin.Context) {
+	if Logic.Role != "Администратор" {
+		c.HTML(404, "400", gin.H{
+			"Error": "Страница не найдена",
+		})
+		return
+	}
+	order_id := c.Param("order_id")
+	order_status := c.Param("order_status")
+	err := Logic.Change_status(order_status, order_id)
+	if err != nil {
+		c.HTML(400, "400", gin.H{
+			"Error": err.Error(),
+		})
+		return
+	}
+	c.Redirect(http.StatusSeeOther, "/orders/Ожидает подтверждения")
 }
