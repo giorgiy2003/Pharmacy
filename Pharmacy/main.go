@@ -30,6 +30,7 @@ func main() {
 	router.GET("/cart", Handler.Cart) //Корзина ✅
 	router.GET("/about", Handler.About) //О нас ✅
 	router.GET("/contact", Handler.Contact) //Контакты ✅
+	router.GET("/SendMessage", Handler.SendMessage)	//Оставить отзыв 
 	router.GET("/AddToCart/:id", Handler.AddToCart) //Добавить в корзину ✅
 	router.GET("/DeleteFromCart/:id", Handler.DeleteFromCart) //Убрать из корзины ✅
 	router.GET("/MinusKoll/:id", Handler.MinusKoll) //Уменьшить количество товара в корзине на странице товара ✅
@@ -43,7 +44,6 @@ func main() {
 	router.GET("/DeleteFromfavourites/:id", Handler.DeleteFromFavotites) //Убрать из избранного ✅
 	router.GET("/historyPage", Handler.HistoryPage) //История заказов ✅
 	router.GET("/order_details/:order", Handler.Order_details) //Информация о заказе ✅
-	router.GET("/SendMessage", Handler.SendMessage)	//Оставить отзыв
 	router.GET("/Product_category/:category", Handler.Medicines_by_category) //Поиск по категориям ✅
 
 	//Для администраторов

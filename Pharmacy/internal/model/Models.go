@@ -53,11 +53,12 @@ type Order struct {
 }
 
 type Comment struct {
-	User_Id        int    `json:"user_Id"`
-	Theme          string `json:"theme"`
-	Customer_Name  string `json:"customer_Name"`
-	Customer_Email string `json:"customer_Email"`
-	Comment        string `json:"comment"`
+	User_Id            int    `json:"user_Id"`
+	Theme              string `json:"theme"`
+	Customer_FirstName string `json:"customer_FirstName"`
+	Customer_LastName  string `json:"customer_LastName"`
+	Customer_Email     string `json:"customer_Email"`
+	Comment            string `json:"comment"`
 }
 
 type Worker struct {

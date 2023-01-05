@@ -412,7 +412,21 @@ func AddKollinCart(c *gin.Context) {
 
 //Оставить отзыв
 func SendMessage(c *gin.Context) {
-	c.HTML(200, "index", gin.H{
+	var Comment Model.Comment
+	Comment.Customer_FirstName = c.Request.FormValue("c_fname")
+	Comment.Customer_LastName = c.Request.FormValue("c_lname")
+	Comment.Customer_Email = c.Request.FormValue("c_email")
+	Comment.Theme = c.Request.FormValue("c_subject")
+	Comment.Comment = c.Request.FormValue("c_message")
+
+	err := Logic.CreateComment(Comment)
+	if err != nil {
+		c.HTML(400, "400", gin.H{
+			"Error": err.Error(),
+		})
+		return
+	}
+	c.HTML(200, "thankyou2", gin.H{
 		"Role":    Logic.Role,
 		"User_id": Logic.User_id,
 	})
@@ -642,3 +656,8 @@ func Remove_Worker(c *gin.Context) {
 func Edit_Worker(c *gin.Context) {
 	c.HTML(200, "EditWorker", nil)
 }
+
+
+//Отзывы
+
+

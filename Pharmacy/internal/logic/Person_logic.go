@@ -936,7 +936,7 @@ func Change_status(order_status, order_id string) error {
 
 //Вывести всех сотрудников
 func ReadAllWorkers() ([]Model.Worker, error) {
-	row, err := Repository.Connection.Query(`SELECT worker_id, worker_FirstName, worker_LastName, worker_email, worker_phone, post, salary_per_month FROM "workers" ORDER BY "worker_id"`)
+	row, err := Repository.Connection.Query(`SELECT worker_id, worker_firstname, worker_lastname, worker_email, worker_phone, post, salary_per_month FROM "workers" ORDER BY "worker_id"`)
 	if err != nil {
 		return nil, err
 	}
@@ -970,8 +970,8 @@ func CreateWorker(p Model.Worker) error {
 		log.Println(err)
 		return err
 	}
-	
-	if _, err := Repository.Connection.Exec(`INSERT INTO "workers" ("worker_FirstName", "worker_LastName", "worker_email", "worker_phone", "post", "salary_per_month") VALUES ($1,$2,$3,$4,$5,$6)`, p.Worker_FirstName, p.Worker_LastName, p.Worker_Email, p.Worker_Phone, p.Post, Salary_per_month); err != nil {
+
+	if _, err := Repository.Connection.Exec(`INSERT INTO "workers" ("worker_firstname", "worker_lastname", "worker_email", "worker_phone", "post", "salary_per_month", "time_of_adding") VALUES ($1,$2,$3,$4,$5,$6,$7)`, p.Worker_FirstName, p.Worker_LastName, p.Worker_Email, p.Worker_Phone, p.Post, Salary_per_month, time.Now()); err != nil {
 		return err
 	}
 	return nil
@@ -992,7 +992,7 @@ func UpdateWorker(p Model.Worker, id string) error {
 	if p.Worker_FirstName == "" || p.Worker_LastName == "" || p.Worker_Phone == "" || p.Post == "" || p.Salary_per_month == "" {
 		return errors.New("невозможно редактировать запись, не все поля заполнены!")
 	}
-	if _, err := Repository.Connection.Exec(`UPDATE "workers" SET "worker_FirstName" = $1,"worker_LastName" = $2,"worker_email" = $3,"worker_phone" = $4 ,"post" = $5 ,"salary_per_month" = $6  WHERE "worker_id" = $7`,  p.Worker_FirstName, p.Worker_LastName, p.Worker_Email, p.Worker_Phone, p.Post, p.Salary_per_month, id); err != nil {
+	if _, err := Repository.Connection.Exec(`UPDATE "workers" SET "worker_firstname" = $1,"worker_lastname" = $2,"worker_email" = $3,"worker_phone" = $4 ,"post" = $5 ,"salary_per_month" = $6  WHERE "worker_id" = $7`, p.Worker_FirstName, p.Worker_LastName, p.Worker_Email, p.Worker_Phone, p.Post, p.Salary_per_month, id); err != nil {
 		return err
 	}
 	return nil
@@ -1015,7 +1015,7 @@ func ReadOneWorker(id string) ([]Model.Worker, error) {
 	if err != nil {
 		return nil, errors.New("Error: неверно введён параметр id")
 	}
-	row, err := Repository.Connection.Query(`SELECT worker_id, worker_FirstName, worker_LastName, worker_email, worker_phone, post, salary_per_month FROM "workers" WHERE "worker_id" = $1`, worker_id)
+	row, err := Repository.Connection.Query(`SELECT worker_id, worker_firstname, worker_lastname, worker_email, worker_phone, post, salary_per_month FROM "workers" WHERE "worker_id" = $1`, worker_id)
 	if err != nil {
 		return nil, err
 	}
@@ -1043,6 +1043,27 @@ func workerExist(id string) error {
 	return nil
 }
 
+//Отзывы
+
+//Оставить отзыв
+func CreateComment(p Model.Comment) error {
+
+	p.Customer_FirstName = strings.TrimSpace(p.Customer_FirstName)
+	p.Customer_LastName = strings.TrimSpace(p.Customer_LastName)
+	p.Customer_Email = strings.TrimSpace(p.Customer_Email)
+	p.Theme = strings.TrimSpace(p.Theme)
+	p.Comment = strings.TrimSpace(p.Comment)
+
+	if p.Customer_FirstName == "" || p.Customer_LastName == "" || p.Customer_Email == "" || p.Comment == "" {
+		return errors.New("невозможно добавить запись, не все поля заполнены!")
+	}
+
+	if _, err := Repository.Connection.Exec(`INSERT INTO "comments" ("user_id", "customer_firstname", "customer_lastname", "customer_email", "theme", "message", "time_of_adding") VALUES ($1,$2,$3,$4,$5,$6,$7)`,User_id, p.Customer_FirstName, p.Customer_LastName, p.Customer_Email, p.Theme, p.Comment, time.Now()); err != nil {
+		return err
+	}
+	return nil
+}
+
 //Товары
 
 func CreateProduct(p Model.Product) error {
@@ -1063,7 +1084,7 @@ func CreateProduct(p Model.Product) error {
 }
 
 func UpdateProduct(p Model.Product, id string) error {
-	if err := dataExist(id); err != nil {
+	if err := ProductExist(id); err != nil {
 		log.Println(err)
 		return err
 	}
@@ -1084,7 +1105,7 @@ func UpdateProduct(p Model.Product, id string) error {
 }
 
 func DeleteProduct(id string) error {
-	if err := dataExist(id); err != nil {
+	if err := ProductExist(id); err != nil {
 		log.Println(err)
 		return err
 	}
@@ -1095,7 +1116,7 @@ func DeleteProduct(id string) error {
 	return nil
 }
 
-func dataExist(id string) error {
+func ProductExist(id string) error {
 	persons, err := ReadOneProductById(id)
 	if err != nil {
 		log.Println(err)
