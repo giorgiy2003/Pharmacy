@@ -609,7 +609,7 @@ func Form_handler_UpdateWorkerById(c *gin.Context) {
 	newWorker.Worker_Phone = c.Request.FormValue("Worker_Phone")
 	newWorker.Post = c.Request.FormValue("Post")
 	newWorker.Salary_per_month = c.Request.FormValue("Salary_per_month")
-	
+
 	err := Logic.UpdateWorker(newWorker, id)
 	if err != nil {
 		c.HTML(400, "400", gin.H{
@@ -621,23 +621,23 @@ func Form_handler_UpdateWorkerById(c *gin.Context) {
 }
 
 //Удалить сотрудника из базы
-func Form_handler_DeleteById(c *gin.Context) {
+func Form_handler_DeleteWorkerById(c *gin.Context) {
 	id := c.Request.FormValue("id")
 	err := Logic.DeleteWorker(id)
 	if err != nil {
-		c.HTML(400, "ErrorPage", gin.H{
-			"Error": err,
+		c.HTML(400, "400", gin.H{
+			"Error": err.Error(),
 		})
 		return
 	}
-	c.HTML(200, "returnPage", nil)
+	c.Redirect(http.StatusSeeOther, "/Get_All_Workers")
 }
 
 func Add_Worker(c *gin.Context) {
 	c.HTML(200, "AddWorker", nil)
 }
 func Remove_Worker(c *gin.Context) {
-	c.HTML(200, "DeleteById", nil)
+	c.HTML(200, "DeleteWorker", nil)
 }
 func Edit_Worker(c *gin.Context) {
 	c.HTML(200, "EditWorker", nil)

@@ -59,6 +59,6 @@ func main() {
 	router.GET("/Edit_Worker", Handler.Edit_Worker) //Редактировать запись сотрудника
 	router.POST("/Form_handler_PostWorker", Handler.Form_handler_PostWorker)
 	router.GET("/Form_handler_UpdateWorkerById", Handler.Form_handler_UpdateWorkerById)
-	router.GET("/Form_handler_DeleteById", Handler.Form_handler_DeleteById)
+	router.GET("/Form_handler_DeleteWorkerById", Handler.Form_handler_DeleteWorkerById)
 	router.Run("localhost:8080")
 }

@@ -1,0 +1,128 @@
+{{define "DeleteWorker"}}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css">
+    <title>Заказы</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-GLhlTQ8iRABdZLl6O3oVMWSktQOp6b7In1Zl3/Jr59b6EGGoI1aFkw7cmDA6j6gD" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js" integrity="sha384-w76AqPfDkMBDXo30jS1Sgez6pr3x5MlQ1ZAGC+nuZB+EYdgRZgiwxhTBTkF7CXvN" crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <script src="/js/jquery.maskedinput.min.js"></script>
+  </head>
+
+<body>
+
+  <main class="d-flex flex-nowrap">
+    
+    <div class="d-flex flex-column flex-shrink-0 p-3 text-bg-dark" style="width: 13%; height: 100vh;  position: fixed;">
+
+
+      <p class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none">
+        <svg class="bi pe-none me-2" width="40" height="32"><use xlink:href="#bootstrap"></use></svg>
+        <img src="/images/admin/crm5.png" alt="" width="50" height="50"  class="rounded-circle me-2" style="float: left; background-color: white;">
+        <span class="fs-4">CRM</span>
+      </p>
+      <hr>
+      <ul class="nav nav-pills flex-column mb-auto"><li class="mb-1" >
+
+       
+        <li class="nav-item">         
+          <a href="/orders/Ожидает подтверждения" class="nav-link text-white" aria-current="page">
+            <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#home"></use></svg>
+            Главная
+          </a>
+        </li>
+        <li>
+          <a href="#" class="nav-link text-white"  data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="true">
+            <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#table"></use></svg>
+            Заказы
+          </a>
+          <div class="collapse" id="orders-collapse">
+            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small nav-link text-white" style="background-color: darkslategrey; color: white; " >
+              <li ><a href="/orders/Ожидает подтверждения"  class="mb-2 link-dark d-inline-flex text-decoration-none rounded text-white btn-toggle-nav">Новые</a></li>
+              <li><a href="/orders/Принято в работу" class="mb-2 link-dark d-inline-flex text-decoration-none rounded text-white">Обработанные</a></li>
+              <li><a href="/orders/Заказ доставлен" class="mb-2 link-dark d-inline-flex text-decoration-none rounded text-white">Доставленные</a></li>
+              <li><a href="/orders/Отказ" class="mb-2 link-dark d-inline-flex text-decoration-none rounded text-white">Отказ</a></li>
+            </ul>
+          </div>
+        </li>
+        <li>
+          <a href="#" class="nav-link text-white"  data-bs-toggle="collapse" data-bs-target="#product-collapse" aria-expanded="true">
+            <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#grid"></use></svg>
+            Продукты
+          </a>
+          <div class="collapse" id="product-collapse">
+            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small nav-link text-white" style="background-color: darkslategrey; color: white; " >
+              <li ><a href="/orders/Ожидает подтверждения"  class="mb-2 link-dark d-inline-flex text-decoration-none rounded text-white btn-toggle-nav">Добавить товар в базу</a></li>
+              <li><a href="/orders/Принято в работу" class="mb-2 link-dark d-inline-flex text-decoration-none rounded text-white">Удалить товар</a></li>
+              <li><a href="/orders/Заказ доставлен" class="mb-2 link-dark d-inline-flex text-decoration-none rounded text-white">Редактировать</a></li>
+            </ul>
+          </div>
+        </li>
+        <li>
+          <a href="#" class="nav-link"  data-bs-toggle="collapse" data-bs-target="#people-collapse" aria-expanded="true">
+            <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#people-circle"></use></svg>
+            Сотрудники
+          </a>
+          <div class="collapse" id="people-collapse">
+            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small nav-link text-white" style="background-color: darkslategrey; color: white; " >
+              <li><a href="/Get_All_Workers" class="mb-2 link-dark d-inline-flex text-decoration-none rounded text-white">Вывести всех</a></li>
+              <li ><a href="/Add_Worker"  class="mb-2 link-dark d-inline-flex text-decoration-none rounded text-white btn-toggle-nav">Добавить сотрудника</a></li>
+              <li><a href="/orders/Принято в работу" class="mb-2 link-dark d-inline-flex text-decoration-none rounded text-white">Редактировать</a></li>
+              <li><a href="/orders/Заказ доставлен" class="mb-2 link-dark d-inline-flex text-decoration-none rounded text-white">Убрать из базы</a></li>
+            </ul>
+          </div>
+        </li>
+        <li>
+          <a href="#" class="nav-link text-white" data-bs-toggle="collapse" data-bs-target="#comment-collapse" aria-expanded="true">
+            <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#comment-circle"></use></svg>
+            Отзывы
+          </a>
+          <div class="collapse" id="comment-collapse">
+           <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small nav-link text-white" style="background-color: darkslategrey; color: white; " >
+             <li><a href="/orders/Отказ" class="mb-2 link-dark d-inline-flex text-decoration-none rounded text-white">Все отзывы</a></li>
+             <li ><a href="/orders/Ожидает подтверждения"  class="mb-2 link-dark d-inline-flex text-decoration-none rounded text-white btn-toggle-nav">Помеченные "Важно"</a></li>
+           </ul>
+        </div>
+        </li>
+        <hr>
+
+        <div class="dropdown" style="padding-left: 5%;">
+          <a href="#" class="align-items-center text-white text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            <img src="/images/human.png" alt="" width="32" height="32" class="rounded-circle me-2">
+            <strong>admin</strong>
+          </a>
+          <ul class="dropdown-menu dropdown-menu-dark text-small shadow" >
+            <li><a class="dropdown-item" href="#">Настройки</a></li>
+            <li><hr class="dropdown-divider"></li>
+            <li><a class="dropdown-item" href="/Sign_out">Выход</a></li>
+          </ul>
+        </div>
+      </div>
+      </ul>
+
+
+      
+      <div class="flex-shrink-10 layer" style="padding-left: 15%;">
+
+      <div class="container-fluid" >
+        <h2 class="mt-5">Форма редактирования записи сотрудника</h2><br>
+          <form action="/Form_handler_DeleteWorkerById">
+            <p class="lead">Введите ID сотрудника запись которого нужно удалить:</p>
+            <input type="text" name="id" id="id" placeholder="Заплните поле id" class="form-control"><br>
+            <button>Удалить</button>
+          </form>
+      </div>
+
+     </div>
+
+    </div>
+  </main>
+</body>
+</html>
+{{ end }}
