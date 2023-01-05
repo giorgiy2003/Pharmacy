@@ -872,6 +872,8 @@ func ShopSingle(id string) ([]Model.UserCart, error) {
 
 //Для администратора
 
+//Заказы
+
 //Список заказов
 func Orders_Page(order_status string) ([]Model.Order, error) {
 
@@ -929,6 +931,119 @@ func Change_status(order_status, order_id string) error {
 	}
 	return nil
 }
+
+//Сотрудники
+
+//Вывести всех сотрудников
+func ReadAllWorkers() ([]Model.Worker, error) {
+	row, err := Repository.Connection.Query(`SELECT worker_id, worker_FirstName, worker_LastName, worker_email, worker_phone, post, salary_per_month FROM "workers" ORDER BY "worker_id"`)
+	if err != nil {
+		return nil, err
+	}
+	var personInfo = []Model.Worker{}
+	for row.Next() {
+		var p Model.Worker
+		err := row.Scan(&p.Worker_Id, &p.Worker_FirstName, &p.Worker_LastName, &p.Worker_Email, &p.Worker_Phone, &p.Post, &p.Salary_per_month)
+		if err != nil {
+			return nil, err
+		}
+		personInfo = append(personInfo, p)
+	}
+	return personInfo, nil
+}
+
+//Добавить сотрудника
+func CreateWorker(p Model.Worker) error {
+	p.Worker_Email = strings.TrimSpace(p.Worker_Email)
+	p.Worker_Phone = strings.TrimSpace(p.Worker_Phone)
+	p.Worker_FirstName = strings.TrimSpace(p.Worker_FirstName)
+	p.Worker_LastName = strings.TrimSpace(p.Worker_LastName)
+	p.Post = strings.TrimSpace(p.Post)
+	p.Salary_per_month = strings.TrimSpace(p.Salary_per_month)
+
+	if p.Worker_FirstName == "" || p.Worker_LastName == "" || p.Worker_Phone == "" || p.Post == "" || p.Salary_per_month == "" {
+		return errors.New("невозможно добавить запись, не все поля заполнены!")
+	}
+
+	Salary_per_month, err := strconv.Atoi(p.Salary_per_month)
+	if err != nil {
+		log.Println(err)
+		return err
+	}
+	
+	if _, err := Repository.Connection.Exec(`INSERT INTO "workers" ("worker_FirstName", "worker_LastName", "worker_email", "worker_phone", "post", "salary_per_month") VALUES ($1,$2,$3,$4,$5,$6)`, p.Worker_FirstName, p.Worker_LastName, p.Worker_Email, p.Worker_Phone, p.Post, Salary_per_month); err != nil {
+		return err
+	}
+	return nil
+}
+
+//Редактировать запись сотрудника
+func UpdateWorker(p Model.Worker, id string) error {
+
+	if err := workerExist(id); err != nil {
+		return err
+	}
+	p.Worker_Email = strings.TrimSpace(p.Worker_Email)
+	p.Worker_Phone = strings.TrimSpace(p.Worker_Phone)
+	p.Worker_FirstName = strings.TrimSpace(p.Worker_FirstName)
+	p.Worker_LastName = strings.TrimSpace(p.Worker_LastName)
+	p.Post = strings.TrimSpace(p.Post)
+	p.Salary_per_month = strings.TrimSpace(p.Salary_per_month)
+	if p.Worker_FirstName == "" || p.Worker_LastName == "" || p.Worker_Phone == "" || p.Post == "" || p.Salary_per_month == "" {
+		return errors.New("невозможно редактировать запись, не все поля заполнены!")
+	}
+	if _, err := Repository.Connection.Exec(`UPDATE "workers" SET "worker_FirstName" = $1,"worker_LastName" = $2,"worker_email" = $3,"worker_phone" = $4 ,"post" = $5 ,"salary_per_month" = $6  WHERE "worker_id" = $7`,  p.Worker_FirstName, p.Worker_LastName, p.Worker_Email, p.Worker_Phone, p.Post, p.Salary_per_month, id); err != nil {
+		return err
+	}
+	return nil
+}
+
+//Удалить сотрудника из базы
+func DeleteWorker(id string) error {
+	if err := workerExist(id); err != nil {
+		return err
+	}
+	if _, err := Repository.Connection.Exec(`DELETE FROM "workers" WHERE "worker_id" = $1`, id); err != nil {
+		return err
+	}
+	return nil
+}
+
+//Найти сотрудника по id
+func ReadOneWorker(id string) ([]Model.Worker, error) {
+	worker_id, err := strconv.Atoi(id)
+	if err != nil {
+		return nil, errors.New("Error: неверно введён параметр id")
+	}
+	row, err := Repository.Connection.Query(`SELECT worker_id, worker_FirstName, worker_LastName, worker_email, worker_phone, post, salary_per_month FROM "workers" WHERE "worker_id" = $1`, worker_id)
+	if err != nil {
+		return nil, err
+	}
+	var personInfo = []Model.Worker{}
+	for row.Next() {
+		var p Model.Worker
+		err := row.Scan(&p.Worker_Id, &p.Worker_FirstName, &p.Worker_LastName, &p.Worker_Email, &p.Worker_Phone, &p.Post, &p.Salary_per_month)
+		if err != nil {
+			return nil, err
+		}
+		personInfo = append(personInfo, p)
+	}
+	return personInfo, nil
+}
+
+//Проверка на наличие сотрудника в базе
+func workerExist(id string) error {
+	persons, err := ReadOneWorker(id)
+	if err != nil {
+		return err
+	}
+	if len(persons) == 0 {
+		return fmt.Errorf("Error: записи с id = %s не существует", id)
+	}
+	return nil
+}
+
+//Товары
 
 func CreateProduct(p Model.Product) error {
 	p.Product_Name = strings.TrimSpace(p.Product_Name)

@@ -3,6 +3,7 @@ package Handler
 import (
 	"fmt"
 	Logic "myapp/internal/logic"
+	Model "myapp/internal/model"
 	Repository "myapp/internal/repository"
 	"net/http"
 
@@ -510,6 +511,9 @@ func ConnectDB() gin.HandlerFunc {
 	}
 }
 
+
+//Для администратора
+
 //Заказы
 func Orders_Page(c *gin.Context) {
 	if Logic.Role != "Администратор" {
@@ -549,4 +553,92 @@ func Change_status(c *gin.Context) {
 		})
 		return
 	}
+}
+
+
+//Сотрудники
+
+
+//Cписок всех сотрудников
+func Get_All_Workers(c *gin.Context) {
+	if Logic.Role != "Администратор" {
+		c.HTML(404, "400", gin.H{
+			"Error": "Страница не найдена",
+		})
+		return
+	}
+	Workers, err := Logic.ReadAllWorkers()
+	if err != nil {
+		c.HTML(400, "400", gin.H{
+			"Error": err.Error(),
+		})
+		return
+	}
+	c.HTML(200, "AllWorkers", gin.H{
+		"Workers": Workers,
+	})
+}
+
+//Добавить сотрудника
+func Form_handler_PostWorker(c *gin.Context) {
+	var newWorker Model.Worker
+	newWorker.Worker_FirstName = c.Request.FormValue("Worker_FirstName")
+	newWorker.Worker_LastName = c.Request.FormValue("Worker_LastName")
+	newWorker.Worker_Email = c.Request.FormValue("Worker_Email")
+	newWorker.Worker_Phone = c.Request.FormValue("Worker_Phone")
+	newWorker.Post = c.Request.FormValue("Post")
+	newWorker.Salary_per_month = c.Request.FormValue("Salary_per_month")
+
+	err := Logic.CreateWorker(newWorker)
+	if err != nil {
+		c.HTML(400, "400", gin.H{
+			"Error": err.Error(),
+		})
+		return
+	}
+	c.Redirect(http.StatusSeeOther, "/Get_All_Workers")
+}
+
+//Редактировать запись сотрудника
+func Form_handler_UpdateWorkerById(c *gin.Context) {
+	var newWorker Model.Worker
+	id := c.Request.FormValue("id")
+	newWorker.Worker_FirstName = c.Request.FormValue("Worker_FirstName")
+	newWorker.Worker_LastName = c.Request.FormValue("Worker_LastName")
+	newWorker.Worker_Email = c.Request.FormValue("Worker_Email")
+	newWorker.Worker_Phone = c.Request.FormValue("Worker_Phone")
+	newWorker.Post = c.Request.FormValue("Post")
+	newWorker.Salary_per_month = c.Request.FormValue("Salary_per_month")
+	
+	err := Logic.UpdateWorker(newWorker, id)
+	if err != nil {
+		c.HTML(400, "400", gin.H{
+			"Error": err.Error(),
+		})
+		return
+	}
+	c.Redirect(http.StatusSeeOther, "/Get_All_Workers")
+}
+
+//Удалить сотрудника из базы
+func Form_handler_DeleteById(c *gin.Context) {
+	id := c.Request.FormValue("id")
+	err := Logic.DeleteWorker(id)
+	if err != nil {
+		c.HTML(400, "ErrorPage", gin.H{
+			"Error": err,
+		})
+		return
+	}
+	c.HTML(200, "returnPage", nil)
+}
+
+func Add_Worker(c *gin.Context) {
+	c.HTML(200, "AddWorker", nil)
+}
+func Remove_Worker(c *gin.Context) {
+	c.HTML(200, "DeleteById", nil)
+}
+func Edit_Worker(c *gin.Context) {
+	c.HTML(200, "EditWorker", nil)
 }

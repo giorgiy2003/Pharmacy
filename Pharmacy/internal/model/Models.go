@@ -51,3 +51,21 @@ type Order struct {
 	Customer_Phone   string `json:"customer_Phone"`
 	Customer_Comment string `json:"customer_Comment"`
 }
+
+type Comment struct {
+	User_Id        int    `json:"user_Id"`
+	Theme          string `json:"theme"`
+	Customer_Name  string `json:"customer_Name"`
+	Customer_Email string `json:"customer_Email"`
+	Comment        string `json:"comment"`
+}
+
+type Worker struct {
+	Worker_Id        int    `json:"worker_Id"`
+	Worker_FirstName string `json:"worker_FirstName"`
+	Worker_LastName  string `json:"worker_LastName"`
+	Worker_Email     string `json:"worker_Email"`
+	Worker_Phone     string `json:"worker_Phone"`
+	Post             string `json:"comment"`
+	Salary_per_month string `json:"salary_per_month"`
+}

@@ -71,6 +71,27 @@ CREATE TABLE orders (
 	FOREIGN KEY (product_id) REFERENCES products (product_id)
 );
 
+CREATE TABLE comments (
+	comment_id serial PRIMARY KEY,
+	user_id integer NOT NULL,
+	customer_name character varying NOT NULL,
+	customer_email character varying NOT NULL,
+	theme character varying,
+	time_of_adding TIME NOT NULL,
+	FOREIGN KEY (user_id) REFERENCES users (user_id)
+);
+
+CREATE TABLE workers (
+	worker_id serial PRIMARY KEY,
+	worker_FirstName character varying NOT NULL,
+	worker_LastName character varying NOT NULL,
+	worker_email character varying,
+	worker_phone character varying NOT NULL,
+	post character varying NOT NULL,
+	salary_per_month integer NOT NULL,
+	time_of_adding TIME NOT NULL
+);
+
 INSERT INTO order_status (
 	order_status_name
 )

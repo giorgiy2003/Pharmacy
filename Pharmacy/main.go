@@ -47,7 +47,18 @@ func main() {
 	router.GET("/Product_category/:category", Handler.Medicines_by_category) //Поиск по категориям ✅
 
 	//Для администраторов
-	router.GET("/orders/:order_status", Handler.Orders_Page) //Заказы 
-	router.GET("/change_status/:order_id/:order_status", Handler.Change_status) //Заказы 
+
+	//Заказы
+	router.GET("/orders/:order_status", Handler.Orders_Page) //Вывести заказы ✅
+	router.GET("/change_status/:order_id/:order_status", Handler.Change_status) //Поменять статус заказа ✅
+
+	//Сотрудники
+	router.GET("/Get_All_Workers", Handler.Get_All_Workers) //Вывести всех
+	router.GET("/Add_Worker", Handler.Add_Worker) //Добавить сотрудника
+	router.GET("/Remove_Worker", Handler.Remove_Worker) //Удалить запись
+	router.GET("/Edit_Worker", Handler.Edit_Worker) //Редактировать запись сотрудника
+	router.POST("/Form_handler_PostWorker", Handler.Form_handler_PostWorker)
+	router.GET("/Form_handler_UpdateWorkerById", Handler.Form_handler_UpdateWorkerById)
+	router.GET("/Form_handler_DeleteById", Handler.Form_handler_DeleteById)
 	router.Run("localhost:8080")
 }
