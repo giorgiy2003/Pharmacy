@@ -1088,7 +1088,7 @@ func ReadAllComments() ([]Model.Comment, error) {
 	return CommentInfo, nil
 }
 
-//Вывести все отзывы
+//Вывести отзывы со статусом "Важно"
 func ReadImportantComments() ([]Model.Comment, error) {
 	row, err := Repository.Connection.Query(`SELECT "comment_id", "user_id", "customer_firstname", "customer_lastname", "customer_email", "theme", "message", "comment_status" FROM "comments" WHERE "comment_status"= $1 ORDER BY "time_of_adding"`, "Важно")
 	if err != nil {
@@ -1130,8 +1130,11 @@ func DeleteComment(id string) error {
 	return nil
 }
 
+
 //Товары
 
+
+//Добавить товар
 func CreateProduct(p Model.Product) error {
 	p.Product_Name = strings.TrimSpace(p.Product_Name)
 	p.Product_Image = strings.TrimSpace(p.Product_Image)
@@ -1149,6 +1152,7 @@ func CreateProduct(p Model.Product) error {
 	return nil
 }
 
+//Редактировать карточку товара
 func UpdateProduct(p Model.Product, id string) error {
 	if err := ProductExist(id); err != nil {
 		log.Println(err)
@@ -1170,7 +1174,8 @@ func UpdateProduct(p Model.Product, id string) error {
 	return nil
 }
 
-func DeleteProduct(id string) error {
+//Удалить товар
+func Form_handler_DeleteProductById(id string) error {
 	if err := ProductExist(id); err != nil {
 		log.Println(err)
 		return err
@@ -1189,7 +1194,7 @@ func ProductExist(id string) error {
 		return err
 	}
 	if len(persons) == 0 {
-		return fmt.Errorf("записи с id = %s не существует", id)
+		return fmt.Errorf("Товара с id = %s не существует", id)
 	}
 	return nil
 }

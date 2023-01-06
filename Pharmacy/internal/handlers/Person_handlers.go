@@ -726,3 +726,72 @@ func Change_To_Important(c *gin.Context) {
 	}
 	c.Redirect(http.StatusSeeOther, "/Get_All_Comments")
 }
+
+
+//Продукты
+
+//Удалить товар
+func Form_handler_DeleteProductById(c *gin.Context) {
+	id := c.Request.FormValue("product_id")
+	err := Logic.Form_handler_DeleteProductById(id)
+	if err != nil {
+		c.HTML(400, "400", gin.H{
+			"Error": err.Error(),
+		})
+		return
+	}
+}
+
+
+/*
+//Добавить сотрудника
+func Form_handler_PostProduct(c *gin.Context) {
+	var newWorker Model.Worker
+	newWorker.Worker_FirstName = c.Request.FormValue("Worker_FirstName")
+	newWorker.Worker_LastName = c.Request.FormValue("Worker_LastName")
+	newWorker.Worker_Email = c.Request.FormValue("Worker_Email")
+	newWorker.Worker_Phone = c.Request.FormValue("Worker_Phone")
+	newWorker.Post = c.Request.FormValue("Post")
+	newWorker.Salary_per_month = c.Request.FormValue("Salary_per_month")
+
+	err := Logic.CreateWorker(newWorker)
+	if err != nil {
+		c.HTML(400, "400", gin.H{
+			"Error": err.Error(),
+		})
+		return
+	}
+	c.Redirect(http.StatusSeeOther, "/Get_All_Workers")
+}
+
+//Редактировать запись сотрудника
+func Form_handler_UpdateProductById(c *gin.Context) {
+	var newWorker Model.Worker
+	id := c.Request.FormValue("id")
+	newWorker.Worker_FirstName = c.Request.FormValue("Worker_FirstName")
+	newWorker.Worker_LastName = c.Request.FormValue("Worker_LastName")
+	newWorker.Worker_Email = c.Request.FormValue("Worker_Email")
+	newWorker.Worker_Phone = c.Request.FormValue("Worker_Phone")
+	newWorker.Post = c.Request.FormValue("Post")
+	newWorker.Salary_per_month = c.Request.FormValue("Salary_per_month")
+
+	err := Logic.UpdateWorker(newWorker, id)
+	if err != nil {
+		c.HTML(400, "400", gin.H{
+			"Error": err.Error(),
+		})
+		return
+	}
+	c.Redirect(http.StatusSeeOther, "/Get_All_Workers")
+}
+*/
+
+func Edit_Product(c *gin.Context) {
+	c.HTML(200, "Edit_Product", nil)
+}
+func Add_Product(c *gin.Context) {
+	c.HTML(200, "Add_Product", nil)
+}
+func Remove_Product(c *gin.Context) {
+	c.HTML(200, "DeleteProduct", nil)
+}

@@ -64,9 +64,15 @@ func main() {
 	//Отзывы
 	router.GET("/SendMessage", Handler.SendMessage)	//Оставить отзыв ✅
 	router.GET("/Get_All_Comments", Handler.Get_All_Comments) //Вывести все
-	router.GET("/Remove_Comment/:comment_id", Handler.Remove_Comment) //Удалить запись
+	router.GET("/Remove_Comment/:comment_id", Handler.Remove_Comment) //Удалить комментарий
 	router.GET("/change_CommentStatus/:comment_id", Handler.Change_To_Important) //Поменять статус комментария на "Важно"
-	router.GET("/Get_Important_Comments", Handler.Get_Important_Comments) //Поменять статус комментария на "Важно"
+	router.GET("/Get_Important_Comments", Handler.Get_Important_Comments) //Вывести отзывы со статусом "Важно"
+
+	//Товары
+	router.GET("/Remove_Product", Handler.Remove_Product) //Удалить запись
+	router.GET("/Add_Product", Handler.Add_Product) //Добавить товар
+	router.GET("/Edit_Product", Handler.Edit_Product) //Редактировать запись товара
+	router.GET("/Form_handler_DeleteProductById", Handler.Form_handler_DeleteProductById)
 
 
 	router.Run("localhost:8080")
