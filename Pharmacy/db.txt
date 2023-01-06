@@ -78,7 +78,8 @@ CREATE TABLE comments (
 	customer_lastname character varying NOT NULL,
 	customer_email character varying NOT NULL,
 	theme character varying,
-	message character varying,
+	message character varying NOT NULL,
+	comment_status character varying,
 	time_of_adding TIME NOT NULL,
 	FOREIGN KEY (user_id) REFERENCES users (user_id)
 );

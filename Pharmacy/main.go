@@ -30,7 +30,6 @@ func main() {
 	router.GET("/cart", Handler.Cart) //Корзина ✅
 	router.GET("/about", Handler.About) //О нас ✅
 	router.GET("/contact", Handler.Contact) //Контакты ✅
-	router.GET("/SendMessage", Handler.SendMessage)	//Оставить отзыв 
 	router.GET("/AddToCart/:id", Handler.AddToCart) //Добавить в корзину ✅
 	router.GET("/DeleteFromCart/:id", Handler.DeleteFromCart) //Убрать из корзины ✅
 	router.GET("/MinusKoll/:id", Handler.MinusKoll) //Уменьшить количество товара в корзине на странице товара ✅
@@ -46,6 +45,7 @@ func main() {
 	router.GET("/order_details/:order", Handler.Order_details) //Информация о заказе ✅
 	router.GET("/Product_category/:category", Handler.Medicines_by_category) //Поиск по категориям ✅
 
+
 	//Для администраторов
 
 	//Заказы
@@ -60,5 +60,14 @@ func main() {
 	router.POST("/Form_handler_PostWorker", Handler.Form_handler_PostWorker)
 	router.GET("/Form_handler_UpdateWorkerById", Handler.Form_handler_UpdateWorkerById)
 	router.GET("/Form_handler_DeleteWorkerById", Handler.Form_handler_DeleteWorkerById)
+
+	//Отзывы
+	router.GET("/SendMessage", Handler.SendMessage)	//Оставить отзыв ✅
+	router.GET("/Get_All_Comments", Handler.Get_All_Comments) //Вывести все
+	router.GET("/Remove_Comment/:comment_id", Handler.Remove_Comment) //Удалить запись
+	router.GET("/change_CommentStatus/:comment_id", Handler.Change_To_Important) //Поменять статус комментария на "Важно"
+	router.GET("/Get_Important_Comments", Handler.Get_Important_Comments) //Поменять статус комментария на "Важно"
+
+
 	router.Run("localhost:8080")
 }

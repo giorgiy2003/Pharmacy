@@ -84,7 +84,7 @@
           </a>
           <div class="collapse" id="comment-collapse">
            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small nav-link text-white" style="background-color: darkslategrey; color: white; " >
-             <li><a href="/orders/Отказ" class="mb-2 link-dark d-inline-flex text-decoration-none rounded text-white">Все отзывы</a></li>
+             <li><a href="/Get_All_Comments" class="mb-2 link-dark d-inline-flex text-decoration-none rounded text-white">Все отзывы</a></li>
              <li ><a href="/orders/Ожидает подтверждения"  class="mb-2 link-dark d-inline-flex text-decoration-none rounded text-white btn-toggle-nav">Помеченные "Важно"</a></li>
            </ul>
         </div>
@@ -121,7 +121,7 @@
           <p class="lead mb-1">Worker_Phone: {{ .Worker_Phone }}</p>
           <p class="lead mb-1">Post: {{ .Post }}</p>
           <p class="lead mb-1">Salary_per_month: {{ .Salary_per_month}}</p>
-         <hr class="container-fluid  mb-2">
+         <hr class="container-fluid  mb-2"><br>
         {{ else }}
           <h4 class="lead mb-1"><big>Сотрудников ещё нет</big></h4>
         {{ end }}

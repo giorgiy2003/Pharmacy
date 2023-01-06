@@ -1,4 +1,4 @@
-{{ define "Developer_page"}}
+{{define "AllComments"}}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -31,7 +31,7 @@
 
        
         <li class="nav-item">         
-          <a href="/orders/Ожидает подтверждения" class="nav-link" aria-current="page">
+          <a href="/orders/Ожидает подтверждения" class="nav-link text-white" aria-current="page">
             <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#home"></use></svg>
             Главная
           </a>
@@ -71,20 +71,20 @@
           <div class="collapse" id="people-collapse">
             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small nav-link text-white" style="background-color: darkslategrey; color: white; " >
               <li><a href="/Get_All_Workers" class="mb-2 link-dark d-inline-flex text-decoration-none rounded text-white">Вывести всех</a></li>
-              <li ><a href="/orders/Ожидает подтверждения"  class="mb-2 link-dark d-inline-flex text-decoration-none rounded text-white btn-toggle-nav">Добавить сотрудника</a></li>
+              <li ><a href="/Add_Worker"  class="mb-2 link-dark d-inline-flex text-decoration-none rounded text-white btn-toggle-nav">Добавить сотрудника</a></li>
               <li><a href="/orders/Принято в работу" class="mb-2 link-dark d-inline-flex text-decoration-none rounded text-white">Редактировать</a></li>
               <li><a href="/orders/Заказ доставлен" class="mb-2 link-dark d-inline-flex text-decoration-none rounded text-white">Убрать из базы</a></li>
             </ul>
           </div>
         </li>
         <li>
-          <a href="#" class="nav-link text-white" data-bs-toggle="collapse" data-bs-target="#comment-collapse" aria-expanded="true">
+          <a href="#" class="nav-link" data-bs-toggle="collapse" data-bs-target="#comment-collapse" aria-expanded="true">
             <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#comment-circle"></use></svg>
             Отзывы
           </a>
           <div class="collapse" id="comment-collapse">
            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small nav-link text-white" style="background-color: darkslategrey; color: white; " >
-             <li><a href="/Get_All_Comments" class="mb-2 link-dark d-inline-flex text-decoration-none rounded text-white">Все отзывы</a></li>
+             <li><a href="/Get_All_Comments" class="mb-2 link-dark d-inline-flex text-decoration-none rounded text-white">Вывести отзывы</a></li>
              <li ><a href="/Get_Important_Comments"  class="mb-2 link-dark d-inline-flex text-decoration-none rounded text-white btn-toggle-nav">Помеченные "Важно"</a></li>
            </ul>
         </div>
@@ -109,41 +109,33 @@
 
        <form style="padding-left: 15%;" >
 
-         <h3 class="mt-3">Заказы со статусом "{{ .Status }}"</h3><br>
+         <h3 class="mt-3">Отзывы</h3><br>
 
-        {{range .Orders }}
+        {{range .Comments }}
 
-         <h4 class="text-black">Заказ № {{ .Track_number}}</h4>
-         <h6 class="h5 text-black mb-2" style="float: left; width: 50%;">от {{ .Order_time}}</h6>
-         
-         <hr class="container-fluid">
-          <h4 class="lead mb-1" ><big>Информация о заказе:</big></h4>
-          <p class="lead mb-1">User_ID: {{ .User_Id }}</p>
-          <p class="lead mb-1">User_Address: {{ .Customer_Address}}</p>
-          <p class="lead  mb-1">User_Email: {{ .Customer_Email}}</p>
-          <p class="lead mb-1">User_Phone: {{ .Customer_Phone}}</p>
-          <p class="lead mb-1">Product: {{ .Product_Name }} x {{ .Product_Koll }} шт, ID товара: {{ .Product_Id }}</p>
-          <p class="lead mb-1">Order_Status: {{ .Order_status }}</p>
-          <p class="lead mb-2">Comment: {{ .Customer_Comment}}</p>
+          <h4 class="lead mb-1" ><big>Отзыв:</big></h4>
+          <p class="lead mb-1">User_Id: {{ .User_Id }}</p>
+          <p class="lead mb-1">Comment_Id: {{ .Comment_Id }}</p>
+          <p class="lead mb-1">Comment_status: {{ .Comment_status }}</p>
+          <p class="lead mb-1">Customer_FirstName: {{ .Customer_FirstName}}</p>
+          <p class="lead mb-1">Customer_LastName: {{ .Customer_LastName}}</p>
+          <p class="lead mb-1">Customer_Email: {{ .Customer_Email}}</p>
+          <p class="lead mb-1">Theme: {{ .Theme }}</p>
+          <p class="lead mb-1">Comment: {{ .Comment }}</p>
 
-          {{ if eq .Order_status "Ожидает подтверждения"}}
-            <div class="mb-4">
-              <button onclick="window.location='/change_status/{{ .Order_Id }}/Принято в работу'">Взять в работу</button>
-              <button onclick="window.location='/change_status/{{ .Order_Id }}/Отказ'">Отказаться</button>
-            </div>
-          {{ else if eq .Order_status "Принято в работу"}}
-          <div class="mb-4">
-            <button onclick="window.location='/change_status/{{ .Order_Id }}/Заказ доставлен'">Поменять статус на "Доставлен"</button>
-            <button onclick="window.location='/change_status/{{ .Order_Id }}/Отказ'">Отказ</button>
-          </div>
-          {{ else if eq .Order_status "Отказ"}}
-          <div class="mb-4">
-            <button onclick="window.location='/change_status/{{ .Order_Id }}/Принято в работу'">Вернуть в работу</button>
-          </div>
-          {{ end }}
-          <br>
+             <div class="mb-4">
+              {{ if eq .Comment_status "Важно"}}
+                  <button onclick="window.location='/Remove_Comment/{{ .Comment_Id }}'">Удалить отзыв</button>
+              {{ else }}
+              <button onclick="window.location='/change_CommentStatus/{{ .Comment_Id }}'">Отметить "Важно"</button>
+               <button onclick="window.location='/Remove_Comment/{{ .Comment_Id }}'">Удалить отзыв</button>
+             </div>
+              {{ end }}
+
+              <hr class="container-fluid mb-2"><br>
+
         {{ else }}
-          <h4 class="lead mb-1" ><big>Заказов нет</big></h4>
+          <h4 class="lead mb-1"><big>Отзывов ещё нет</big></h4>
         {{ end }}
 
         </form> 

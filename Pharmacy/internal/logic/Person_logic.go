@@ -1058,7 +1058,73 @@ func CreateComment(p Model.Comment) error {
 		return errors.New("невозможно добавить запись, не все поля заполнены!")
 	}
 
-	if _, err := Repository.Connection.Exec(`INSERT INTO "comments" ("user_id", "customer_firstname", "customer_lastname", "customer_email", "theme", "message", "time_of_adding") VALUES ($1,$2,$3,$4,$5,$6,$7)`,User_id, p.Customer_FirstName, p.Customer_LastName, p.Customer_Email, p.Theme, p.Comment, time.Now()); err != nil {
+	if _, err := Repository.Connection.Exec(`INSERT INTO "comments" ("user_id", "customer_firstname", "customer_lastname", "customer_email", "theme", "message", "time_of_adding") VALUES ($1,$2,$3,$4,$5,$6,$7)`, User_id, p.Customer_FirstName, p.Customer_LastName, p.Customer_Email, p.Theme, p.Comment, time.Now()); err != nil {
+		return err
+	}
+	return nil
+}
+
+//Вывести отзывы
+func ReadAllComments() ([]Model.Comment, error) {
+	row, err := Repository.Connection.Query(`SELECT "comment_id", "user_id", "customer_firstname", "customer_lastname", "customer_email", "theme", "message", "comment_status" FROM "comments" WHERE "comment_status" IS NULL ORDER BY "time_of_adding"`)
+	if err != nil {
+		return nil, err
+	}
+	var CommentInfo = []Model.Comment{}
+	for row.Next() {
+		var p Model.Comment
+		var Comment_status sql.NullString
+		err := row.Scan(&p.Comment_Id, &p.User_Id, &p.Customer_FirstName, &p.Customer_LastName, &p.Customer_Email, &p.Theme, &p.Comment, &Comment_status)
+		if err != nil {
+			return nil, err
+		}
+		  if Comment_status.Valid {
+		  p.Comment_status = Comment_status.String 
+		  } else {
+		  p.Comment_status = ""
+		  }
+		  CommentInfo = append(CommentInfo, p)
+	}
+	return CommentInfo, nil
+}
+
+//Вывести все отзывы
+func ReadImportantComments() ([]Model.Comment, error) {
+	row, err := Repository.Connection.Query(`SELECT "comment_id", "user_id", "customer_firstname", "customer_lastname", "customer_email", "theme", "message", "comment_status" FROM "comments" WHERE "comment_status"= $1 ORDER BY "time_of_adding"`, "Важно")
+	if err != nil {
+		return nil, err
+	}
+	var CommentInfo = []Model.Comment{}
+	for row.Next() {
+		var p Model.Comment
+		err := row.Scan(&p.Comment_Id, &p.User_Id, &p.Customer_FirstName, &p.Customer_LastName, &p.Customer_Email, &p.Theme, &p.Comment, &p.Comment_status)
+		if err != nil {
+			return nil, err
+		}
+		CommentInfo = append(CommentInfo, p)
+	}
+	return CommentInfo, nil
+}
+
+//Именить статус товара на "Важно"
+func Change_To_Important(id string) error {
+	Comment_id, err := strconv.Atoi(id)
+	if err != nil {
+		return errors.New("Error: неверно введён параметр id")
+	}
+	if _, err := Repository.Connection.Exec(`UPDATE "comments" SET "comment_status" = $1  WHERE "comment_id" = $2`, "Важно", Comment_id); err != nil {
+		return err
+	}
+	return nil
+}
+
+//Удалить комментарий
+func DeleteComment(id string) error {
+	Comment_id, err := strconv.Atoi(id)
+	if err != nil {
+		return errors.New("Error: неверно введён параметр id")
+	}
+	if _, err := Repository.Connection.Exec(`DELETE FROM "comments" WHERE "comment_id" = $1`, Comment_id); err != nil {
 		return err
 	}
 	return nil

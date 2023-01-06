@@ -410,27 +410,6 @@ func AddKollinCart(c *gin.Context) {
 	c.Redirect(http.StatusSeeOther, "/cart")
 }
 
-//Оставить отзыв
-func SendMessage(c *gin.Context) {
-	var Comment Model.Comment
-	Comment.Customer_FirstName = c.Request.FormValue("c_fname")
-	Comment.Customer_LastName = c.Request.FormValue("c_lname")
-	Comment.Customer_Email = c.Request.FormValue("c_email")
-	Comment.Theme = c.Request.FormValue("c_subject")
-	Comment.Comment = c.Request.FormValue("c_message")
-
-	err := Logic.CreateComment(Comment)
-	if err != nil {
-		c.HTML(400, "400", gin.H{
-			"Error": err.Error(),
-		})
-		return
-	}
-	c.HTML(200, "thankyou2", gin.H{
-		"Role":    Logic.Role,
-		"User_id": Logic.User_id,
-	})
-}
 
 //Лекарства по категориям
 func Medicines_by_category(c *gin.Context) {
@@ -660,4 +639,90 @@ func Edit_Worker(c *gin.Context) {
 
 //Отзывы
 
+//Оставить отзыв
+func SendMessage(c *gin.Context) {
+	var Comment Model.Comment
+	Comment.Customer_FirstName = c.Request.FormValue("c_fname")
+	Comment.Customer_LastName = c.Request.FormValue("c_lname")
+	Comment.Customer_Email = c.Request.FormValue("c_email")
+	Comment.Theme = c.Request.FormValue("c_subject")
+	Comment.Comment = c.Request.FormValue("c_message")
 
+	err := Logic.CreateComment(Comment)
+	if err != nil {
+		c.HTML(400, "400", gin.H{
+			"Error": err.Error(),
+		})
+		return
+	}
+	c.HTML(200, "thankyou2", gin.H{
+		"Role":    Logic.Role,
+		"User_id": Logic.User_id,
+	})
+}
+
+//Все отзывы
+func Get_All_Comments(c *gin.Context) {
+	if Logic.Role != "Администратор" {
+		c.HTML(404, "400", gin.H{
+			"Error": "Страница не найдена",
+		})
+		return
+	}
+	Comments, err := Logic.ReadAllComments()
+	if err != nil {
+		c.HTML(400, "400", gin.H{
+			"Error": err.Error(),
+		})
+		return
+	}
+	c.HTML(200, "AllComments", gin.H{
+		"Comments": Comments,
+	})
+}
+
+//Отзывы со статусом "Важно"
+func Get_Important_Comments(c *gin.Context) {
+	if Logic.Role != "Администратор" {
+		c.HTML(404, "400", gin.H{
+			"Error": "Страница не найдена",
+		})
+		return
+	}
+	Comments, err := Logic.ReadImportantComments()
+	if err != nil {
+		c.HTML(400, "400", gin.H{
+			"Error": err.Error(),
+		})
+		return
+	}
+	c.HTML(200, "AllComments", gin.H{
+		"Comments": Comments,
+	})
+}
+
+//Удалить отзыв
+func Remove_Comment(c *gin.Context) {
+	id := c.Param("comment_id")
+	err := Logic.DeleteComment(id)
+	if err != nil {
+		c.HTML(400, "400", gin.H{
+			"Error": err.Error(),
+		})
+		return
+	}
+	c.Redirect(http.StatusSeeOther, "/Get_All_Comments")
+}
+
+//Изменить статус комментария на "Важно"
+func Change_To_Important(c *gin.Context) {
+	id := c.Param("comment_id")
+	err := Logic.Change_To_Important(id)
+	if err != nil {
+		c.HTML(400, "400", gin.H{
+			"Error": err.Error(),
+		})
+		return
+	}
+	c.Redirect(http.StatusSeeOther, "/Get_All_Comments")
+}

@@ -54,10 +54,12 @@ type Order struct {
 
 type Comment struct {
 	User_Id            int    `json:"user_Id"`
+	Comment_Id         int    `json:"comment _Id"`
 	Theme              string `json:"theme"`
 	Customer_FirstName string `json:"customer_FirstName"`
 	Customer_LastName  string `json:"customer_LastName"`
 	Customer_Email     string `json:"customer_Email"`
+	Comment_status     string `json:"comment_status"`
 	Comment            string `json:"comment"`
 }
 
