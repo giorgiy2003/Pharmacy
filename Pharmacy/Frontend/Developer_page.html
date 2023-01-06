@@ -129,12 +129,12 @@
           {{ if eq .Order_status "Ожидает подтверждения"}}
             <div class="mb-4">
               <button onclick="window.location='/change_status/{{ .Order_Id }}/Принято в работу'">Взять в работу</button>
-              <button onclick="window.location='/change_status/{{ .Order_Id }}/Отказ'">Отказаться</button>
+              <button onclick="window.location='/change_status/{{ .Order_Id }}/Отказ'" style=" position: relative;left: 2%;">Отказаться</button>
             </div>
           {{ else if eq .Order_status "Принято в работу"}}
           <div class="mb-4">
             <button onclick="window.location='/change_status/{{ .Order_Id }}/Заказ доставлен'">Поменять статус на "Доставлен"</button>
-            <button onclick="window.location='/change_status/{{ .Order_Id }}/Отказ'">Отказ</button>
+            <button onclick="window.location='/change_status/{{ .Order_Id }}/Отказ'" style=" position: relative;left: 2%;">Отказ</button>
           </div>
           {{ else if eq .Order_status "Отказ"}}
           <div class="mb-4">

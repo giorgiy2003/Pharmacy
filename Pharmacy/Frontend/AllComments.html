@@ -120,19 +120,20 @@
           <p class="lead mb-1">Customer_FirstName: {{ .Customer_FirstName}}</p>
           <p class="lead mb-1">Customer_LastName: {{ .Customer_LastName}}</p>
           <p class="lead mb-1">Customer_Email: {{ .Customer_Email}}</p>
-          <p class="lead mb-1">Theme: {{ .Theme }}</p>
-          <p class="lead mb-1">Comment: {{ .Comment }}</p>
+          <p class="lead mb-1">Тема: {{ .Theme }}</p>
+          <p class="lead mb-3">Comment: {{ .Comment }}</p>
 
              <div class="mb-4">
               {{ if eq .Comment_status "Важно"}}
                   <button onclick="window.location='/Remove_Comment/{{ .Comment_Id }}'">Удалить отзыв</button>
+                  <br><br>
               {{ else }}
               <button onclick="window.location='/change_CommentStatus/{{ .Comment_Id }}'">Отметить "Важно"</button>
-               <button onclick="window.location='/Remove_Comment/{{ .Comment_Id }}'">Удалить отзыв</button>
+               <button onclick="window.location='/Remove_Comment/{{ .Comment_Id }}'" style=" position: relative;left: 3%;">Удалить отзыв</button>
+               <br><br>
+                {{ end }}
              </div>
-              {{ end }}
-
-              <hr class="container-fluid mb-2"><br>
+             
 
         {{ else }}
           <h4 class="lead mb-1"><big>Отзывов ещё нет</big></h4>
