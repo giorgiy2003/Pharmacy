@@ -72,8 +72,9 @@ func main() {
 	router.GET("/Remove_Product", Handler.Remove_Product) //Удалить запись
 	router.GET("/Add_Product", Handler.Add_Product) //Добавить товар
 	router.GET("/Edit_Product", Handler.Edit_Product) //Редактировать запись товара
+	router.GET("/Form_handler_PostProduct", Handler.Form_handler_PostProduct)
+	router.GET("/Form_handler_UpdateProductById", Handler.Form_handler_UpdateProductById)
 	router.GET("/Form_handler_DeleteProductById", Handler.Form_handler_DeleteProductById)
-
 
 	router.Run("localhost:8080")
 }

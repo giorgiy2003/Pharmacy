@@ -728,7 +728,9 @@ func Change_To_Important(c *gin.Context) {
 }
 
 
+
 //Продукты
+
 
 //Удалить товар
 func Form_handler_DeleteProductById(c *gin.Context) {
@@ -743,48 +745,45 @@ func Form_handler_DeleteProductById(c *gin.Context) {
 }
 
 
-/*
-//Добавить сотрудника
+//Добавить товар
 func Form_handler_PostProduct(c *gin.Context) {
-	var newWorker Model.Worker
-	newWorker.Worker_FirstName = c.Request.FormValue("Worker_FirstName")
-	newWorker.Worker_LastName = c.Request.FormValue("Worker_LastName")
-	newWorker.Worker_Email = c.Request.FormValue("Worker_Email")
-	newWorker.Worker_Phone = c.Request.FormValue("Worker_Phone")
-	newWorker.Post = c.Request.FormValue("Post")
-	newWorker.Salary_per_month = c.Request.FormValue("Salary_per_month")
+	var newProduct Model.Product
+	newProduct.Product_Name = c.Request.FormValue("Product_Name")
+	newProduct.Product_Image = c.Request.FormValue("myFile")
+	newProduct.Product_Manufacturer = c.Request.FormValue("Product_Manufacturer")
+	newProduct.Product_Category = c.Request.FormValue("Product_Category")
+	newProduct.Product_Price = c.Request.FormValue("Product_Price")
+	newProduct.Product_Description = c.Request.FormValue("Product_Description")
 
-	err := Logic.CreateWorker(newWorker)
+	err := Logic.CreateProduct(newProduct)
 	if err != nil {
 		c.HTML(400, "400", gin.H{
 			"Error": err.Error(),
 		})
 		return
 	}
-	c.Redirect(http.StatusSeeOther, "/Get_All_Workers")
 }
 
-//Редактировать запись сотрудника
+//Редактировать запись товара
 func Form_handler_UpdateProductById(c *gin.Context) {
-	var newWorker Model.Worker
+	var newProduct Model.Product
 	id := c.Request.FormValue("id")
-	newWorker.Worker_FirstName = c.Request.FormValue("Worker_FirstName")
-	newWorker.Worker_LastName = c.Request.FormValue("Worker_LastName")
-	newWorker.Worker_Email = c.Request.FormValue("Worker_Email")
-	newWorker.Worker_Phone = c.Request.FormValue("Worker_Phone")
-	newWorker.Post = c.Request.FormValue("Post")
-	newWorker.Salary_per_month = c.Request.FormValue("Salary_per_month")
+	newProduct.Product_Name = c.Request.FormValue("Product_Name")
+	newProduct.Product_Image = c.Request.FormValue("myFile")
+	newProduct.Product_Manufacturer = c.Request.FormValue("Product_Manufacturer")
+	newProduct.Product_Category = c.Request.FormValue("Product_Category")
+	newProduct.Product_Price = c.Request.FormValue("Product_Price")
+	newProduct.Product_Description = c.Request.FormValue("Product_Description")
 
-	err := Logic.UpdateWorker(newWorker, id)
+	err := Logic.UpdateProduct(newProduct, id)
 	if err != nil {
 		c.HTML(400, "400", gin.H{
 			"Error": err.Error(),
 		})
 		return
 	}
-	c.Redirect(http.StatusSeeOther, "/Get_All_Workers")
 }
-*/
+
 
 func Edit_Product(c *gin.Context) {
 	c.HTML(200, "Edit_Product", nil)

@@ -106,14 +106,35 @@
 
       <div class="container-fluid" >
         <h2 class="mt-5">Форма добавления нового товара</h2><br>
-          <form action="/Form_handler_PostProduct" method="post">
-            <textarea type="text" name="Worker_FirstName" id="Worker_FirstName" placeholder="Заполните поле firstName" class="form-control"></textarea><br>
-            <textarea type="text" name="Worker_LastName" id="Worker_LastName" placeholder="Заполните поле lastName" class="form-control"></textarea><br>
-            <textarea type="text" name="Worker_Email" id="Worker_Email" placeholder="Заполните поле email" class="form-control"></textarea><br>
-            <textarea type="text" name="Post" id="Post" placeholder="Заполните поле Должность" class="form-control"></textarea><br>
-            <textarea type="text" name="Salary_per_month" id="Salary_per_month" placeholder="Заполните поле Оклад" class="form-control"></textarea><br>
-            <button>Добавить</button>
+          <form action="/Form_handler_PostProduct" method="post" enctype="multipart/form-data">
+
+          <div class="mb-4">
+            <input type="file" name="myFile" style="float: left;"/>
+            <h6>Выберите картинку в формате jpg, png, jpeg</h6>
+          </div>
+
+            <textarea type="text" name="Product_Name" id="Product_Name" placeholder="Заполните поле Название товара" class="form-control"></textarea><br>
+            <textarea type="text" name="Product_Manufacturer" id="Product_Manufacturer" placeholder="Заполните поле Производитель товара" class="form-control"></textarea><br>
+
+            <select name="Product_Category" id="Product_Category" class="form-control">
+              <option value="select">Выберите категорию товара из списка ⮟</option>
+              <option value="Обезболивающие">Обезболивающие</option>
+              <option value="Иммуностимулирующие">Иммуностимулирующие</option>
+              <option value="Жаропонижающие">Жаропонижающие</option>
+              <option value="От гриппа и простуды">От гриппа и простуды</option>
+              <option value="От грибковых заболеваний">От грибковых заболеваний</option>
+              <option value="От аллергии">От аллергии</option>
+              <option value="Антибиотики">Антибиотики</option>
+            </select>
+            <br>
+
+            <textarea type="text" name="Product_Price" id="Product_Price" placeholder="Заполните поле Стоимость товара" class="form-control"></textarea><br>
+            <textarea type="text" name="Product_Description" id="Product_Description" placeholder="Заполните поле Описание товара" class="form-control"></textarea><br>
+            <button type="submit">Добавить</button>
           </form>
+
+       
+          
       </div>
 
      </div>
