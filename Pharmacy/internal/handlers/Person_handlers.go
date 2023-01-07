@@ -523,7 +523,7 @@ func Orders_Page(c *gin.Context) {
 		})
 		return
 	}
-	c.HTML(200, "Developer_page", gin.H{
+	c.HTML(200, "AdminOrdersPage", gin.H{
 		"Orders": Orders,
 		"Status": category,
 	})
