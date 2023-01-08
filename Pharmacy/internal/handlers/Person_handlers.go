@@ -813,7 +813,6 @@ func Searh_Products(c *gin.Context) {
 		return
 	}
 	productName := c.Request.FormValue("productName")
-	log.Println(productName)
 	Products, err := Logic.SearhProduct(productName)
 	if err != nil {
 		c.HTML(400, "400", gin.H{
