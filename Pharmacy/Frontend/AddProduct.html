@@ -52,6 +52,7 @@
           </a>
           <div class="collapse" id="product-collapse">
             <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small nav-link text-white" style="background-color: darkslategrey; color: white; " >
+              <li ><a href="/Get_All_Products"  class="mb-2 link-dark d-inline-flex text-decoration-none rounded text-white btn-toggle-nav">Все товары</a></li>
               <li ><a href="/Add_Product"  class="mb-2 link-dark d-inline-flex text-decoration-none rounded text-white btn-toggle-nav">Добавить товар в базу</a></li>
               <li><a href="/Remove_Product" class="mb-2 link-dark d-inline-flex text-decoration-none rounded text-white">Удалить товар</a></li>
               <li><a href="/Edit_Product" class="mb-2 link-dark d-inline-flex text-decoration-none rounded text-white">Редактировать</a></li>
@@ -106,7 +107,7 @@
 
       <div class="container-fluid" >
         <h2 class="mt-5">Форма добавления нового товара</h2><br>
-          <form action="/Form_handler_PostProduct" method="post" enctype="multipart/form-data">
+          <form action="/Form_handler_PostProduct" enctype="multipart/form-data">
 
           <div class="mb-4">
             <input type="file" name="myFile" style="float: left;"/>
@@ -117,7 +118,7 @@
             <textarea type="text" name="Product_Manufacturer" id="Product_Manufacturer" placeholder="Заполните поле Производитель товара" class="form-control"></textarea><br>
 
             <select name="Product_Category" id="Product_Category" class="form-control">
-              <option value="select">Выберите категорию товара из списка ⮟</option>
+              <option value="">Выберите категорию товара из списка ⮟</option>
               <option value="Обезболивающие">Обезболивающие</option>
               <option value="Иммуностимулирующие">Иммуностимулирующие</option>
               <option value="Жаропонижающие">Жаропонижающие</option>
@@ -133,8 +134,6 @@
             <button type="submit">Добавить</button>
           </form>
 
-       
-          
       </div>
 
      </div>

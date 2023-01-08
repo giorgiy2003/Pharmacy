@@ -21,7 +21,7 @@ var (
 
 //Вывести все товары
 func ReadAllProducts() ([]Model.Product, error) {
-	row, err := Repository.Connection.Query(`SELECT product_id, product_image, product_name, product_price FROM "products" ORDER BY "product_id"`)
+	row, err := Repository.Connection.Query(`SELECT product_id, product_image, product_name, product_price, product_manufacturer, product_category, product_description FROM "products" ORDER BY "product_id"`)
 	if err != nil {
 		log.Println(err)
 		return nil, err
@@ -29,7 +29,7 @@ func ReadAllProducts() ([]Model.Product, error) {
 	var productInfo = []Model.Product{}
 	for row.Next() {
 		var p Model.Product
-		err := row.Scan(&p.Product_Id, &p.Product_Image, &p.Product_Name, &p.Product_Price)
+		err := row.Scan(&p.Product_Id, &p.Product_Image, &p.Product_Name, &p.Product_Price, &p.Product_Manufacturer, &p.Product_Category, &p.Product_Description)
 		if err != nil {
 			log.Println(err)
 			return nil, err
@@ -1133,7 +1133,6 @@ func DeleteComment(id string) error {
 
 //Товары
 
-
 //Добавить товар
 func CreateProduct(p Model.Product) error {
 	p.Product_Name = strings.TrimSpace(p.Product_Name)
@@ -1167,7 +1166,7 @@ func UpdateProduct(p Model.Product, id string) error {
 	if p.Product_Name == "" || p.Product_Image == "" || p.Product_Manufacturer == "" || p.Product_Category == "" || p.Product_Description == "" || p.Product_Price == "" {
 		return errors.New("невозможно редактировать запись, не все поля заполнены!")
 	}
-	if _, err := Repository.Connection.Exec(`UPDATE "products" SET "product_name" = $1,"product_image" = $2,,"product_manufacturer" = $3,"product_category" = $4,"product_description" = $5  "product_price" = $6  WHERE "product_id" = $7`, p.Product_Name, p.Product_Image, p.Product_Manufacturer, p.Product_Category, p.Product_Description, p.Product_Price, id); err != nil {
+	if _, err := Repository.Connection.Exec(`UPDATE "products" SET "product_name" = $1,"product_image" = $2,"product_manufacturer" = $3,"product_category" = $4,"product_description" = $5, "product_price" = $6  WHERE "product_id" = $7`, p.Product_Name, p.Product_Image, p.Product_Manufacturer, p.Product_Category, p.Product_Description, p.Product_Price, id); err != nil {
 		log.Println(err)
 		return err
 	}

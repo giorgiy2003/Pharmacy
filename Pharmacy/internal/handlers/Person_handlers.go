@@ -2,6 +2,7 @@ package Handler
 
 import (
 	"fmt"
+	"log"
 	Logic "myapp/internal/logic"
 	Model "myapp/internal/model"
 	Repository "myapp/internal/repository"
@@ -504,8 +505,33 @@ func ConnectDB() gin.HandlerFunc {
 	}
 }
 
+//Оставить отзыв
+func SendMessage(c *gin.Context) {
+	var Comment Model.Comment
+	Comment.Customer_FirstName = c.Request.FormValue("c_fname")
+	Comment.Customer_LastName = c.Request.FormValue("c_lname")
+	Comment.Customer_Email = c.Request.FormValue("c_email")
+	Comment.Theme = c.Request.FormValue("c_subject")
+	Comment.Comment = c.Request.FormValue("c_message")
+
+	err := Logic.CreateComment(Comment)
+	if err != nil {
+		c.HTML(400, "400", gin.H{
+			"Error": err.Error(),
+		})
+		return
+	}
+	c.HTML(200, "thankyou2", gin.H{
+		"Role":    Logic.Role,
+		"User_id": Logic.User_id,
+	})
+}
+
+
+
 
 //Для администратора
+
 
 //Заказы
 func Orders_Page(c *gin.Context) {
@@ -574,6 +600,12 @@ func Get_All_Workers(c *gin.Context) {
 
 //Добавить сотрудника
 func Form_handler_PostWorker(c *gin.Context) {
+	if Logic.Role != "Администратор" {
+		c.HTML(404, "400", gin.H{
+			"Error": "Страница не найдена",
+		})
+		return
+	}
 	var newWorker Model.Worker
 	newWorker.Worker_FirstName = c.Request.FormValue("Worker_FirstName")
 	newWorker.Worker_LastName = c.Request.FormValue("Worker_LastName")
@@ -594,6 +626,12 @@ func Form_handler_PostWorker(c *gin.Context) {
 
 //Редактировать запись сотрудника
 func Form_handler_UpdateWorkerById(c *gin.Context) {
+	if Logic.Role != "Администратор" {
+		c.HTML(404, "400", gin.H{
+			"Error": "Страница не найдена",
+		})
+		return
+	}
 	var newWorker Model.Worker
 	id := c.Request.FormValue("id")
 	newWorker.Worker_FirstName = c.Request.FormValue("Worker_FirstName")
@@ -615,6 +653,12 @@ func Form_handler_UpdateWorkerById(c *gin.Context) {
 
 //Удалить сотрудника из базы
 func Form_handler_DeleteWorkerById(c *gin.Context) {
+	if Logic.Role != "Администратор" {
+		c.HTML(404, "400", gin.H{
+			"Error": "Страница не найдена",
+		})
+		return
+	}
 	id := c.Request.FormValue("id")
 	err := Logic.DeleteWorker(id)
 	if err != nil {
@@ -627,39 +671,36 @@ func Form_handler_DeleteWorkerById(c *gin.Context) {
 }
 
 func Add_Worker(c *gin.Context) {
+	if Logic.Role != "Администратор" {
+		c.HTML(404, "400", gin.H{
+			"Error": "Страница не найдена",
+		})
+		return
+	}
 	c.HTML(200, "AddWorker", nil)
 }
 func Remove_Worker(c *gin.Context) {
+	if Logic.Role != "Администратор" {
+		c.HTML(404, "400", gin.H{
+			"Error": "Страница не найдена",
+		})
+		return
+	}
 	c.HTML(200, "DeleteWorker", nil)
 }
 func Edit_Worker(c *gin.Context) {
+	if Logic.Role != "Администратор" {
+		c.HTML(404, "400", gin.H{
+			"Error": "Страница не найдена",
+		})
+		return
+	}
 	c.HTML(200, "EditWorker", nil)
 }
 
 
 //Отзывы
 
-//Оставить отзыв
-func SendMessage(c *gin.Context) {
-	var Comment Model.Comment
-	Comment.Customer_FirstName = c.Request.FormValue("c_fname")
-	Comment.Customer_LastName = c.Request.FormValue("c_lname")
-	Comment.Customer_Email = c.Request.FormValue("c_email")
-	Comment.Theme = c.Request.FormValue("c_subject")
-	Comment.Comment = c.Request.FormValue("c_message")
-
-	err := Logic.CreateComment(Comment)
-	if err != nil {
-		c.HTML(400, "400", gin.H{
-			"Error": err.Error(),
-		})
-		return
-	}
-	c.HTML(200, "thankyou2", gin.H{
-		"Role":    Logic.Role,
-		"User_id": Logic.User_id,
-	})
-}
 
 //Все отзывы
 func Get_All_Comments(c *gin.Context) {
@@ -703,6 +744,12 @@ func Get_Important_Comments(c *gin.Context) {
 
 //Удалить отзыв
 func Remove_Comment(c *gin.Context) {
+	if Logic.Role != "Администратор" {
+		c.HTML(404, "400", gin.H{
+			"Error": "Страница не найдена",
+		})
+		return
+	}
 	id := c.Param("comment_id")
 	err := Logic.DeleteComment(id)
 	if err != nil {
@@ -716,6 +763,12 @@ func Remove_Comment(c *gin.Context) {
 
 //Изменить статус комментария на "Важно"
 func Change_To_Important(c *gin.Context) {
+	if Logic.Role != "Администратор" {
+		c.HTML(404, "400", gin.H{
+			"Error": "Страница не найдена",
+		})
+		return
+	}
 	id := c.Param("comment_id")
 	err := Logic.Change_To_Important(id)
 	if err != nil {
@@ -728,12 +781,81 @@ func Change_To_Important(c *gin.Context) {
 }
 
 
-
 //Продукты
 
 
+//Cписок всех товаров
+func Get_All_Products(c *gin.Context) {
+	if Logic.Role != "Администратор" {
+		c.HTML(404, "400", gin.H{
+			"Error": "Страница не найдена",
+		})
+		return
+	}
+	Products, err := Logic.ReadAllProducts()
+	if err != nil {
+		c.HTML(400, "400", gin.H{
+			"Error": err.Error(),
+		})
+		return
+	}
+	c.HTML(200, "AllProducts", gin.H{
+		"Products": Products,
+	})
+}
+
+//Поиск товара
+func Searh_Products(c *gin.Context) {
+	if Logic.Role != "Администратор" {
+		c.HTML(404, "400", gin.H{
+			"Error": "Страница не найдена",
+		})
+		return
+	}
+	productName := c.Request.FormValue("productName")
+	log.Println(productName)
+	Products, err := Logic.SearhProduct(productName)
+	if err != nil {
+		c.HTML(400, "400", gin.H{
+			"Error": err.Error(),
+		})
+		return
+	}
+	c.HTML(200, "AllProducts", gin.H{
+		"Products": Products,
+	})
+}
+
+//Лекарства по категориям
+func Products_by_category(c *gin.Context) {
+	if Logic.Role != "Администратор" {
+		c.HTML(404, "400", gin.H{
+			"Error": "Страница не найдена",
+		})
+		return
+	}
+	category := c.Param("Products_by_category")
+	log.Println(category)
+	Products, err := Logic.Medicines_by_category(category)
+	if err != nil {
+		c.HTML(400, "400", gin.H{
+			"Error": err.Error(),
+		})
+		return
+	}
+	c.HTML(200, "AllProducts", gin.H{
+		"Products": Products,
+	})
+}
+
 //Удалить товар
 func Form_handler_DeleteProductById(c *gin.Context) {
+	if Logic.Role != "Администратор" {
+		c.HTML(404, "400", gin.H{
+			"Error": "Страница не найдена",
+		})
+		return
+	}
 	id := c.Request.FormValue("product_id")
 	err := Logic.Form_handler_DeleteProductById(id)
 	if err != nil {
@@ -742,11 +864,18 @@ func Form_handler_DeleteProductById(c *gin.Context) {
 		})
 		return
 	}
-}
 
+	c.Redirect(http.StatusSeeOther, "/Get_All_Products")
+}
 
 //Добавить товар
 func Form_handler_PostProduct(c *gin.Context) {
+	if Logic.Role != "Администратор" {
+		c.HTML(404, "400", gin.H{
+			"Error": "Страница не найдена",
+		})
+		return
+	}
 	var newProduct Model.Product
 	newProduct.Product_Name = c.Request.FormValue("Product_Name")
 	newProduct.Product_Image = c.Request.FormValue("myFile")
@@ -762,10 +891,18 @@ func Form_handler_PostProduct(c *gin.Context) {
 		})
 		return
 	}
+
+	c.Redirect(http.StatusSeeOther, "/Get_All_Products")
 }
 
 //Редактировать запись товара
 func Form_handler_UpdateProductById(c *gin.Context) {
+	if Logic.Role != "Администратор" {
+		c.HTML(404, "400", gin.H{
+			"Error": "Страница не найдена",
+		})
+		return
+	}
 	var newProduct Model.Product
 	id := c.Request.FormValue("id")
 	newProduct.Product_Name = c.Request.FormValue("Product_Name")
@@ -782,15 +919,34 @@ func Form_handler_UpdateProductById(c *gin.Context) {
 		})
 		return
 	}
+
+	c.Redirect(http.StatusSeeOther, "/Get_All_Products")
 }
 
-
 func Edit_Product(c *gin.Context) {
+	if Logic.Role != "Администратор" {
+		c.HTML(404, "400", gin.H{
+			"Error": "Страница не найдена",
+		})
+		return
+	}
 	c.HTML(200, "Edit_Product", nil)
 }
 func Add_Product(c *gin.Context) {
+	if Logic.Role != "Администратор" {
+		c.HTML(404, "400", gin.H{
+			"Error": "Страница не найдена",
+		})
+		return
+	}
 	c.HTML(200, "Add_Product", nil)
 }
 func Remove_Product(c *gin.Context) {
+	if Logic.Role != "Администратор" {
+		c.HTML(404, "400", gin.H{
+			"Error": "Страница не найдена",
+		})
+		return
+	}
 	c.HTML(200, "DeleteProduct", nil)
 }

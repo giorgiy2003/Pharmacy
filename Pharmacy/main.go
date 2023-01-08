@@ -57,7 +57,7 @@ func main() {
 	router.GET("/Add_Worker", Handler.Add_Worker) //Добавить сотрудника
 	router.GET("/Remove_Worker", Handler.Remove_Worker) //Удалить запись
 	router.GET("/Edit_Worker", Handler.Edit_Worker) //Редактировать запись сотрудника
-	router.POST("/Form_handler_PostWorker", Handler.Form_handler_PostWorker)
+	router.GET("/Form_handler_PostWorker", Handler.Form_handler_PostWorker)
 	router.GET("/Form_handler_UpdateWorkerById", Handler.Form_handler_UpdateWorkerById)
 	router.GET("/Form_handler_DeleteWorkerById", Handler.Form_handler_DeleteWorkerById)
 
@@ -69,12 +69,15 @@ func main() {
 	router.GET("/Get_Important_Comments", Handler.Get_Important_Comments) //Вывести отзывы со статусом "Важно"
 
 	//Товары
+	router.GET("/Get_All_Products", Handler.Get_All_Products) //Вывести все товары
+	router.GET("/Products_by_category/:Products_by_category", Handler.Products_by_category) //Поиск по категориям
+	router.GET("/Searh_Products", Handler.Searh_Products) //Поиск товара по ID или названию
 	router.GET("/Remove_Product", Handler.Remove_Product) //Удалить запись
 	router.GET("/Add_Product", Handler.Add_Product) //Добавить товар
 	router.GET("/Edit_Product", Handler.Edit_Product) //Редактировать запись товара
 	router.GET("/Form_handler_PostProduct", Handler.Form_handler_PostProduct)
 	router.GET("/Form_handler_UpdateProductById", Handler.Form_handler_UpdateProductById)
-	router.GET("/Form_handler_DeleteProductById", Handler.Form_handler_DeleteProductById)
+	router.GET("/Form_handler_DeleteProductById/:product_id", Handler.Form_handler_DeleteProductById)
 
 	router.Run("localhost:8080")
 }
