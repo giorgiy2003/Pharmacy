@@ -3,11 +3,13 @@ package Handler
 import (
 	"fmt"
 	"io"
+	"log"
 	Logic "myapp/internal/logic"
 	Model "myapp/internal/model"
 	Repository "myapp/internal/repository"
 	"net/http"
 	"os"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 )
@@ -879,8 +881,26 @@ func Form_handler_PostProduct(c *gin.Context) {
 		})
 		return
 	}
+
+	//Находим максимальный product_id из таблицы product для формирования названия картинки
+	rows, err := Repository.Connection.Query(`SELECT MAX (product_id) FROM "products"`)
+	if err != nil {
+		log.Println(err)
+	}
+	var product_id int
+	for rows.Next() {
+		rows.Scan(&product_id)
+	}
+
+	if idx := strings.IndexByte(handler.Filename, '.'); idx >= 0 {
+		handler.Filename = handler.Filename[idx:]  // Получаем расширение картинки
+		handler.Filename = fmt.Sprint("product_", product_id + 1, handler.Filename) // Переименовываем как мы хотим
+	} else {
+		fmt.Println("Invalid string")
+	}
+
 	defer file.Close()
-	tmpfile, err := os.Create("./Frontend/images/products/" + handler.Filename)
+	tmpfile, err := os.Create("./Frontend/images/products/" + handler.Filename) //Указываем путь для сохранения картинки
 	defer tmpfile.Close()
 
 	if err != nil {
@@ -895,9 +915,8 @@ func Form_handler_PostProduct(c *gin.Context) {
 		})
 	}
 
-
 	var newProduct Model.Product
-	
+
 	newProduct.Product_Name = c.Request.FormValue("Product_Name")
 	newProduct.Product_Image = handler.Filename
 	newProduct.Product_Manufacturer = c.Request.FormValue("Product_Manufacturer")
