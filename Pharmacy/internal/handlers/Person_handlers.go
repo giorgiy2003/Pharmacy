@@ -2,7 +2,6 @@ package Handler
 
 import (
 	"fmt"
-	"log"
 	Logic "myapp/internal/logic"
 	Model "myapp/internal/model"
 	Repository "myapp/internal/repository"
@@ -834,7 +833,6 @@ func Products_by_category(c *gin.Context) {
 		return
 	}
 	category := c.Param("Products_by_category")
-	log.Println(category)
 	Products, err := Logic.Medicines_by_category(category)
 	if err != nil {
 		c.HTML(400, "400", gin.H{
