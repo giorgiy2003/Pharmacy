@@ -2,10 +2,12 @@ package Handler
 
 import (
 	"fmt"
+	"io"
 	Logic "myapp/internal/logic"
 	Model "myapp/internal/model"
 	Repository "myapp/internal/repository"
 	"net/http"
+	"os"
 
 	"github.com/gin-gonic/gin"
 )
@@ -410,7 +412,6 @@ func AddKollinCart(c *gin.Context) {
 	c.Redirect(http.StatusSeeOther, "/cart")
 }
 
-
 //Лекарства по категориям
 func Medicines_by_category(c *gin.Context) {
 	category := c.Param("category")
@@ -526,11 +527,7 @@ func SendMessage(c *gin.Context) {
 	})
 }
 
-
-
-
 //Для администратора
-
 
 //Заказы
 func Orders_Page(c *gin.Context) {
@@ -573,9 +570,7 @@ func Change_status(c *gin.Context) {
 	}
 }
 
-
 //Сотрудники
-
 
 //Cписок всех сотрудников
 func Get_All_Workers(c *gin.Context) {
@@ -697,9 +692,7 @@ func Edit_Worker(c *gin.Context) {
 	c.HTML(200, "EditWorker", nil)
 }
 
-
 //Отзывы
-
 
 //Все отзывы
 func Get_All_Comments(c *gin.Context) {
@@ -779,9 +772,7 @@ func Change_To_Important(c *gin.Context) {
 	c.Redirect(http.StatusSeeOther, "/Get_All_Comments")
 }
 
-
 //Продукты
-
 
 //Cписок всех товаров
 func Get_All_Products(c *gin.Context) {
@@ -873,15 +864,48 @@ func Form_handler_PostProduct(c *gin.Context) {
 		})
 		return
 	}
+
+	// Parse our multipart form, 10 << 20 specifies a maximum
+	// upload of 10 MB files.
+	c.Request.ParseMultipartForm(10 << 20)
+	// FormFile returns the first file for the given key `myFile`
+	// it also returns the FileHeader so we can get the Filename,
+	// the Header and the size of the file
+	file, handler, err := c.Request.FormFile("myFile")
+	if err != nil {
+		fmt.Println("Error Retrieving the File")
+		c.HTML(400, "400", gin.H{
+			"Error": err.Error(),
+		})
+		return
+	}
+	defer file.Close()
+	tmpfile, err := os.Create("./Frontend/images/products/" + handler.Filename)
+	defer tmpfile.Close()
+
+	if err != nil {
+		c.HTML(400, "400", gin.H{
+			"Error": err.Error(),
+		})
+	}
+	_, err = io.Copy(tmpfile, file)
+	if err != nil {
+		c.HTML(400, "400", gin.H{
+			"Error": err.Error(),
+		})
+	}
+
+
 	var newProduct Model.Product
+	
 	newProduct.Product_Name = c.Request.FormValue("Product_Name")
-	newProduct.Product_Image = c.Request.FormValue("myFile")
+	newProduct.Product_Image = handler.Filename
 	newProduct.Product_Manufacturer = c.Request.FormValue("Product_Manufacturer")
 	newProduct.Product_Category = c.Request.FormValue("Product_Category")
 	newProduct.Product_Price = c.Request.FormValue("Product_Price")
 	newProduct.Product_Description = c.Request.FormValue("Product_Description")
 
-	err := Logic.CreateProduct(newProduct)
+	err = Logic.CreateProduct(newProduct)
 	if err != nil {
 		c.HTML(400, "400", gin.H{
 			"Error": err.Error(),
@@ -946,4 +970,16 @@ func Remove_Product(c *gin.Context) {
 		return
 	}
 	c.HTML(200, "DeleteProduct", nil)
+}
+
+//Настройки администратора
+
+func AdminSettings(c *gin.Context) {
+	if Logic.Role != "Администратор" {
+		c.HTML(404, "400", gin.H{
+			"Error": "Страница не найдена",
+		})
+		return
+	}
+	c.HTML(200, "AdminSettings", nil)
 }

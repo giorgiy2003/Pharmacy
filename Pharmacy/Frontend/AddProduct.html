@@ -93,7 +93,7 @@
             <strong>admin</strong>
           </a>
           <ul class="dropdown-menu dropdown-menu-dark text-small shadow" >
-            <li><a class="dropdown-item" href="#">Настройки</a></li>
+            <li><a class="dropdown-item" href="/AdminSettings">Настройки</a></li>
             <li><hr class="dropdown-divider"></li>
             <li><a class="dropdown-item" href="/Sign_out">Выход</a></li>
           </ul>
@@ -107,11 +107,12 @@
 
       <div class="container-fluid" >
         <h2 class="mt-5">Форма добавления нового товара</h2><br>
-          <form action="/Form_handler_PostProduct" enctype="multipart/form-data">
+
+        <form action="/Form_handler_PostProduct" enctype="multipart/form-data" method="post">
 
           <div class="mb-4">
-            <input type="file" name="myFile" style="float: left;"/>
-            <h6>Выберите картинку в формате jpg, png, jpeg</h6>
+            <input type="file" name="myFile" id="myFile" style="float: left;"/>
+            <h6>Выберите картинку в формате jpeg</h6>
           </div>
 
             <textarea type="text" name="Product_Name" id="Product_Name" placeholder="Заполните поле Название товара" class="form-control"></textarea><br>
@@ -132,7 +133,7 @@
             <textarea type="text" name="Product_Price" id="Product_Price" placeholder="Заполните поле Стоимость товара" class="form-control"></textarea><br>
             <textarea type="text" name="Product_Description" id="Product_Description" placeholder="Заполните поле Описание товара" class="form-control"></textarea><br>
             <button type="submit">Добавить</button>
-          </form>
+        </form>
 
       </div>
 

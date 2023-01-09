@@ -1,4 +1,4 @@
-{{define "AllComments"}}
+{{define "AdminSettings"}}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -30,7 +30,7 @@
       <ul class="nav nav-pills flex-column mb-auto"><li class="mb-1" >
 
        
-     
+   
         <li>
           <a href="#" class="nav-link text-white"  data-bs-toggle="collapse" data-bs-target="#orders-collapse" aria-expanded="true">
             <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#table"></use></svg>
@@ -74,14 +74,14 @@
           </div>
         </li>
         <li>
-          <a href="#" class="nav-link" data-bs-toggle="collapse" data-bs-target="#comment-collapse" aria-expanded="true">
+          <a href="#" class="nav-link text-white" data-bs-toggle="collapse" data-bs-target="#comment-collapse" aria-expanded="true">
             <svg class="bi pe-none me-2" width="16" height="16"><use xlink:href="#comment-circle"></use></svg>
             Отзывы
           </a>
           <div class="collapse" id="comment-collapse">
            <ul class="btn-toggle-nav list-unstyled fw-normal pb-1 small nav-link text-white" style="background-color: darkslategrey; color: white; " >
-             <li><a href="/Get_All_Comments" class="mb-2 link-dark d-inline-flex text-decoration-none rounded text-white">Вывести отзывы</a></li>
-             <li ><a href="/Get_Important_Comments"  class="mb-2 link-dark d-inline-flex text-decoration-none rounded text-white btn-toggle-nav">Помеченные "Важно"</a></li>
+            <li><a href="/Get_All_Comments" class="mb-2 link-dark d-inline-flex text-decoration-none rounded text-white">Все отзывы</a></li>
+            <li ><a href="/Get_Important_Comments"  class="mb-2 link-dark d-inline-flex text-decoration-none rounded text-white btn-toggle-nav">Помеченные "Важно"</a></li>
            </ul>
         </div>
         </li>
@@ -101,43 +101,20 @@
       </div>
       </ul>
       
+
     
 
-       <form style="padding-left: 15%;" >
+      <div class="flex-shrink-10 layer" style="padding-left: 15%;">
 
-         <h3 class="mt-3">Отзывы</h3><br>
+        <div class="container-fluid" >
+          <h2 class="mt-3">Настройки</h2><br>
+          
+          
+              
+        </div>
+  
+       </div>
 
-        {{range .Comments }}
-
-          <h4 class="lead mb-1" ><big>Отзыв:</big></h4>
-          <p class="lead mb-1">User_Id: {{ .User_Id }}</p>
-          <p class="lead mb-1">Comment_Id: {{ .Comment_Id }}</p>
-          <p class="lead mb-1">Comment_status: {{ .Comment_status }}</p>
-          <p class="lead mb-1">Customer_FirstName: {{ .Customer_FirstName}}</p>
-          <p class="lead mb-1">Customer_LastName: {{ .Customer_LastName}}</p>
-          <p class="lead mb-1">Customer_Email: {{ .Customer_Email}}</p>
-          <p class="lead mb-1">Тема: {{ .Theme }}</p>
-          <p class="lead mb-3">Comment: {{ .Comment }}</p>
-
-             <div class="mb-4">
-              {{ if eq .Comment_status "Важно"}}
-                  <button onclick="window.location='/Remove_Comment/{{ .Comment_Id }}'">Удалить отзыв</button>
-                  <br><br>
-              {{ else }}
-              <button onclick="window.location='/change_CommentStatus/{{ .Comment_Id }}'">Отметить "Важно"</button>
-               <button onclick="window.location='/Remove_Comment/{{ .Comment_Id }}'" style=" position: relative;left: 3%;">Удалить отзыв</button>
-               <br><br>
-                {{ end }}
-             </div>
-             
-
-        {{ else }}
-          <h4 class="lead mb-1"><big>Отзывов ещё нет</big></h4>
-        {{ end }}
-
-        </form> 
-      
-    </div>
   </main>
 </body>
 </html>
