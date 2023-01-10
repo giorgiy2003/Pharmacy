@@ -108,7 +108,7 @@
 
       <div class="container-fluid" >
         <h2 class="mt-5">Форма редактирования записи товара</h2><br>
-          <form action="/Form_handler_UpdateProductById">
+          <form action="/Form_handler_UpdateProductById"  enctype="multipart/form-data" method="post">
             <p class="lead">Введите ID товара запись которого нужно редактировать:</p>
             <input type="text" name="id" id="id" placeholder="Заплните поле id" class="form-control"><br>
             <div class="mb-4">

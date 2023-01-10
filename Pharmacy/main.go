@@ -76,8 +76,8 @@ func main() {
 	router.GET("/Add_Product", Handler.Add_Product) //Добавить товар
 	router.GET("/Edit_Product", Handler.Edit_Product) //Редактировать запись товара
 	router.POST("/Form_handler_PostProduct", Handler.Form_handler_PostProduct)
-	router.GET("/Form_handler_UpdateProductById", Handler.Form_handler_UpdateProductById)
-	router.GET("/Form_handler_DeleteProductById/:product_id", Handler.Form_handler_DeleteProductById)
+	router.POST("/Form_handler_UpdateProductById", Handler.Form_handler_UpdateProductById)
+	router.GET("/Form_handler_DeleteProductById", Handler.Form_handler_DeleteProductById)
 
 	//Настройка
 	router.GET("/AdminSettings", Handler.AdminSettings)

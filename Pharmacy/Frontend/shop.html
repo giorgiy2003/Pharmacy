@@ -131,11 +131,11 @@
           </div>
        
 
-         <div class="row py-2" style="margin: 0 5px;">
+         <div class="row py-2 mt-3">
           
           {{range .Products }}
-          <div class="text-center item mb-4" style="margin-right: 10px;">
-            <a href="/shop_single?id={{ .Product_Id }}"> <img src= "/images/products/{{.Product_Image}}" width="300" height="400" alt="Image"></a>
+          <div class="text-center item mb-4">
+            <a href="/shop_single?id={{ .Product_Id }}"> <img src= "/images/products/{{.Product_Image}}" width="290" height="400" alt="Image"></a>
             <h3 class="text-dark"><a href="/shop_single?id={{ .Product_Id }}">{{.Product_Name}}</a></h3>
             <p class="price">{{.Product_Price}} ₽</p>
           </div>

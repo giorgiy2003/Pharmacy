@@ -3,7 +3,6 @@ package Handler
 import (
 	"fmt"
 	"io"
-	"log"
 	Logic "myapp/internal/logic"
 	Model "myapp/internal/model"
 	Repository "myapp/internal/repository"
@@ -867,49 +866,29 @@ func Form_handler_PostProduct(c *gin.Context) {
 		return
 	}
 
-	// Parse our multipart form, 10 << 20 specifies a maximum
-	// upload of 10 MB files.
+	// Загрузка файлов размером до 10 МБ.
 	c.Request.ParseMultipartForm(10 << 20)
-	// FormFile returns the first file for the given key `myFile`
-	// it also returns the FileHeader so we can get the Filename,
-	// the Header and the size of the file
+
 	file, handler, err := c.Request.FormFile("myFile")
 	if err != nil {
-		fmt.Println("Error Retrieving the File")
 		c.HTML(400, "400", gin.H{
 			"Error": err.Error(),
 		})
 		return
 	}
 
-	//Находим максимальный product_id из таблицы product для формирования названия картинки
-	rows, err := Repository.Connection.Query(`SELECT MAX (product_id) FROM "products"`)
-	if err != nil {
-		log.Println(err)
-	}
-	var product_id int
-	for rows.Next() {
-		rows.Scan(&product_id)
-	}
-
-	if idx := strings.IndexByte(handler.Filename, '.'); idx >= 0 {
-		handler.Filename = handler.Filename[idx:]  // Получаем расширение картинки
-		handler.Filename = fmt.Sprint("product_", product_id + 1, handler.Filename) // Переименовываем как мы хотим
-	} else {
-		fmt.Println("Invalid string")
-	}
-
-	defer file.Close()
-	tmpfile, err := os.Create("./Frontend/images/products/" + handler.Filename) //Указываем путь для сохранения картинки
-	defer tmpfile.Close()
-
+	ProductId, err := Logic.ProductMax() // Находим максимальный product_id из таблицы product для формирования названия картинки
 	if err != nil {
 		c.HTML(400, "400", gin.H{
 			"Error": err.Error(),
 		})
 	}
-	_, err = io.Copy(tmpfile, file)
-	if err != nil {
+
+	// Получаем расширение картинки
+	if idx := strings.IndexByte(handler.Filename, '.'); idx >= 0 {
+		handler.Filename = handler.Filename[idx:]
+		handler.Filename = fmt.Sprint("product_", ProductId+1, handler.Filename) // Переименовываем как мы хотим
+	} else {
 		c.HTML(400, "400", gin.H{
 			"Error": err.Error(),
 		})
@@ -932,6 +911,22 @@ func Form_handler_PostProduct(c *gin.Context) {
 		return
 	}
 
+	defer file.Close()
+	tmpfile, err := os.Create("./Frontend/images/products/" + handler.Filename) //Указываем путь для сохранения картинки
+	if err != nil {
+		c.HTML(400, "400", gin.H{
+			"Error": err.Error(),
+		})
+	}
+	defer tmpfile.Close()
+
+	_, err = io.Copy(tmpfile, file)
+	if err != nil {
+		c.HTML(400, "400", gin.H{
+			"Error": err.Error(),
+		})
+	}
+
 	c.Redirect(http.StatusSeeOther, "/Get_All_Products")
 }
 
@@ -943,16 +938,13 @@ func Form_handler_UpdateProductById(c *gin.Context) {
 		})
 		return
 	}
-	var newProduct Model.Product
-	id := c.Request.FormValue("id")
-	newProduct.Product_Name = c.Request.FormValue("Product_Name")
-	newProduct.Product_Image = c.Request.FormValue("myFile")
-	newProduct.Product_Manufacturer = c.Request.FormValue("Product_Manufacturer")
-	newProduct.Product_Category = c.Request.FormValue("Product_Category")
-	newProduct.Product_Price = c.Request.FormValue("Product_Price")
-	newProduct.Product_Description = c.Request.FormValue("Product_Description")
 
-	err := Logic.UpdateProduct(newProduct, id)
+	// Загрузка файлов размером до 10 МБ.
+	c.Request.ParseMultipartForm(10 << 20)
+
+	id := c.Request.FormValue("id")
+
+	file, handler, err := c.Request.FormFile("myFile")
 	if err != nil {
 		c.HTML(400, "400", gin.H{
 			"Error": err.Error(),
@@ -960,6 +952,48 @@ func Form_handler_UpdateProductById(c *gin.Context) {
 		return
 	}
 
+	// Получаем расширение картинки
+	if idx := strings.IndexByte(handler.Filename, '.'); idx >= 0 {
+		handler.Filename = handler.Filename[idx:]
+		handler.Filename = fmt.Sprint("product_", id, handler.Filename) // Переименовываем как мы хотим
+	} else {
+		c.HTML(400, "400", gin.H{
+			"Error": err.Error(),
+		})
+	}
+
+	var product Model.Product
+	
+	product.Product_Name = c.Request.FormValue("Product_Name")
+	product.Product_Image = handler.Filename
+	product.Product_Manufacturer = c.Request.FormValue("Product_Manufacturer")
+	product.Product_Category = c.Request.FormValue("Product_Category")
+	product.Product_Price = c.Request.FormValue("Product_Price")
+	product.Product_Description = c.Request.FormValue("Product_Description")
+
+	err = Logic.UpdateProduct(product, id)
+	if err != nil {
+		c.HTML(400, "400", gin.H{
+			"Error": err.Error(),
+		})
+		return
+	}
+
+	defer file.Close()
+	tmpfile, err := os.Create("./Frontend/images/products/" + handler.Filename) //Указываем путь для сохранения картинки
+	if err != nil {
+		c.HTML(400, "400", gin.H{
+			"Error": err.Error(),
+		})
+	}
+	defer tmpfile.Close()
+
+	_, err = io.Copy(tmpfile, file)
+	if err != nil {
+		c.HTML(400, "400", gin.H{
+			"Error": err.Error(),
+		})
+	}
 	c.Redirect(http.StatusSeeOther, "/Get_All_Products")
 }
 

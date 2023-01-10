@@ -9,6 +9,7 @@ import (
 	"log"
 	Model "myapp/internal/model"
 	Repository "myapp/internal/repository"
+	"os"
 	"strconv"
 	"strings"
 	"time"
@@ -112,7 +113,7 @@ func ReadOneProductById(product_id string) ([]Model.Product, error) {
 		log.Println(err)
 		return nil, err
 	}
-	row, err := Repository.Connection.Query(`SELECT * FROM "products" WHERE "product_id" = $1`, id)
+	row, err := Repository.Connection.Query(`SELECT product_id, product_image, product_name, product_manufacturer, product_category, product_description, product_price FROM "products" WHERE "product_id" = $1`, id)
 	if err != nil {
 		log.Println(err)
 		return nil, err
@@ -432,14 +433,10 @@ func MakeOrder(city, fname, lname, patronymic, address, email_address, phone, or
 		}
 
 		//Находим максимальный order_id у пользователя из таблицы заказы для формирования трек-номера
-		rows, err := Repository.Connection.Query(`SELECT MAX (order_id) FROM "orders" WHERE user_id = $1`, User_id)
+		order_id, err := ProductMax()
 		if err != nil {
 			log.Println(err)
 			return err
-		}
-		var order_id int
-		for rows.Next() {
-			rows.Scan(&order_id)
 		}
 		Track_number := make_Track_number(order_id)
 
@@ -471,6 +468,20 @@ func MakeOrder(city, fname, lname, patronymic, address, email_address, phone, or
 //Создание трек-номера заказа
 func make_Track_number(Order_id int) string {
 	return fmt.Sprintf("%d-%d", User_id+1000000, Order_id+1)
+}
+
+//Максимальный product_id из таблицы product
+func ProductMax() (int, error) {
+	rows, err := Repository.Connection.Query(`SELECT MAX (product_id) FROM "products"`)
+	if err != nil {
+		log.Println(err)
+		return 0, err
+	}
+	var product_id int
+	for rows.Next() {
+		rows.Scan(&product_id)
+	}
+	return product_id, nil
 }
 
 //Информация о заказе по трек-номеру
@@ -1078,12 +1089,12 @@ func ReadAllComments() ([]Model.Comment, error) {
 		if err != nil {
 			return nil, err
 		}
-		  if Comment_status.Valid {
-		  p.Comment_status = Comment_status.String 
-		  } else {
-		  p.Comment_status = ""
-		  }
-		  CommentInfo = append(CommentInfo, p)
+		if Comment_status.Valid {
+			p.Comment_status = Comment_status.String
+		} else {
+			p.Comment_status = ""
+		}
+		CommentInfo = append(CommentInfo, p)
 	}
 	return CommentInfo, nil
 }
@@ -1130,7 +1141,6 @@ func DeleteComment(id string) error {
 	return nil
 }
 
-
 //Товары
 
 //Добавить товар
@@ -1153,10 +1163,13 @@ func CreateProduct(p Model.Product) error {
 
 //Редактировать карточку товара
 func UpdateProduct(p Model.Product, id string) error {
-	if err := ProductExist(id); err != nil {
+
+	products, err := ProductExist(id)
+	if err != nil {
 		log.Println(err)
 		return err
 	}
+
 	p.Product_Name = strings.TrimSpace(p.Product_Name)
 	p.Product_Image = strings.TrimSpace(p.Product_Image)
 	p.Product_Manufacturer = strings.TrimSpace(p.Product_Manufacturer)
@@ -1166,6 +1179,14 @@ func UpdateProduct(p Model.Product, id string) error {
 	if p.Product_Name == "" || p.Product_Image == "" || p.Product_Manufacturer == "" || p.Product_Category == "" || p.Product_Description == "" || p.Product_Price == "" {
 		return errors.New("невозможно редактировать запись, не все поля заполнены!")
 	}
+
+	for _, p := range products {
+		err := os.Remove(fmt.Sprint("./Frontend/images/products/", p.Product_Image))
+		if err != nil {
+			log.Println(err)
+		}
+	}
+
 	if _, err := Repository.Connection.Exec(`UPDATE "products" SET "product_name" = $1,"product_image" = $2,"product_manufacturer" = $3,"product_category" = $4,"product_description" = $5, "product_price" = $6  WHERE "product_id" = $7`, p.Product_Name, p.Product_Image, p.Product_Manufacturer, p.Product_Category, p.Product_Description, p.Product_Price, id); err != nil {
 		log.Println(err)
 		return err
@@ -1175,9 +1196,16 @@ func UpdateProduct(p Model.Product, id string) error {
 
 //Удалить товар
 func Form_handler_DeleteProductById(id string) error {
-	if err := ProductExist(id); err != nil {
+	products, err := ProductExist(id)
+	if err != nil {
 		log.Println(err)
 		return err
+	}
+	for _, p := range products {
+		err := os.Remove(fmt.Sprint("./Frontend/images/products/", p.Product_Image))
+		if err != nil {
+			log.Println(err)
+		}
 	}
 	if _, err := Repository.Connection.Exec(`DELETE FROM "products" WHERE "product_id" = $1`, id); err != nil {
 		log.Println(err)
@@ -1186,14 +1214,14 @@ func Form_handler_DeleteProductById(id string) error {
 	return nil
 }
 
-func ProductExist(id string) error {
-	persons, err := ReadOneProductById(id)
+func ProductExist(id string) ([]Model.Product, error) {
+	products, err := ReadOneProductById(id)
 	if err != nil {
 		log.Println(err)
-		return err
+		return nil, err
 	}
-	if len(persons) == 0 {
-		return fmt.Errorf("Товара с id = %s не существует", id)
+	if len(products) == 0 {
+		return nil, fmt.Errorf("Товара с id = %s не существует", id)
 	}
-	return nil
+	return products, nil
 }
