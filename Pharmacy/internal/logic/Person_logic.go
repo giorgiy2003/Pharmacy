@@ -432,11 +432,14 @@ func MakeOrder(city, fname, lname, patronymic, address, email_address, phone, or
 			return err
 		}
 
-		//Находим максимальный order_id у пользователя из таблицы заказы для формирования трек-номера
-		order_id, err := ProductMax()
+		rows, err := Repository.Connection.Query(`SELECT MAX (order_id) FROM "orders" WHERE user_id = $1`, User_id)
 		if err != nil {
 			log.Println(err)
 			return err
+		}
+		var order_id int
+		for rows.Next() {
+			rows.Scan(&order_id)
 		}
 		Track_number := make_Track_number(order_id)
 
