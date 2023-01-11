@@ -1,4 +1,4 @@
-# Сайт Аптеки
+# Интернет магазин на Go
 
 ## Программа  разработана с помощью: 
 - ### Базы данных PostgreSQL 
@@ -32,16 +32,23 @@ https://freehtmlthemes.ru/categories/medicine/template-526
 ## *Коризна:*
 ![Коризна](/Pharmacy/photo/cart.jpg)
 
+## *Любимые товары:*
+![Любимые товары](/Pharmacy/photo/favourites.jpg)
+
 ## *Оформить заказ:*
 ![Оформить заказ](/Pharmacy/photo/checkout.jpg)
 
 ## *Возвращаемая страница:*
 ![Заказ принят](/Pharmacy/photo/thankyou.jpg)
 
+## *Страница заказы:*
+![Страница заказы](/Pharmacy/photo/Orders.jpg)
+
+## *Детиали заказа:*
+![Страница заказы](/Pharmacy/photo/Order_Details.jpg)
+
 ## *О нас:*
 ![О нас](/Pharmacy/photo/about.jpg)
 
 ## *Коктакты:*
 ![Коктакты](/Pharmacy/photo/contacts.jpg)
-
-# Сайт ещё в разработке...
